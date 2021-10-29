@@ -1,0 +1,12 @@
+{
+  "name": "hello-world2",
+  "collaborators": [
+    "Kevaundray Wedderburn <kevtheappdev@gmail.com>"
+  ],
+  "version": "0.1.0",
+  "module": "index.js",
+  "sideEffects": false,
+  "dependencies": {
+    "esm": "^3.2.25"
+  }
+}
