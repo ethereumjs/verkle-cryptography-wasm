@@ -6,6 +6,6 @@
 
 ## To call Rust from Javascript as WASM
 
-- cd into `js_code
+- cd into `js_code`
 - run `npm install`. You should see a `node_modules` folder appear.
 - run `node -r esm index.js` you should see a Uint8Array in the console.
