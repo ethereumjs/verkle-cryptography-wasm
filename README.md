@@ -2,7 +2,7 @@
 
 ## To compile Rust to Wasm
 
-- run `wasm-pack build. You should see a `pkg` folder appear.
+- run `wasm-pack build`. You should see a `pkg` folder appear.
 
 ## To call Rust from Javascript as WASM
 
