@@ -7,7 +7,9 @@ For ESM
 
 For a NodeJS module
 - run `wasm-pack build --target nodejs`.  
-## To call Rust from Javascript as WASM
+
+
+## To call Rust from Javascript as WASM
 
 For an ESM example, use below
 - cd into `js_code`
