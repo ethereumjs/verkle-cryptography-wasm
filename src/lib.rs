@@ -3,13 +3,8 @@ mod utils;
 use std::convert::TryInto;
 
 use js_sys::{Array, Map, Uint8Array};
+use verkle_trie::{committer::test::TestCommitter, to_bytes::ToBytes};
 use wasm_bindgen::prelude::*;
-
-// When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
-// // allocator.
-// #[cfg(feature = "wee_alloc")]
-// #[global_allocator]
-// static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
 extern "C" {
@@ -83,21 +78,22 @@ pub fn js_verify_update(js_root: Uint8Array, js_proof: Uint8Array, js_key_values
 
     use verkle_trie::database::memory_db::MemoryDb;
     use verkle_trie::proof::stateless_updater;
+    use verkle_trie::TestConfig;
     use verkle_trie::Trie;
-    use verkle_trie::{BasicCommitter, ToBytes};
+    use verkle_trie::TrieTrait;
 
     // We initialise a trie here, so that we can emulate a proof structure
     // ie it's a stub, until we can get proper input from  javascript
     let db = MemoryDb::new();
-    let mut trie = Trie::new(db, BasicCommitter);
+    let mut trie = Trie::new(TestConfig::new(db));
 
     let stub = [0u8; 32];
     let keys = vec![stub];
     let old_values = vec![Some(stub)];
     let updated_values = vec![None];
 
-    trie.insert(stub, stub);
-    let root = trie.compute_root_commitment();
+    trie.insert(vec![(stub, stub)].into_iter());
+    let root = trie.root_commitment();
 
     let proof = trie.create_verkle_proof(vec![[0u8; 32]].into_iter());
     let new_root = stateless_updater::verify_and_update(
@@ -106,7 +102,7 @@ pub fn js_verify_update(js_root: Uint8Array, js_proof: Uint8Array, js_key_values
         keys,
         old_values,
         updated_values,
-        BasicCommitter, // This is the slow variant of computing the deltas. Change once we know how wasm handles large precomputes
+        TestCommitter::default(), // This is the slow variant of computing the deltas. Change once we know how wasm handles large precomputes
     );
 
     let new_root = match new_root {
