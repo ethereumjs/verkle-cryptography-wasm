@@ -14,7 +14,9 @@ default = ["console_error_panic_hook"]
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
 wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
-verkle-trie = { git = "https://github.com/crate-crypto/rust-verkle", default-features = true, rev = "783cc1b7740619c10f638326e983f864d51cd32f" }
+verkle-trie = { git = "https://github.com/crate-crypto/rust-verkle", default-features = false, features = [
+    "std",
+], rev = "a8bae25a9188fd905ce221e1e1a276b0a874ef0b" }
 # This is needed so that we can enable the js feature, which is being used in ark-serialize
 # Without it, the wasm will not compile, since we cannot conditionally compile ark-serialize
 getrandom = { version = "0.2.3", features = ["js"] }
