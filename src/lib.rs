@@ -1,10 +1,15 @@
 mod utils;
 
-use std::convert::TryInto;
-
 use js_sys::{Array, Map, Uint8Array};
-use verkle_trie::{committer::test::TestCommitter, to_bytes::ToBytes};
+use std::convert::TryInto;
 use wasm_bindgen::prelude::*;
+
+use verkle_trie::{
+    committer::test::TestCommitter,
+    from_to_bytes::{FromBytes, ToBytes},
+    proof::{stateless_updater, VerkleProof},
+    EdwardsProjective,
+};
 
 #[wasm_bindgen]
 extern "C" {
@@ -29,7 +34,7 @@ pub fn js_verify_update(js_root: Uint8Array, js_proof: Uint8Array, js_key_values
         // We know the built-in iterator won't throw exceptions, so
         // unwrap is okay.
         let x = x.unwrap();
-        //The entries Iterator is a javascript array. [key ,[old_value, updated_value]]
+        // The entries Iterator is a javascript array. [key ,[old_value, updated_value]]
         // The first entry is the key
         // The second entry is the old value
         // The third entry is updated value
@@ -75,30 +80,21 @@ pub fn js_verify_update(js_root: Uint8Array, js_proof: Uint8Array, js_key_values
         old_values.push(old_value);
         updated_values.push(updated_value);
     }
+    let proof_bytes = js_proof.to_vec();
+    let proof = match VerkleProof::read(&*proof_bytes) {
+        Ok(proof) => proof,
+        Err(_) => {
+            log("could not deserialise the proof");
+            return JsValue::NULL;
+        }
+    };
 
-    use verkle_trie::database::memory_db::MemoryDb;
-    use verkle_trie::proof::stateless_updater;
-    use verkle_trie::TestConfig;
-    use verkle_trie::Trie;
-    use verkle_trie::TrieTrait;
+    let pre_state_root_bytes = js_root.to_vec();
+    let pre_state_root = EdwardsProjective::from_bytes(&pre_state_root_bytes);
 
-    // We initialise a trie here, so that we can emulate a proof structure
-    // ie it's a stub, until we can get proper input from  javascript
-    let db = MemoryDb::new();
-    let mut trie = Trie::new(TestConfig::new(db));
-
-    let stub = [0u8; 32];
-    let keys = vec![stub];
-    let old_values = vec![Some(stub)];
-    let updated_values = vec![None];
-
-    trie.insert(vec![(stub, stub)].into_iter());
-    let root = trie.root_commitment();
-
-    let proof = trie.create_verkle_proof(vec![[0u8; 32]].into_iter());
     let new_root = stateless_updater::verify_and_update(
         proof,
-        root,
+        pre_state_root,
         keys,
         old_values,
         updated_values,
@@ -134,4 +130,116 @@ fn js_value_to_array32(val: JsValue, value_identifier: &str) -> Result<[u8; 32],
 
     let array: [u8; 32] = vector.try_into().unwrap();
     Ok(array)
+}
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use verkle_trie::database::memory_db::MemoryDb;
+    use verkle_trie::{TestConfig, Trie, TrieTrait};
+
+    use wasm_bindgen_test::*;
+
+    #[wasm_bindgen_test]
+    fn test_stateless_proof_verifier() {
+        // 1) Create a trie which will be our pre-state
+        let db = MemoryDb::new();
+        let mut trie = Trie::new(TestConfig::new(db));
+
+        let zero_key = [0u8; 32];
+        let one_key = [1u8; 32];
+        let two_key = [2u8; 32];
+        let three_key = [3u8; 32];
+
+        // Insert zero_key, one_key, two_key into the trie.
+        // The key and value are the same for each entry
+        // The three_key is not inserted into the trie, we will use it as an
+        // example of a value that is absent
+        trie.insert(vec![(zero_key, zero_key), (one_key, one_key), (two_key, two_key)].into_iter());
+
+        // keys and old_values summarises the pre-state
+        // None signifies that the old_value was not in the trie; since
+        // we did not insert three_key into the trie, it has a corresponding old_value of `None`
+        let keys = vec![zero_key, one_key, two_key, three_key];
+        let old_values = vec![Some(zero_key), Some(one_key), Some(two_key), None];
+
+        // This is the root of our trie, before any updates are applied
+        let pre_state_root = trie.root_commitment();
+
+        // 2) Lets compute a proof that all of these values are correct in the pre-state
+        let proof = trie.create_verkle_proof(keys.clone().into_iter());
+
+        // 2) Now lets emulate what would happen when we receive a new block and need to update the state root
+
+        let ff_value = [0xff; 32];
+        // The updated values vector signifies what will happen post-state.
+        // `None` signifies that the value was not updated.
+        // Below, note that `zero_key` and `three_key` were not updated  from the
+        // pre state to the post state
+        // The `one_key` and `two_key` were both updated to the value `ff_value`
+        let updated_values = vec![None, Some(ff_value), Some(ff_value), None];
+
+        // Lets update the trie so that we can figure out what the new root will be after
+        // the updated values are applied
+        for (key, optional_new_val) in keys.iter().zip(updated_values.iter()) {
+            if let Some(new_val) = optional_new_val {
+                trie.insert_single(*key, *new_val)
+            }
+        }
+
+        // This is the root of our trie, _after_ updates are applied
+        let post_state_root = trie.root_commitment();
+
+        // 3) Now lets verify consistency between pre-state and post-state using rust-verkle directly
+        // the verifier passes in the pre state root which came from some `trusted` source.
+        // and they compute the post state root.
+        let computed_post_state_root = stateless_updater::verify_and_update(
+            proof.clone(),
+            pre_state_root,
+            keys.clone(),
+            old_values.clone(),
+            updated_values.clone(),
+            TestCommitter::default(),
+        )
+        .unwrap();
+        assert_eq!(computed_post_state_root, post_state_root);
+
+        //4) Now lets use the js method to compute the new state root
+
+        let js_prestate_root = Uint8Array::from(pre_state_root.to_bytes().as_slice());
+
+        let mut proof_bytes = Vec::new();
+        proof.write(&mut proof_bytes).unwrap();
+        let js_proof = Uint8Array::from(proof_bytes.as_slice());
+
+        let js_key_vals = Map::new();
+        for i in 0..keys.len() {
+            let key = JsValue::from(Uint8Array::from(keys[i].as_slice()));
+            let old_val = match old_values[i] {
+                Some(old_val_bytes) => JsValue::from(Uint8Array::from(old_val_bytes.as_slice())),
+                None => JsValue::NULL,
+            };
+            let updated_val = match updated_values[i] {
+                Some(updated_val_bytes) => {
+                    JsValue::from(Uint8Array::from(updated_val_bytes.as_slice()))
+                }
+
+                None => JsValue::NULL,
+            };
+
+            let arr = Array::new();
+            arr.set(0, old_val);
+            arr.set(1, updated_val);
+
+            js_key_vals.set(&key, &arr);
+        }
+
+        let js_post_state_root = js_verify_update(js_prestate_root, js_proof, &js_key_vals);
+        let computed_js_post_state_root_bytes =
+            js_value_to_array32(js_post_state_root, "post state root").unwrap();
+
+        assert_eq!(
+            &computed_js_post_state_root_bytes[..],
+            &post_state_root.to_bytes()
+        )
+    }
 }
