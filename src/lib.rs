@@ -51,7 +51,7 @@ pub fn pedersen_hash(values: Array) -> JsValue {
 //
 // This function returns the new root when all of the updated values are applied
 #[wasm_bindgen]
-pub fn js_verify_update(js_root: Uint8Array, js_proof: Uint8Array, js_key_values: &Map) -> JsValue {
+pub fn verify_update(js_root: Uint8Array, js_proof: Uint8Array, js_key_values: &Map) -> JsValue {
     set_panic_hook();
 
     let mut keys = Vec::new();
@@ -317,7 +317,7 @@ mod tests {
             js_key_vals.set(&key, &arr);
         }
 
-        let js_post_state_root = js_verify_update(js_prestate_root, js_proof, &js_key_vals);
+        let js_post_state_root = verify_update(js_prestate_root, js_proof, &js_key_vals);
         let computed_js_post_state_root_bytes =
             js_value_to_array32(js_post_state_root, "post state root").unwrap();
 

@@ -71,7 +71,7 @@ key_value_map.set(threes_key, [null, null])
 
 // Verify that the pre state values were correct and using the post state values
 // update the state root 
-let post_state_root = wasm.js_verify_update(pre_state_root, proof, key_value_map);
+let post_state_root = wasm.verify_update(pre_state_root, proof, key_value_map);
 
 // The code below checks that we computed the right state root.
 // As noted above, the expected state root value was taken from a test in `lib.rs` 
