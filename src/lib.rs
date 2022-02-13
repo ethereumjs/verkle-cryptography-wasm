@@ -1,11 +1,12 @@
 mod utils;
 
-use js_sys::{Array, Map, Uint8Array};
+use js_sys::{Array, BigInt, Map, Uint8Array};
 use std::convert::TryInto;
+use utils::set_panic_hook;
 use wasm_bindgen::prelude::*;
 
 use verkle_trie::{
-    committer::test::TestCommitter,
+    committer::{test::TestCommitter, Committer},
     from_to_bytes::{FromBytes, ToBytes},
     proof::{stateless_updater, VerkleProof},
     EdwardsProjective,
@@ -18,6 +19,31 @@ extern "C" {
     fn log(s: &str);
 }
 
+#[wasm_bindgen]
+// Values is an array of 128 bit integers interpreted in big endian format
+pub fn pedersen_hash(values: Array) -> JsValue {
+    set_panic_hook();
+
+    let mut result = EdwardsProjective::default();
+    let committer = TestCommitter::default();
+
+    for (index, entry) in values.values().into_iter().enumerate() {
+        // We know the built-in iterator won't throw exceptions, so
+        // unwrap is okay.
+        let value = entry.unwrap();
+        let u128val = match js_value_to_u128(value, &format!("element {} in pedersen hash", index))
+        {
+            Ok(val) => val,
+            Err(_) => return JsValue::NULL,
+        };
+
+        result += committer.scalar_mul(u128val.into(), index);
+    }
+
+    let result_bytes = result.to_bytes();
+    JsValue::from(Uint8Array::from(result_bytes.as_slice()))
+}
+
 // The root is the root of the current trie
 // The proof is proof of membership of all of the accessed values
 // keys_values is a map from the key of the accessed value to a tuple
@@ -26,6 +52,8 @@ extern "C" {
 // This function returns the new root when all of the updated values are applied
 #[wasm_bindgen]
 pub fn js_verify_update(js_root: Uint8Array, js_proof: Uint8Array, js_key_values: &Map) -> JsValue {
+    set_panic_hook();
+
     let mut keys = Vec::new();
     let mut old_values = Vec::new();
     let mut updated_values = Vec::new();
@@ -92,6 +120,25 @@ pub fn js_verify_update(js_root: Uint8Array, js_proof: Uint8Array, js_key_values
     let pre_state_root_bytes = js_root.to_vec();
     let pre_state_root = EdwardsProjective::from_bytes(&pre_state_root_bytes);
 
+    //TODO: Need to catch these in rust-verkle instead #issue46
+    let len_keys = keys.len();
+    let len_prestate = old_values.len();
+    let len_poststate = updated_values.len();
+    if len_keys != len_prestate {
+        log(&format!(
+            "length of keys is {}, but length of pre state values is {}",
+            len_keys, len_prestate,
+        ));
+        return JsValue::NULL;
+    }
+    if len_keys != len_poststate {
+        log(&format!(
+            "length of keys is {}, but length of pre state values is {}",
+            len_keys, len_poststate,
+        ));
+        return JsValue::NULL;
+    }
+
     let new_root = stateless_updater::verify_and_update(
         proof,
         pre_state_root,
@@ -131,11 +178,48 @@ fn js_value_to_array32(val: JsValue, value_identifier: &str) -> Result<[u8; 32],
     let array: [u8; 32] = vector.try_into().unwrap();
     Ok(array)
 }
+fn js_value_to_u128(val: JsValue, value_identifier: &str) -> Result<u128, ()> {
+    if let Ok(val_int) = BigInt::new(&val) {
+        // Seems like the only way in javascript to get the number of bits
+        let num_bits = val_int.to_string(2).unwrap().length();
+
+        if num_bits > 128 {
+            log(&format!(
+                "{} can not be greater than a 128 bit number, number of bits is {}",
+                value_identifier, num_bits
+            ));
+
+            return Err(());
+        }
+
+        // The following lines of code will convert a BigInt into a u128
+        // To do this, we convert it to a Javascript string in base10, then to a utf8 encoded rust string
+        // then we parse the rust string as a u128
+        let val_as_string = val_int.to_string(10).unwrap().as_string().unwrap();
+
+        let value_u128: u128 = val_as_string.parse().unwrap();
+        return Ok(value_u128);
+    }
+    //Convert the JsValue to a Uint8Array and then to a Vec
+    let vector = Uint8Array::from(val).to_vec();
+    // Get the vector length incase it is not 16
+    if vector.len() != 16 {
+        log(&format!(
+            "{} must contain 16 bytes, found : {}\n please check {:?}",
+            value_identifier,
+            vector.len(),
+            vector
+        ));
+
+        return Err(());
+    };
+    Ok(u128::from_le_bytes(vector.try_into().unwrap()))
+}
 #[cfg(test)]
 mod tests {
     use super::*;
     use verkle_trie::database::memory_db::MemoryDb;
-    use verkle_trie::{TestConfig, Trie, TrieTrait};
+    use verkle_trie::{Fr, TestConfig, Trie, TrieTrait};
 
     use wasm_bindgen_test::*;
 
@@ -241,5 +325,31 @@ mod tests {
             &computed_js_post_state_root_bytes[..],
             &post_state_root.to_bytes()
         )
+    }
+
+    #[wasm_bindgen_test]
+    fn test_pedersen_hash() {
+        let element_0 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+        let element_1 = 1;
+
+        let js_element_0 = JsValue::from(Uint8Array::from(element_0.as_slice()));
+        let js_element_1 = JsValue::from(element_1 as u128);
+
+        let arr = Array::new();
+        arr.set(0, js_element_0);
+        arr.set(1, js_element_1);
+
+        let hash = pedersen_hash(arr);
+        let hash_bytes = js_value_to_array32(hash, "pedersen hash").unwrap();
+
+        // Compute the hash using conventional methods
+        // We do not use CanonicalSerialise as that would mean that the caller needs to know about
+        // arkworks' serialisation format
+        let committer = TestCommitter::default();
+        use ark_ff::PrimeField;
+        let res = committer.scalar_mul(Fr::from_le_bytes_mod_order(&element_0), 0)
+            + committer.scalar_mul(Fr::from(element_1), 1);
+
+        assert_eq!(res.to_bytes(), hash_bytes);
     }
 }
