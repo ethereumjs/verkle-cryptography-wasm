@@ -20,7 +20,7 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-// Values is an array of 128 bit integers interpreted in big endian format
+// Values is an array of 128 bit integers interpreted in little endian format
 pub fn pedersen_hash(values: Array) -> JsValue {
     set_panic_hook();
 
