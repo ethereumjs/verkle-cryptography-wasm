@@ -9,7 +9,7 @@ use verkle_trie::{
     committer::{test::TestCommitter, Committer},
     from_to_bytes::{FromBytes, ToBytes},
     proof::{stateless_updater, VerkleProof},
-    EdwardsProjective,
+    Element,
 };
 
 #[wasm_bindgen]
@@ -24,7 +24,7 @@ extern "C" {
 pub fn pedersen_hash(values: Array) -> JsValue {
     set_panic_hook();
 
-    let mut result = EdwardsProjective::default();
+    let mut result = Element::zero();
     let committer = TestCommitter::default();
 
     for (index, entry) in values.values().into_iter().enumerate() {
@@ -118,7 +118,13 @@ pub fn verify_update(js_root: Uint8Array, js_proof: Uint8Array, js_key_values: &
     };
 
     let pre_state_root_bytes = js_root.to_vec();
-    let pre_state_root = EdwardsProjective::from_bytes(&pre_state_root_bytes);
+    let pre_state_root = match Element::from_bytes(&pre_state_root_bytes) {
+        Some(root) => root,
+        None => {
+            log("could not deserialise the pre state root");
+            return JsValue::NULL;
+        }
+    };
 
     //TODO: Need to catch these in rust-verkle instead #issue46
     let len_keys = keys.len();
