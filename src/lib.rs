@@ -22,10 +22,6 @@ extern "C" {
 #[wasm_bindgen]
 pub fn pedersen_hash(address_tree_index: Uint8Array) -> JsValue {
     set_panic_hook();
-    use verkle_spec::Hasher;
-
-    struct BlanketStruct;
-    impl Hasher for BlanketStruct {}
 
     let hash_input: [u8; 64] = match address_tree_index.to_vec().try_into() {
         Ok(input) => input,
@@ -35,13 +31,8 @@ pub fn pedersen_hash(address_tree_index: Uint8Array) -> JsValue {
         }
     };
 
-    let output = BlanketStruct::hash64(hash_input);
-
-    // Reverse it to change it to little endian
-    let mut output_le = output.as_bytes().to_vec();
-    output_le.reverse();
-
-    JsValue::from(Uint8Array::from(output_le.as_slice()))
+    let output = verkle_spec::hash64(hash_input);
+    JsValue::from(Uint8Array::from(output.as_bytes()))
 }
 
 // The root is the root of the current trie
