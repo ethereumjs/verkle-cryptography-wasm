@@ -20,28 +20,28 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-// Values is an array of 128 bit integers interpreted in little endian format
-pub fn pedersen_hash(values: Array) -> JsValue {
+pub fn pedersen_hash(address_tree_index: Uint8Array) -> JsValue {
     set_panic_hook();
+    use verkle_spec::Hasher;
 
-    let mut result = Element::zero();
-    let committer = TestCommitter::default();
+    struct BlanketStruct;
+    impl Hasher for BlanketStruct {}
 
-    for (index, entry) in values.values().into_iter().enumerate() {
-        // We know the built-in iterator won't throw exceptions, so
-        // unwrap is okay.
-        let value = entry.unwrap();
-        let u128val = match js_value_to_u128(value, &format!("element {} in pedersen hash", index))
-        {
-            Ok(val) => val,
-            Err(_) => return JsValue::NULL,
-        };
+    let hash_input: [u8; 64] = match address_tree_index.to_vec().try_into() {
+        Ok(input) => input,
+        Err(_) => {
+            log("input is not 64 bytes");
+            return JsValue::NULL;
+        }
+    };
 
-        result += committer.scalar_mul(u128val.into(), index);
-    }
+    let output = BlanketStruct::hash64(hash_input);
 
-    let result_bytes = result.to_bytes();
-    JsValue::from(Uint8Array::from(result_bytes.as_slice()))
+    // Reverse it to change it to little endian
+    let mut output_le = output.as_bytes().to_vec();
+    output_le.reverse();
+
+    JsValue::from(Uint8Array::from(output_le.as_slice()))
 }
 
 // The root is the root of the current trie
