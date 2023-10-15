@@ -10,6 +10,7 @@ use crate::{element::ElementWrapper, scalar_field::FrWrapper};
 //
 // We therefore need to pass a type which is serde serializable and deserializable
 // over the rust boundary. This type is SerializableFrWrapper.
+#[wasm_bindgen]
 #[derive(Serialize, Deserialize)]
 pub struct SerializableFrWrapper {
     inner: Vec<u8>,

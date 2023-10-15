@@ -6,6 +6,7 @@ use verkle_trie::{
     Fr,
 };
 use wasm_bindgen::prelude::*;
+use crate::commit::SerializableFrWrapper;
 
 #[wasm_bindgen]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -90,5 +91,10 @@ impl FrWrapper {
     #[wasm_bindgen(js_name = "toBytes")]
     pub fn to_bytes(&self) -> Vec<u8> {
         self.inner.to_bytes()
+    }
+
+    #[wasm_bindgen(js_name = "toSerializableWrapper")]
+    pub fn to_serialized_wrapper(&self) -> SerializableFrWrapper {
+        (*self).into()
     }
 }
