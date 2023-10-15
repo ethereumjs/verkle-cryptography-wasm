@@ -2,7 +2,8 @@
     "name": "@kevaundray/root",
     "private": true,
     "workspaces": [
-        "bindings"
+        "bindings",
+        "verkle_trie_js"
     ],
     "scripts": {
         "build": "yarn workspaces foreach --parallel --topological-dev --verbose run build",
