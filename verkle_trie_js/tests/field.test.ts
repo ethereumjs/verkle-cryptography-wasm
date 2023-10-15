@@ -1,5 +1,4 @@
 import { Field, naiveMultiInv } from "../src/ecc/field"
-import { Fp } from "../src/ecc/basefield"
 
 describe('modular arithmetic', () => {
     test('modular addition', () => {
