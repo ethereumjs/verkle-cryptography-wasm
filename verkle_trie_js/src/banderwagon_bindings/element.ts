@@ -29,12 +29,16 @@ export class Element {
     return this.inner.toBytes();
   }
 
+  commitToPoly(values: ScalarField[]): Element {
+    const serializableValues = values.map((value) =>
+      value.inner.toSerializableWrapper(),
+    );
+    const inner = commit_scalar_values(serializableValues);
+    return Element.fromElementWrapper(inner);
+  }
+
   static fromBytes(bytes: Uint8Array): Element {
     const inner = ElementWrapper.fromBytes(bytes);
     return Element.fromElementWrapper(inner);
   }
-}
-
-export function CommitToPoly(values: ScalarField[]): Element {
-  throw new Error("Not implemented");
 }
