@@ -10,6 +10,9 @@
     "start": "node dist/index.js",
     "test": "jest"
   },
+  "dependencies": {
+    "@kevaundray/rust_verkle_wasm": "workspace:*"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.5",
     "@types/node": "^20.8.6",

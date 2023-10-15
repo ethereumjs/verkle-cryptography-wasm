@@ -832,7 +832,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@kevaundray/rust_verkle_wasm@workspace:bindings":
+"@kevaundray/rust_verkle_wasm@workspace:*, @kevaundray/rust_verkle_wasm@workspace:bindings":
   version: 0.0.0-use.local
   resolution: "@kevaundray/rust_verkle_wasm@workspace:bindings"
   dependencies:
@@ -851,6 +851,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@kevaundray/verkle-trie-js@workspace:verkle_trie_js"
   dependencies:
+    "@kevaundray/rust_verkle_wasm": "workspace:*"
     "@types/jest": ^29.5.5
     "@types/node": ^20.8.6
     jest: ^29.7.0
