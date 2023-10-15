@@ -1,0 +1,11 @@
+[workspace]
+
+members = ["bindings"]
+resolver = "2"
+
+[workspace.package]
+version = "0.16.0"
+authors = ["Kevaundray Wedderburn <kev@the.dev>"]
+edition = "2021"
+rust-version = "1.66"
+license = "MIT OR Apache-2.0"
