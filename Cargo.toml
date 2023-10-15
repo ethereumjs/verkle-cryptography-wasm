@@ -1,5 +1,5 @@
 [package]
-name = "rust-verkle-wasm"
+name = "rust_verkle_wasm"
 version = "0.1.0"
 authors = ["Kevaundray Wedderburn <kevtheappdev@gmail.com>"]
 edition = "2018"
@@ -13,9 +13,12 @@ default = ["console_error_panic_hook"]
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
+serde-wasm-bindgen = "0.3.0"
 wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
 verkle-trie = { git = "https://github.com/crate-crypto/rust-verkle", rev = "ee53141ae88fdd3c02ae85c72f027e1b0a6f60c0" }
 verkle-spec = { git = "https://github.com/crate-crypto/rust-verkle", rev = "ee53141ae88fdd3c02ae85c72f027e1b0a6f60c0" }
+ark-ff = "*"
+hex = "*"
 # This is needed so that we can enable the js feature, which is being used in ark-serialize
 # Without it, the wasm will not compile, since we cannot conditionally compile ark-serialize
 getrandom = { version = "0.2.3", features = ["js"] }
@@ -30,7 +33,6 @@ console_error_panic_hook = { version = "0.1.6", optional = true }
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3.13"
-ark-ff = "*"
 
 [profile.release]
 # Tell `rustc` to optimize for small code size.

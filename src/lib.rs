@@ -12,6 +12,10 @@ use verkle_trie::{
     Element,
 };
 
+pub mod commit;
+pub mod element;
+pub mod scalar_field;
+
 #[wasm_bindgen]
 extern "C" {
 

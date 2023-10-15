@@ -4,3 +4,7 @@ Cargo.lock
 
 wasm-pack.log
 pkg/
+node_modules
+outputs
+nodejs
+web
