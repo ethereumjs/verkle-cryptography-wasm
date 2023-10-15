@@ -1121,6 +1121,7 @@ name = "rust_verkle_wasm"
 version = "0.1.0"
 dependencies = [
  "ark-ff",
+ "ark-serialize",
  "console_error_panic_hook",
  "getrandom",
  "hex",
