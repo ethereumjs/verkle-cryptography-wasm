@@ -2,7 +2,9 @@ import {
   ElementWrapper,
   element_add,
   element_sub,
+  commit_scalar_values,
 } from "@kevaundray/rust_verkle_wasm";
+import { ScalarField } from "../ecc_bindings";
 
 export class Element {
   inner!: ElementWrapper;
@@ -31,4 +33,8 @@ export class Element {
     const inner = ElementWrapper.fromBytes(bytes);
     return Element.fromElementWrapper(inner);
   }
+}
+
+export function CommitToPoly(values: ScalarField[]): Element {
+  throw new Error("Not implemented");
 }

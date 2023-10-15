@@ -1,5 +1,5 @@
 // Export ScalarField
-export * from "./ecc_bindings/index";
+export { ScalarField as Fr } from "./ecc_bindings/index";
 
-// Export a Banderwagon group element
-export * from "./banderwagon_bindings/index";
+// Export a Banderwagon group element and the commit to polynomial method
+export { Element as Point, CommitToPoly } from "./banderwagon_bindings/index";
