@@ -1,4 +1,4 @@
-use verkle_trie::Element;
+use verkle_trie::{Element, Fr};
 use wasm_bindgen::prelude::*;
 
 use crate::scalar_field::FrWrapper;
@@ -70,4 +70,26 @@ impl ElementWrapper {
     pub fn to_bytes(&self) -> Vec<u8> {
         self.inner.to_bytes().to_vec()
     }
+
+    #[wasm_bindgen(js_name = "mapToScalarField")]
+    pub fn map_to_scalar_field(&self) -> FrWrapper {
+        FrWrapper {
+            inner: group_to_field(&self.inner),
+        }
+    }
+}
+
+// Taken from verkle-trie -- we should expose it and make it available in
+// the next upgrade.
+pub(crate) fn group_to_field(point: &Element) -> Fr {
+    use ark_ff::PrimeField;
+    use ark_serialize::CanonicalSerialize;
+
+    let base_field = point.map_to_field();
+
+    let mut bytes = [0u8; 32];
+    base_field
+        .serialize(&mut bytes[..])
+        .expect("could not serialize point into a 32 byte array");
+    Fr::from_le_bytes_mod_order(&bytes)
 }
