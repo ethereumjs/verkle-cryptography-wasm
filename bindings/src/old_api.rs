@@ -1,11 +1,10 @@
 use crate::utils::set_panic_hook;
-use js_sys::{Array, BigInt, Map, Uint8Array};
+use js_sys::{Array, Map, Uint8Array};
 use std::convert::TryInto;
 use wasm_bindgen::prelude::*;
 
 use verkle_trie::{
-    committer::{test::TestCommitter, Committer},
-    from_to_bytes::{FromBytes, ToBytes},
+    committer::test::TestCommitter,
     proof::{stateless_updater, VerkleProof},
     Element,
 };
@@ -174,46 +173,10 @@ fn js_value_to_array32(val: JsValue, value_identifier: &str) -> Result<[u8; 32],
     Ok(array)
 }
 
-fn js_value_to_u128(val: JsValue, value_identifier: &str) -> Result<u128, ()> {
-    if let Ok(val_int) = BigInt::new(&val) {
-        // Seems like the only way in javascript to get the number of bits
-        let num_bits = val_int.to_string(2).unwrap().length();
-
-        if num_bits > 128 {
-            log(&format!(
-                "{} can not be greater than a 128 bit number, number of bits is {}",
-                value_identifier, num_bits
-            ));
-
-            return Err(());
-        }
-
-        // The following lines of code will convert a BigInt into a u128
-        // To do this, we convert it to a Javascript string in base10, then to a utf8 encoded rust string
-        // then we parse the rust string as a u128
-        let val_as_string = val_int.to_string(10).unwrap().as_string().unwrap();
-
-        let value_u128: u128 = val_as_string.parse().unwrap();
-        return Ok(value_u128);
-    }
-    //Convert the JsValue to a Uint8Array and then to a Vec
-    let vector = Uint8Array::from(val).to_vec();
-    // Get the vector length incase it is not 16
-    if vector.len() != 16 {
-        log(&format!(
-            "{} must contain 16 bytes, found : {}\n please check {:?}",
-            value_identifier,
-            vector.len(),
-            vector
-        ));
-
-        return Err(());
-    };
-    Ok(u128::from_le_bytes(vector.try_into().unwrap()))
-}
 #[cfg(test)]
 mod tests {
     use super::*;
+    use verkle_trie::committer::Committer;
     use verkle_trie::database::memory_db::MemoryDb;
     use verkle_trie::{Fr, TestConfig, Trie, TrieTrait};
 
