@@ -8,7 +8,9 @@
     "scripts": {
         "build": "yarn workspaces foreach --parallel --topological-dev --verbose run build",
         "test": "yarn workspaces foreach run test",
-        "lint": "yarn workspaces foreach --verbose run lint"
+        "lint": "yarn workspaces foreach --verbose run lint",
+        "clean:workspaces": "yarn workspaces foreach --exclude @kevaundray/root run clean",
+        "clean": "yarn clean:workspaces"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^6.7.3",
