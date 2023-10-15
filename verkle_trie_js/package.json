@@ -2,12 +2,13 @@
   "name": "@kevaundray/verkle-trie-js",
   "version": "0.0.1",
   "description": "Verkle trie implementation in javascript",
-  "main": "index.js",
   "author": "Kevaundray Wedderburn",
   "license": "MIT",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "module": "./src/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
     "test": "jest"
   },
   "dependencies": {
