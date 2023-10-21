@@ -1,5 +1,5 @@
 {
-  "name": "@kevaundray/verkle-trie-js",
+  "name": "verkle-trie",
   "version": "0.0.1",
   "description": "Verkle trie implementation in javascript",
   "author": "Kevaundray Wedderburn",
