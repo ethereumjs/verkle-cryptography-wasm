@@ -1,6 +1,6 @@
 {
   "name": "verkle-trie",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Verkle trie implementation in javascript",
   "author": "Kevaundray Wedderburn",
   "license": "MIT",
