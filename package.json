@@ -1,5 +1,5 @@
 {
-    "name": "@kevaundray/root",
+    "name": "root",
     "private": true,
     "workspaces": [
         "bindings",
@@ -9,7 +9,7 @@
         "build": "yarn workspaces foreach --parallel --topological-dev --verbose run build",
         "test": "yarn workspaces foreach run test",
         "lint": "yarn workspaces foreach --verbose run lint",
-        "clean:workspaces": "yarn workspaces foreach --exclude @kevaundray/root run clean",
+        "clean:workspaces": "yarn workspaces foreach --exclude root run clean",
         "clean": "yarn clean:workspaces"
     },
     "devDependencies": {

@@ -3,7 +3,7 @@ import {
   element_add,
   element_sub,
   commit_scalar_values,
-} from "@kevaundray/rust_verkle_wasm";
+} from "rust-verkle-wasm";
 import { ScalarField } from "../ecc_bindings";
 
 export class Element {

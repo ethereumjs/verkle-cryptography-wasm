@@ -1,4 +1,4 @@
-import { fr_add, fr_sub, FrWrapper } from "@kevaundray/rust_verkle_wasm";
+import { fr_add, fr_sub, FrWrapper } from "rust-verkle-wasm";
 
 export class ScalarField {
   inner!: FrWrapper;

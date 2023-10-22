@@ -816,37 +816,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kevaundray/root@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@kevaundray/root@workspace:."
-  dependencies:
-    "@typescript-eslint/eslint-plugin": ^6.7.3
-    "@typescript-eslint/parser": ^6.7.3
-    chai: ^4.3.7
-    eslint: ^8.50.0
-    eslint-plugin-prettier: ^5.0.0
-    mocha: ^10.2.0
-    prettier: 3.0.3
-    ts-node: ^10.9.1
-    typescript: ^5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@kevaundray/rust_verkle_wasm@workspace:*, @kevaundray/rust_verkle_wasm@workspace:bindings":
-  version: 0.0.0-use.local
-  resolution: "@kevaundray/rust_verkle_wasm@workspace:bindings"
-  dependencies:
-    "@esm-bundle/chai": ^4.3.4-fix.0
-    "@types/mocha": ^10.0.2
-    "@types/node": ^20.8.6
-    chai: ^4.3.10
-    eslint: ^8.50.0
-    mocha: ^10.2.0
-    ts-node: ^10.9.1
-    typescript: ^5.2.2
-  languageName: unknown
-  linkType: soft
-
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -4470,6 +4439,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"root@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "root@workspace:."
+  dependencies:
+    "@typescript-eslint/eslint-plugin": ^6.7.3
+    "@typescript-eslint/parser": ^6.7.3
+    chai: ^4.3.7
+    eslint: ^8.50.0
+    eslint-plugin-prettier: ^5.0.0
+    mocha: ^10.2.0
+    prettier: 3.0.3
+    ts-node: ^10.9.1
+    typescript: ^5.0.4
+  languageName: unknown
+  linkType: soft
+
 "run-applescript@npm:^5.0.0":
   version: 5.0.0
   resolution: "run-applescript@npm:5.0.0"
@@ -4487,6 +4472,21 @@ __metadata:
   checksum: cb4f97ad25a75ebc11a8ef4e33bb962f8af8516bb2001082ceabd8902e15b98f4b84b4f8a9b222e5d57fc3bd1379c483886ed4619367a7680dad65316993021d
   languageName: node
   linkType: hard
+
+"rust-verkle-wasm@workspace:*, rust-verkle-wasm@workspace:bindings":
+  version: 0.0.0-use.local
+  resolution: "rust-verkle-wasm@workspace:bindings"
+  dependencies:
+    "@esm-bundle/chai": ^4.3.4-fix.0
+    "@types/mocha": ^10.0.2
+    "@types/node": ^20.8.6
+    chai: ^4.3.10
+    eslint: ^8.50.0
+    mocha: ^10.2.0
+    ts-node: ^10.9.1
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
 
 "safe-buffer@npm:^5.1.0, safe-buffer@npm:~5.2.0":
   version: 5.2.1
@@ -5066,10 +5066,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "verkle-trie@workspace:verkle_trie_js"
   dependencies:
-    "@kevaundray/rust_verkle_wasm": "workspace:*"
     "@types/jest": ^29.5.5
     "@types/node": ^20.8.6
     jest: ^29.7.0
+    rust-verkle-wasm: "workspace:*"
     ts-jest: ^29.1.1
     typescript: ^5.2.2
   languageName: unknown

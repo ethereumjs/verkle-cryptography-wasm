@@ -1,6 +1,6 @@
 {
   "name": "verkle-trie",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Verkle trie implementation in javascript",
   "author": "Kevaundray Wedderburn",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "lint": "NODE_NO_WARNINGS=1 eslint . --ext .ts --ignore-path ./.eslintignore  --max-warnings 0"
   },
   "dependencies": {
-    "@kevaundray/rust_verkle_wasm": "workspace:*"
+    "rust-verkle-wasm": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.5",

@@ -1,5 +1,5 @@
 {
-    "name": "@kevaundray/rust_verkle_wasm",
+    "name": "rust-verkle-wasm",
     "collaborators": [
         "Kevaundray Wedderburn <kev@the.dev>"
     ],
