@@ -1,7 +1,7 @@
 {
-  "name": "verkle-trie",
+  "name": "verkle-trie-cryptography",
   "version": "0.0.4",
-  "description": "Verkle trie implementation in javascript",
+  "description": "Verkle trie cryptography implementation in javascript",
   "author": "Kevaundray Wedderburn",
   "license": "MIT",
   "main": "./src/index.js",
