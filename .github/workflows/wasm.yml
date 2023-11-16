@@ -12,5 +12,5 @@ jobs:
       - name: Install
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-      - run: ls -l && pwd && cd /home/runner/work/verkle-cryptography-wasm/verkle-cryptography-wasm/src && wasm-pack test --headless --chrome
-      - run: cd /home/runner/work/verkle-cryptography-wasm/verkle-cryptography-wasm/src && wasm-pack test --headless --firefox
+      - run: cd bindings && wasm-pack test --headless --chrome
+      - run: cd bindings && wasm-pack test --headless --firefox
