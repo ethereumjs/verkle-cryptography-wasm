@@ -12,5 +12,5 @@ jobs:
       - name: Install
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-      - run: wasm-pack test --headless --chrome
-      - run: wasm-pack test --headless --firefox
+      - run: cd src && wasm-pack test --headless --chrome
+      - run: cd src && wasm-pack test --headless --firefox
