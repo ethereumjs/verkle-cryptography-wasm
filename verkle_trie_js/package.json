@@ -1,14 +1,23 @@
 {
-  "name": "verkle-trie-cryptography",
-  "version": "0.0.4",
-  "description": "Verkle trie cryptography implementation in javascript",
+  "name": "rust-verkle-cryptography",
+  "version": "0.0.5",
+  "description": "Verkle trie cryptography implementation in JavaScript",
   "author": "Kevaundray Wedderburn",
   "license": "MIT",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
-  "module": "./src/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
-    "build": "tsc",
+    "build": "../config/cli/ts-build.sh",
     "test": "jest",
     "lint": "NODE_NO_WARNINGS=1 eslint . --ext .ts --ignore-path ./.eslintignore  --max-warnings 0"
   },
@@ -36,5 +45,8 @@
       "json",
       "node"
     ]
+  },
+  "engine": {
+    "node": ">=18.0.0"
   }
 }
