@@ -1,4 +1,4 @@
-name : WASM bindgen tests
+name: WASM bindgen tests
 
 on: [push, pull_request]
 
