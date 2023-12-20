@@ -1,40 +1,40 @@
 {
-    "name": "rust-verkle-wasm",
-    "collaborators": [
-        "Kevaundray Wedderburn <kev@the.dev>"
-    ],
-    "version": "0.0.1",
-    "license": "(MIT OR Apache-2.0)",
-    "files": [
-        "nodejs",
-        "web",
-        "package.json"
-    ],
-    "publishConfig": {
-        "access": "public"
-    },
-    "main": "./nodejs/rust_verkle_wasm.js",
-    "types": "./web/rust_verkle_wasm.d.ts",
-    "module": "./web/rust_verkle_wasm.js",
-    "sideEffects": false,
-    "repository": {
-        "type": "git"
-    },
-    "scripts": {
-        "build": "bash ./build.sh",
-        "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha",
-        "clean": "chmod u+w web nodejs || true && rm -rf ./nodejs ./web ./target ./result",
-        "publish": "echo 📡 publishing `$npm_package_name` && yarn publish",
-        "lint": "NODE_NO_WARNINGS=1 eslint . --ext .ts --ignore-path ./.eslintignore  --max-warnings 0"
-    },
-    "devDependencies": {
-        "@esm-bundle/chai": "^4.3.4-fix.0",
-        "@types/mocha": "^10.0.2",
-        "@types/node": "^20.8.6",
-        "chai": "^4.3.10",
-        "eslint": "^8.50.0",
-        "mocha": "^10.2.0",
-        "ts-node": "^10.9.1",
-        "typescript": "^5.2.2"
-    }
+  "name": "rust-verkle-wasm",
+  "collaborators": [
+    "Kevaundray Wedderburn <kev@the.dev>"
+  ],
+  "version": "0.0.1",
+  "license": "(MIT OR Apache-2.0)",
+  "files": [
+    "nodejs",
+    "web",
+    "package.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./nodejs/rust_verkle_wasm.js",
+  "types": "./web/rust_verkle_wasm.d.ts",
+  "module": "./web/rust_verkle_wasm.js",
+  "sideEffects": false,
+  "repository": {
+    "type": "git"
+  },
+  "scripts": {
+    "build": "../config/cli/ts-build.sh && ./build.sh",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha",
+    "clean": "chmod u+w web nodejs || true && rm -rf ./nodejs ./web ./target ./result",
+    "publish": "echo 📡 publishing `$npm_package_name` && npm publish",
+    "lint": "NODE_NO_WARNINGS=1 eslint . --ext .ts --ignore-path ./.eslintignore  --max-warnings 0"
+  },
+  "devDependencies": {
+    "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@types/mocha": "^10.0.2",
+    "@types/node": "^20.8.6",
+    "chai": "^4.3.10",
+    "eslint": "^8.50.0",
+    "mocha": "^10.2.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
 }
