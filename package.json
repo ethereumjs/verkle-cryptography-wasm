@@ -1,27 +1,30 @@
 {
-    "name": "root",
-    "private": true,
-    "workspaces": [
-        "bindings",
-        "verkle_trie_js"
-    ],
-    "scripts": {
-        "build": "yarn workspaces foreach --parallel --topological-dev --verbose run build",
-        "test": "yarn workspaces foreach run test",
-        "lint": "yarn workspaces foreach --verbose run lint",
-        "clean:workspaces": "yarn workspaces foreach --exclude root run clean",
-        "clean": "yarn clean:workspaces"
-    },
-    "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^6.7.3",
-        "@typescript-eslint/parser": "^6.7.3",
-        "chai": "^4.3.7",
-        "eslint": "^8.50.0",
-        "eslint-plugin-prettier": "^5.0.0",
-        "mocha": "^10.2.0",
-        "prettier": "3.0.3",
-        "ts-node": "^10.9.1",
-        "typescript": "^5.0.4"
-    },
-    "packageManager": "yarn@3.6.4"
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "bindings",
+    "verkle_trie_js"
+  ],
+  "scripts": {
+    "build": "npm run build --parallel --topological-dev --verbose --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --verbose --workspaces",
+    "clean:workspaces": "npm --exclude root run clean --workspaces",
+    "clean": "npm run clean --workspaces"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "chai": "^4.3.7",
+    "eslint": "^8.50.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "mocha": "^10.2.0",
+    "prettier": "3.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "engines": {
+    "node": ">=18",
+    "npm": ">=7"
+  }
 }

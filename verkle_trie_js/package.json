@@ -13,7 +13,7 @@
     "lint": "NODE_NO_WARNINGS=1 eslint . --ext .ts --ignore-path ./.eslintignore  --max-warnings 0"
   },
   "dependencies": {
-    "rust-verkle-wasm": "workspace:*"
+    "rust-verkle-wasm": "0.0.1"
   },
   "devDependencies": {
     "@types/jest": "^29.5.5",
