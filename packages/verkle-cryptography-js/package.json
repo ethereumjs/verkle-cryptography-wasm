@@ -1,7 +1,7 @@
 {
-  "name": "rust-verkle-cryptography",
+  "name": "verkle-cryptography-js",
   "version": "0.0.5",
-  "description": "Verkle trie cryptography implementation in JavaScript",
+  "description": "Verkle cryptography implementation in JavaScript",
   "author": "Kevaundray Wedderburn",
   "license": "MIT",
   "main": "dist/cjs/index.js",
