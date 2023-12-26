@@ -1,6 +1,6 @@
 [workspace]
 
-members = ["bindings"]
+members = ["packages/bindings"]
 resolver = "2"
 
 [workspace.package]
