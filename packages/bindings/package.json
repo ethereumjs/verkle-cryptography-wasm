@@ -21,7 +21,7 @@
     "type": "git"
   },
   "scripts": {
-    "build": "../config/cli/ts-build.sh && ./build.sh",
+    "build": "../../config/cli/ts-build.sh && ./build.sh",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha",
     "clean": "chmod u+w web nodejs || true && rm -rf ./nodejs ./web ./target ./result",
     "publish": "echo 📡 publishing `$npm_package_name` && npm publish",

@@ -2,8 +2,7 @@
   "name": "root",
   "private": true,
   "workspaces": [
-    "bindings",
-    "verkle_trie_js"
+    "packages/*"
   ],
   "scripts": {
     "test": "npm run test --workspaces",

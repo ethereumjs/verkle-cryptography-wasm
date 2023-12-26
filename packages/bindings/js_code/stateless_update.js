@@ -120,13 +120,13 @@ if (equalUint8Array(post_state_root, expected_post_state_root)) {
     pre_state_root_as_hex,
     "\npost state root: ",
     post_state_root_as_hex,
-    "\n",
+    "\n"
   );
 } else {
   console.log(
     "\nstate root was not correctly updated, found ",
     post_state_root_as_hex,
-    "\n",
+    "\n"
   );
 }
 
