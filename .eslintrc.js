@@ -4,7 +4,6 @@ module.exports = {
   plugins: ["@typescript-eslint", "prettier"],
   extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   rules: {
-    "comma-spacing": ["error", { before: false, after: true }],
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": [
       "warn",

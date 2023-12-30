@@ -21,15 +21,11 @@
     "type": "git"
   },
   "scripts": {
-    "build": "../../config/cli/ts-build.sh && ./build.sh",
-    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha",
-    "clean": "chmod u+w web nodejs || true && rm -rf ./nodejs ./web ./target ./result",
-    "publish": "echo 📡 publishing `$npm_package_name` && npm publish",
-    "lint": "NODE_NO_WARNINGS=1 eslint . --ext .ts --ignore-path ./.eslintignore  --max-warnings 0"
+    "build": "../../cli/ts-build.sh && ./build.sh",
+    "clean": "chmod u+w web nodejs || true && rm -rf ./nodejs ./web ./target ./result"
   },
   "devDependencies": {
     "@esm-bundle/chai": "^4.3.4-fix.0",
-    "@types/mocha": "^10.0.2",
     "@types/node": "^20.8.6",
     "chai": "^4.3.10",
     "eslint": "^8.50.0",

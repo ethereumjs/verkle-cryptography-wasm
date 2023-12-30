@@ -84,3 +84,10 @@ EOT
     fi
     echo "\n";
 }
+
+# Begin build process.
+
+build_node
+build_esm
+post_build_fixes
+

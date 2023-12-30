@@ -37,7 +37,7 @@ export class Element {
 
 export function commitToPoly(values: ScalarField[]): Element {
   const serializableValues = values.map((value) =>
-    value.inner.toSerializableWrapper(),
+    value.inner.toSerializableWrapper()
   );
   const inner = commit_scalar_values(serializableValues);
   return Element._fromElementWrapper(inner);

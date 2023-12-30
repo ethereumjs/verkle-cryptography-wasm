@@ -1,6 +1,6 @@
 [workspace]
 
-members = ["packages/rust-verkle-wasm"]
+members = ["src/rust-verkle-wasm"]
 resolver = "2"
 
 [workspace.package]
