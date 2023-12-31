@@ -5,6 +5,7 @@ Cargo.lock
 wasm-pack.log
 pkg/
 node_modules
+result
 outputs
 nodejs
 web

@@ -1,5 +1,1 @@
 node_modules
-src/rust-wasm/nodejs
-src/rust-wasm/outputs
-src/rust-wasm/target
-src/rust-wasm/web

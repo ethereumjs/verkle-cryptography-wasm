@@ -1,6 +1,17 @@
 {
   "name": "verkle-cryptography-wasm",
-  "private": true,
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "./scripts/rust-build.sh && ./scripts/ts-build.sh",
     "lint": "eslint .",
