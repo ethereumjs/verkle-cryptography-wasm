@@ -1,15 +1,13 @@
 {
-  "name": "root",
+  "name": "verkle-cryptography-wasm",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "test": "npm run test --workspaces",
-    "lint": "npm run lint --verbose --workspaces",
-    "clean:workspaces": "npm run clean --workspaces --exclude root",
-    "clean": "npm run clean --workspaces",
-    "postinstall": "npm run build --workspaces"
+    "build": "./scripts/rust-build.sh && ./scripts/ts-build.sh",
+    "lint": "eslint .",
+    ".clean:workspaces": "npm run clean --workspaces --exclude root",
+    ".clean": "npm run clean --workspaces",
+    ".postinstall": "npm run build --workspaces",
+    ".test": "npm run test --workspaces"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.7.3",
