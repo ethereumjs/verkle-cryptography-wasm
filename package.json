@@ -13,12 +13,11 @@
     "src"
   ],
   "scripts": {
-    "build": "./scripts/rust-build.sh && ./scripts/ts-build.sh",
+    "build": "./scripts/rust-build.sh && ./scripts/ts-build.sh && ./scripts/copy-wasm.sh",
     "lint": "eslint .",
-    ".clean:workspaces": "npm run clean --workspaces --exclude root",
-    ".clean": "npm run clean --workspaces",
-    ".postinstall": "npm run build --workspaces",
-    ".test": "npm run test --workspaces"
+    "clean": "rm -rf node_modules dist src/rust-wasm/nodejs src/rust-wasm/outputs",
+    "postinstall": "npm run build",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^29.5.5",
