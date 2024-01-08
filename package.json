@@ -1,25 +1,33 @@
 {
-  "name": "root",
-  "private": true,
-  "workspaces": [
-    "bindings",
-    "verkle_trie_js"
+  "name": "verkle-cryptography-wasm",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
   ],
   "scripts": {
-    "test": "npm run test --workspaces",
-    "lint": "npm run lint --verbose --workspaces",
-    "clean:workspaces": "npm run clean --workspaces --exclude root",
-    "clean": "npm run clean --workspaces",
-    "postinstall": "npm run build --workspaces"
+    "build": "./scripts/rust-build.sh && ./scripts/ts-build.sh && ./scripts/copy-wasm.sh",
+    "lint": "eslint .",
+    "clean": "rm -rf node_modules dist src/rust-wasm/nodejs src/rust-wasm/outputs",
+    "postinstall": "npm run build",
+    "test": "jest"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.5",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
-    "chai": "^4.3.7",
     "eslint": "^8.50.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "mocha": "^10.2.0",
+    "jest": "^29.7.0",
     "prettier": "3.0.3",
+    "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },

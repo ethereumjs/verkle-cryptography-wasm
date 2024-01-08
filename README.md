@@ -7,5 +7,5 @@ Javascript implementation of Ethereums verkle trie. This implementation converts
 ## Installation
 
 ```
-    npm i verkle-trie
+    npm i verkle-cryptography-wasm
 ```

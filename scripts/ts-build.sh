@@ -2,7 +2,6 @@
 set -e
 # Purposefully not using `set -o xtrace`, for friendlier output.
 
-
 # Presentational variables and functions declaration.
 
 BLUE="\033[0;34m"
@@ -84,3 +83,7 @@ EOT
     fi
     echo "\n";
 }
+
+build_node
+build_esm
+post_build_fixes

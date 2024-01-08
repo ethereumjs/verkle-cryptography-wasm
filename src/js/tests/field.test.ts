@@ -1,4 +1,4 @@
-import { Field, naiveMultiInv } from "../src/ecc/field";
+import { Field, naiveMultiInv } from "../ecc/field";
 
 describe("modular arithmetic", () => {
   test("modular addition", () => {

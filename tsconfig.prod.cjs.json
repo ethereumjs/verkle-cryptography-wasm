@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
+  "exclude": ["src/js/tests"],
   "compilerOptions": {
-    "module": "esnext"
+    "outDir": "dist/cjs"
   }
 }

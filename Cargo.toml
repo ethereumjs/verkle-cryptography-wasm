@@ -1,6 +1,6 @@
 [workspace]
 
-members = ["bindings"]
+members = ["src/rust-wasm"]
 resolver = "2"
 
 [workspace.package]

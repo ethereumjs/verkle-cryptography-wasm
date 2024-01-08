@@ -22,6 +22,8 @@ function run_or_fail {
   fi
 }
 
+cd src/rust-wasm
+
 require_command jq
 require_command cargo
 require_command wasm-bindgen
