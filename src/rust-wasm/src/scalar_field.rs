@@ -84,7 +84,7 @@ impl FrWrapper {
 
     #[wasm_bindgen(js_name = "toHexString")]
     pub fn to_hex_string(&self) -> String {
-        format!("{:?}", hex::encode(&self.to_bytes()))
+        format!("{:?}", hex::encode(self.to_bytes()))
     }
 
     #[wasm_bindgen(js_name = "toBytes")]
