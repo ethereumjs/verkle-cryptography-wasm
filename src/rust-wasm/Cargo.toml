@@ -15,10 +15,12 @@ default = ["console_error_panic_hook"]
 serde = { version = "1.0", features = ["derive"] }
 serde-wasm-bindgen = "0.3.0"
 wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
-verkle-trie = { git = "https://github.com/crate-crypto/rust-verkle", rev = "ee53141ae88fdd3c02ae85c72f027e1b0a6f60c0" }
-verkle-spec = { git = "https://github.com/crate-crypto/rust-verkle", rev = "ee53141ae88fdd3c02ae85c72f027e1b0a6f60c0" }
-ark-ff = "0.3.0"
-ark-serialize = { version = "^0.3.0", default-features = false }
+verkle-trie = { git = "https://github.com/crate-crypto/rust-verkle", rev = "1991ff779e077f944746319e1f8ef5c8dd51c692" }
+verkle-spec = { git = "https://github.com/crate-crypto/rust-verkle", rev = "1991ff779e077f944746319e1f8ef5c8dd51c692" }
+ipa-multipoint = { git = "https://github.com/crate-crypto/rust-verkle", rev = "1991ff779e077f944746319e1f8ef5c8dd51c692" }
+banderwagon = { git = "https://github.com/crate-crypto/rust-verkle", rev = "1991ff779e077f944746319e1f8ef5c8dd51c692" }
+ark-ff = "0.4.0"
+ark-serialize = { version = "^0.4.0", default-features = false }
 
 hex = "*"
 # This is needed so that we can enable the js feature, which is being used in ark-serialize

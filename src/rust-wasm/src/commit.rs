@@ -1,6 +1,8 @@
+use banderwagon::trait_defs::Zero;
+use ipa_multipoint::committer::{Committer, DefaultCommitter};
 use js_sys::Array;
 use serde::{Deserialize, Serialize};
-use verkle_trie::committer::{test::TestCommitter, Committer};
+use verkle_trie::{constants::new_crs, Fr};
 use wasm_bindgen::prelude::*;
 
 use crate::{element::ElementWrapper, scalar_field::FrWrapper};
@@ -38,9 +40,9 @@ impl From<SerializableFrWrapper> for FrWrapper {
 // and then chunk each four u64s into a FrWrapper
 #[wasm_bindgen]
 pub fn commit_scalar_values(arr: &Array) -> Result<ElementWrapper, JsValue> {
-    let committer = TestCommitter::default();
+    let committer = DefaultCommitter(new_crs());
 
-    let mut fr_values = Vec::with_capacity(arr.length() as usize);
+    let mut fr_values = [Fr::zero(); 256];
 
     for i in 0..arr.length() {
         let serializable_frwrapper_val = arr.get(i);
@@ -48,7 +50,7 @@ pub fn commit_scalar_values(arr: &Array) -> Result<ElementWrapper, JsValue> {
             .into_serde()
             .map_err(|e| JsValue::from_str(&e.to_string()))?;
         let frwrapper: FrWrapper = serializable_frwrapper.into();
-        fr_values.push(frwrapper.into_fr());
+        fr_values[i as usize] = frwrapper.into_fr();
     }
     Ok(ElementWrapper {
         inner: committer.commit_lagrange(&fr_values),

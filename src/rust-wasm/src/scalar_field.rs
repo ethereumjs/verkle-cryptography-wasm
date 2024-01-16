@@ -1,12 +1,10 @@
 use std::str::FromStr;
 
-use ark_ff::{Field, SquareRootField};
-use verkle_trie::{
-    from_to_bytes::{FromBytes, ToBytes},
-    Fr,
-};
-use wasm_bindgen::prelude::*;
 use crate::commit::SerializableFrWrapper;
+use ark_ff::Field;
+use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
+use verkle_trie::Fr;
+use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -62,7 +60,8 @@ impl FrWrapper {
             return Err(JsValue::from_str("Input should be 32 bytes"));
         }
         Ok(FrWrapper {
-            inner: Fr::from_bytes(bytes),
+            inner: Fr::deserialize_uncompressed(bytes)
+                .map_err(|_| JsValue::from_str("cannot deserialize bytes into FrWrapper"))?,
         })
     }
     pub(crate) fn into_fr(self) -> Fr {
@@ -85,12 +84,16 @@ impl FrWrapper {
 
     #[wasm_bindgen(js_name = "toHexString")]
     pub fn to_hex_string(&self) -> String {
-        format!("{:?}", hex::encode(self.inner.to_bytes()))
+        format!("{:?}", hex::encode(&self.to_bytes()))
     }
 
     #[wasm_bindgen(js_name = "toBytes")]
     pub fn to_bytes(&self) -> Vec<u8> {
-        self.inner.to_bytes()
+        let mut bytes = [0u8; 32];
+        self.inner
+            .serialize_uncompressed(&mut bytes[..])
+            .expect("could not serialize field element into a 32 byte array");
+        bytes.to_vec()
     }
 
     #[wasm_bindgen(js_name = "toSerializableWrapper")]
