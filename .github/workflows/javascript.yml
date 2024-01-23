@@ -11,6 +11,9 @@ jobs:
 
       - name: Install
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+    
+      - name: Test wasm-pack runs
+        run: wasm-pack --version
 
       - run: npm install
       - run: npm run build
