@@ -14,7 +14,7 @@ default = ["console_error_panic_hook"]
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
 serde-wasm-bindgen = "0.3.0"
-wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
+wasm-bindgen = { version = "0.2.90", features = ["serde-serialize"] }
 verkle-trie = { git = "https://github.com/crate-crypto/rust-verkle", rev = "1991ff779e077f944746319e1f8ef5c8dd51c692" }
 verkle-spec = { git = "https://github.com/crate-crypto/rust-verkle", rev = "1991ff779e077f944746319e1f8ef5c8dd51c692" }
 ipa-multipoint = { git = "https://github.com/crate-crypto/rust-verkle", rev = "1991ff779e077f944746319e1f8ef5c8dd51c692" }
