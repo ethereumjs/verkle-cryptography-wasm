@@ -1,0 +1,24 @@
+name: Javascript tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Install
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+          
+      - name: Install wasm-bindgen
+        run: ./scripts/install-wasm-bindgen.sh
+
+      - name: Install wasm32-unknown-unknown target
+        run: rustup target add wasm32-unknown-unknown
+
+      - run: npm install
+      - run: npm run build
+      - run: npm run test
+
