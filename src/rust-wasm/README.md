@@ -1,4 +1,4 @@
-# Quick Start
+# Rust/WASM Build
 
 ## Overview
 
