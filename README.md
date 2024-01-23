@@ -1,4 +1,4 @@
-## Verkle Cryptography (WASM/TypeScript)
+# Verkle Cryptography (WASM/TypeScript)
 
 **Note:** This library is in the process of moving over from https://github.com/crate-crypto/rust-verkle-wasm. Package and build structure are in the process of being reworked and documentation/instructions are not yet fully updated.
 
