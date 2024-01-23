@@ -14,7 +14,7 @@ default = ["console_error_panic_hook"]
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
 serde-wasm-bindgen = "0.3.0"
-wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
+wasm-bindgen = { version = "0.2.90", features = ["serde-serialize"] }
 verkle-trie = { git = "https://github.com/crate-crypto/rust-verkle", rev = "ee53141ae88fdd3c02ae85c72f027e1b0a6f60c0" }
 verkle-spec = { git = "https://github.com/crate-crypto/rust-verkle", rev = "ee53141ae88fdd3c02ae85c72f027e1b0a6f60c0" }
 ark-ff = "0.3.0"
