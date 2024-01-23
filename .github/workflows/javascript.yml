@@ -1,4 +1,4 @@
-name: WASM bindgen tests
+name: Javascript tests
 
 on: [push, pull_request]
 
@@ -12,5 +12,7 @@ jobs:
       - name: Install
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-      - run: cd src/rust-wasm && wasm-pack test --headless --chrome
-      - run: cd src/rust-wasm && wasm-pack test --headless --firefox
+      - run: npm install
+      - run: npm run build
+      - run: npm run test
+
