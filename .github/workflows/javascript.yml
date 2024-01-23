@@ -15,6 +15,9 @@ jobs:
       - name: Test wasm-pack was installed
         run: wasm-pack --version
       
+      - name: Install wasm-bindgen
+        run: ./scripts/install-wasm-bindgen.sh
+      
       - name: Test wasm-bindgen was installed
         run: wasm-bindgen --version
 
