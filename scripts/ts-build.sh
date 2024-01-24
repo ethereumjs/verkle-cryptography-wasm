@@ -37,7 +37,7 @@ build_node() {
     echo "> tsc --build ./tsconfig.prod.cjs.json"
     printf "${BLUE}[Node build] Working... "
 
-    tsc --build ./tsconfig.prod.cjs.json
+    npx tsc --build ./tsconfig.prod.cjs.json
     green "DONE"
 
     echo "\n";
@@ -52,7 +52,7 @@ build_esm() {
         echo "> tsc --build ./tsconfig.prod.esm.json"
         printf "${BLUE}[ESM build] Working... "
 
-        tsc --build ./tsconfig.prod.esm.json
+        npx tsc --build ./tsconfig.prod.esm.json
         green "DONE"
     else
         echo "Skipping ESM build (no config available)."
