@@ -13,9 +13,9 @@
     "src"
   ],
   "scripts": {
-    "build": "./scripts/rust-build.sh && ./scripts/ts-build.sh && ./scripts/copy-wasm.sh",
+    "build": "./scripts/rust-build.sh && ./scripts/ts-build.sh",
     "lint": "eslint .",
-    "clean": "rm -rf node_modules dist src/rust-wasm/nodejs src/rust-wasm/outputs",
+    "clean": "rm -rf node_modules dist",
     "postinstall": "npm run build",
     "test": "jest"
   },
