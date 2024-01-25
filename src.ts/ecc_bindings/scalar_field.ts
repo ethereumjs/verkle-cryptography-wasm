@@ -1,8 +1,4 @@
-import {
-  fr_add,
-  fr_sub,
-  FrWrapper,
-} from "../../../dist/cjs/wasm/rust_verkle_wasm";
+import { fr_add, fr_sub, FrWrapper } from "../wasm/rust_verkle_wasm";
 
 export class ScalarField {
   inner!: FrWrapper;
