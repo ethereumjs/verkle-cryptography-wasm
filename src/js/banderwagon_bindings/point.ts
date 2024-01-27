@@ -13,6 +13,9 @@ export class Point {
     this.inner = inner;
   }
 
+  static fromBytes(bytes: Uint8Array): Point {
+    return new Point(PointWrapper.fromBytes(bytes));
+  }
   static fromPointWrapper(inner: PointWrapper): Point {
     return new Point(inner);
   }
@@ -28,15 +31,11 @@ export class Point {
   toBytes(): Uint8Array {
     return this.inner.toBytes();
   }
-
-  static fromBytes(bytes: Uint8Array): Point {
-    return new Point(PointWrapper.fromBytes(bytes));
-  }
 }
 
 export function commitToPoly(values: ScalarField[]): Point {
   const serializableValues = values.map((value) =>
-    value.inner.toSerializableWrapper()
+    value.inner.toSerializableWrapper(),
   );
   const inner = commit_scalar_values(serializableValues);
   return Point.fromPointWrapper(inner);
@@ -46,6 +45,6 @@ export function batchMapToScalarField(elements: Point[]): ScalarField[] {
   // This does not use the efficient version of batch map
   // that saves us from doing `N` inversions.
   return elements.map((value) =>
-    ScalarField.fromScalarFieldWrapper(value.inner.mapToScalarField())
+    ScalarField.fromScalarFieldWrapper(value.inner.mapToScalarField()),
   );
 }

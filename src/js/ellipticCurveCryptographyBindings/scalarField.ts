@@ -11,6 +11,10 @@ export class ScalarField {
     this.inner = value;
   }
 
+  static fromBytes(bytes: Uint8Array): ScalarField {
+    return new ScalarField(ScalarFieldWrapper.fromBytes(bytes));
+  }
+
   static fromDecimalString(value: string): ScalarField {
     return new ScalarField(ScalarFieldWrapper.fromDecimalString(value));
   }
@@ -29,10 +33,5 @@ export class ScalarField {
 
   toBytes(): Uint8Array {
     return this.inner.toBytes();
-  }
-
-  static fromBytes(bytes: Uint8Array): ScalarField {
-    const inner = ScalarFieldWrapper.fromBytes(bytes);
-    return ScalarField.fromScalarFieldWrapper(inner);
   }
 }
