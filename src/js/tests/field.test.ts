@@ -1,4 +1,4 @@
-import { Field, naiveMultiInv } from "../ecc/field";
+import { Field, naiveMultiInv } from "../ellipticCurveCryptography/field";
 
 describe("modular arithmetic", () => {
   test("modular addition", () => {
@@ -106,7 +106,7 @@ describe("modular arithmetic", () => {
     // equivalence class, but more than the modulus
     const expectedOverflow = new Field(1n + 13n, 13n);
     const bytes32Overflow = expectedOverflow.toBytesLe(32);
-    got = Field.fromBytesReduce(bytes32Overflow, 13n);
+    got = Field.fromBytes(bytes32Overflow, 13n, true);
     isEqual = expected.equal(got);
     expect(isEqual).toBe(true);
   });

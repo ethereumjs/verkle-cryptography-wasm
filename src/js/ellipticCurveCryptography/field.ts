@@ -64,31 +64,21 @@ export class Field {
     return this.value > modulus_min_one_div_2;
   }
 
-  static fromBytes(bytesLittleEndian: Uint8Array, modulus: bigint): Field {
-    // TODO: this seems a bit hacky
-    const buffer = Buffer.from(bytesLittleEndian).reverse();
-    // BigInt interprets the hex string in big endian format
-    // which is why we reverse the buffer
-    const value = BigInt(`0x${buffer.toString("hex")}`);
-
-    if (value >= modulus) {
-      throw new Error("value is larger than modulus");
-    }
-
-    return new Field(value, modulus);
-  }
-
-  static fromBytesReduce(
+  static fromBytes(
     bytesLittleEndian: Uint8Array,
     modulus: bigint,
+    reduce: boolean = false,
   ): Field {
-    // TODO: this seems a bit hacky
-    const buffer = Buffer.from(bytesLittleEndian).reverse();
-    // BigInt interprets the hex string in big endian format
-    // which is why we reverse the buffer
-    let value = BigInt(`0x${buffer.toString("hex")}`);
+    const hex = bytesToHex(bytesLittleEndian.reverse());
+    let value = BigInt(hex);
 
-    value = value % modulus;
+    if (value >= modulus) {
+      if (reduce) {
+        value %= modulus;
+      } else {
+        throw new Error("Value is equal or larger than modulus");
+      }
+    }
 
     return new Field(value, modulus);
   }
@@ -201,4 +191,19 @@ export function naiveMultiInv(values: Field[]): Field[] {
   }
 
   return invValues;
+}
+
+/****************  Borrowed from @chainsafe/ssz */
+// Caching this info costs about ~1000 bytes and speeds up toHexString() by x6
+const hexByByte = Array.from({ length: 256 }, (v, i) =>
+  i.toString(16).padStart(2, "0"),
+);
+
+function bytesToHex(bytes: Uint8Array): string {
+  let hex = "0x";
+  if (bytes === undefined || bytes.length === 0) return hex;
+  for (const byte of bytes) {
+    hex += hexByByte[byte];
+  }
+  return hex;
 }
