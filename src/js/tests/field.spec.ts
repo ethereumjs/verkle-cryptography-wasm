@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import { Field, naiveMultiInv } from "../ecc/field";
 
 describe("modular arithmetic", () => {
