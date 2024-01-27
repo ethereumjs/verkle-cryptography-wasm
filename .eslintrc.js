@@ -4,12 +4,11 @@ module.exports = {
   plugins: ["@typescript-eslint", "prettier"],
   extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   ignorePatterns: [
-    '.eslintrc.js',
-    'dist',
-    'jest.config.js',
-    'node_modules',
-    'rust-wasm',
-    'scripts',
+    ".eslintrc.js",
+    "dist",
+    "node_modules",
+    "rust-wasm",
+    "scripts",
   ],
   rules: {
     "comma-spacing": ["error", { before: false, after: true }],
