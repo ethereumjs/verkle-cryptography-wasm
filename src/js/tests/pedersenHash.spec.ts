@@ -1,17 +1,15 @@
-import { describe, test } from "vitest";
+import { describe, test, assert } from "vitest";
+import { bytesToHex } from "@ethereumjs/util";
+import { pedersenHash } from "../banderwagon_bindings/index.js";
 
 // Test data src: https://github.com/crate-crypto/rust-verkle/blob/231c9fec87ade64c2a4a4b0c9425288971708ce3/ffi_interface/src/lib.rs#L307
-describe.todo("pedersenHash", () => {
+describe("pedersenHash", () => {
   test("computes the expected pedersenHash for the zero address", () => {
-    const input = Uint8Array.from([
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0,
-    ]);
+    const input = Uint8Array.from(new Array(32).fill(0));
     const expectedHash =
       "bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1922";
-    // const computedHash = pedersenHash(input);
-    // expect(computedHash).toBe(expectedHash);
+    const computedHash = pedersenHash(input);
+    assert.equal(bytesToHex(computedHash), expectedHash);
   });
 
   test("computes the expected pedersenHash for a given address", () => {
@@ -22,10 +20,10 @@ describe.todo("pedersenHash", () => {
       58, 59, 60, 61, 62, 63, 64,
     ]);
 
-    const expected_hash =
+    const expectedHash =
       "76a014d14e338c57342cda5187775c6b75e7f0ef292e81b176c7a5a700273700";
 
-    // const computedHash = pedersenHash(input);
-    // expect(computedHash).toBe(expectedHash);
+    const computedHash = pedersenHash(input);
+    assert.equal(bytesToHex(computedHash), expectedHash);
   });
 });
