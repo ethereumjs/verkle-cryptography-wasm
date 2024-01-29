@@ -42,7 +42,6 @@ module.exports = {
   },
   parserOptions: {
     extraFileExtensions: ['.json'],
-    sourceType: 'module',
-    project: './tsconfig.json',
+    project: '../tsconfig.json',
   },
 }
