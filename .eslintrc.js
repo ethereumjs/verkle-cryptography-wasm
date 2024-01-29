@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "prettier"],
+  plugins: ["@typescript-eslint", "prettier","simple-import-sort"],
   extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   ignorePatterns: [
     ".eslintrc.js",
@@ -9,6 +9,7 @@ module.exports = {
     "node_modules",
     "rust-wasm",
     "scripts",
+    "prettier.config.js"
   ],
   rules: {
     "comma-spacing": ["error", { before: false, after: true }],
