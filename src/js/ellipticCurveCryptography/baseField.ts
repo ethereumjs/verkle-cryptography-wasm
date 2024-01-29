@@ -1,12 +1,12 @@
-import { Field } from "../ecc/field";
+import { Field } from "./field";
 
-// The modulus that defines the scalar of the bandersnatch curve
+// The modulus that defines the basefield of the bandersnatch curve
 const MODULUS: bigint =
-  13108968793781547619861935127046491459309155893440570251786403306729687672801n;
+  52435875175126190479447740508185965837690552500527637822603658699938581184513n;
 
 const Q_MIN_ONE_DIV_2: bigint = (MODULUS - 1n) / 2n;
 
-export class Fr extends Field {
+export class BaseField extends Field {
   constructor(value: bigint) {
     super(value, MODULUS);
   }

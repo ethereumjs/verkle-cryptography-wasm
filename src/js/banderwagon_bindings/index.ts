@@ -1,2 +1,2 @@
-export { Element } from "./element";
-export { commitToPoly, batchMapToScalarField } from "./element";
+export { Point } from "./point";
+export { commitToPoly, batchMapToScalarField } from "./point";
