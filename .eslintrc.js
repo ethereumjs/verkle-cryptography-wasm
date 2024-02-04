@@ -5,9 +5,9 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier/prettier',
     'plugin:import/recommended',
     'plugin:import/typescript',
+    'prettier',
   ],
   ignorePatterns: [
     '.eslintrc.js',
@@ -42,6 +42,6 @@ module.exports = {
   },
   parserOptions: {
     extraFileExtensions: ['.json'],
-    project: '../tsconfig.json',
+    project: './tsconfig.json',
   },
 }
