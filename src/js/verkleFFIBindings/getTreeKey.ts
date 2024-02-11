@@ -1,5 +1,10 @@
 import { Context } from '../../../dist/cjs/wasm/rust_verkle_wasm'
 
+// This is equal to 2n + 256n * 64n.
+//
+// It is a constant that is used in the `getTreeKeyHashJs` function.
+const firstChunk = new Uint8Array([2, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+
 // Implements `get_tree_key` as specified here: https://notes.ethereum.org/@vbuterin/verkle_tree_eip#Header-values
 export function getTreeKeyJs(
   context: Context,
@@ -14,7 +19,7 @@ export function getTreeKeyJs(
   return serializedCommitment
 }
 
-// Computes the hash of the address, treeIndex and subIndex
+// Computes the hash of the address and treeIndex for use in the `getTreeKey` function
 function getTreeKeyHashJs(
   context: Context,
   address: Uint8Array,
@@ -28,20 +33,22 @@ function getTreeKeyHashJs(
   }
 
   /*
-              Here is the function we wish to implement here:
-              def pedersen_hash(inp: bytes) -> bytes32:
-                  assert len(inp) <= 255 * 16
-                  # Interpret input as list of 128 bit (16 byte) integers
-                  ext_input = inp + b"\0" * (255 * 16 - len(inp))
-                  ints = [2 + 256 * len(inp)] + \
-                      [int.from_bytes(ext_input[16 * i:16 * (i + 1)]) for i in range(255)]
-                  return compute_commitment_root(ints).serialize()
-              */
+                        Here is the function we wish to implement:
+                        def pedersen_hash(inp: bytes) -> bytes32:
+                            assert len(inp) <= 255 * 16
+                            # Interpret input as list of 128 bit (16 byte) integers
+                            ext_input = inp + b"\0" * (255 * 16 - len(inp))
+                            ints = [2 + 256 * len(inp)] + \
+                                [int.from_bytes(ext_input[16 * i:16 * (i + 1)]) for i in range(255)]
+                            return compute_commitment_root(ints).serialize()
+                        */
 
   const input = concatenateUint8Arrays(address, treeIndex)
 
-  // The input is chopped up into 16 byte chunks (u128 integers) but since the input has constant size
-  // Lets compute the number of 16 byte chunks needed and other constants.
+  // The input is chopped up into 16 byte chunks (u128 integers).
+  // The spec specifies a generic method, however since the input has constant size for
+  // our use case, we can optimize this function by hard coding some constants.
+  //
   const chunkSize = 16
   //
   //
@@ -49,24 +56,34 @@ function getTreeKeyHashJs(
   // treeIndex is a 32 byte array
   // In total, we have 64 bytes
   // This means that len(inp) will always be 64.
+  // We can therefore omit this assert which is always true: `assert len(inp) <= 255 * 16`
   //
-  // 64 /16 = 4 but notice that an extra 16 byte chunk is prepended to the input
-  // to encode the type of hash and the length. This is `[2 + 256 * len(inp)]`
-  // This means that the number of 16 byte chunks in total will be 5.
+  // Number of chunks is computed as 64/16 = 4
+  // but notice that an extra 16 byte chunk is prepended
+  // to encode the type of hash and the length of the input. This is `[2 + 256 * len(inp)]`
+  // This means that the number of 16 byte chunks in total will always be 5.
 
   // As noted the first chunk will always be [2 + 256 * 64] because len(inp) is always 64.
-  const firstChunk = 2n + 256n * 64n
+  // This has been precomputed and stored in the `firstChunk` constant.
+  const chunks: Uint8Array[] = [firstChunk]
 
-  const chunks: Uint8Array[] = []
-  // TODO: This is a constant, so we don't need to compute it every time
-  // TODO: [2, 64, 0, 0 ,0,..0]
-  chunks.push(bigintToUint8ArrayLE(firstChunk, chunkSize))
-
+  // Now lets chunk up the input into 16 byte chunks
   for (let i = 0; i < input.length; i += chunkSize) {
     const chunk = input.slice(i, i + chunkSize)
     chunks.push(chunk)
   }
 
+  // Commit to the chunks and compute a 32 byte value that we will denote as the hash
+  //
+  // Note: This 32 byte value is not a Scalar. It is just a 32 byte value.
+  //
+  // Note: that the .reverse() below is an implementation detail of the underlying
+  // Note: serialization code returning big endian.
+  //
+  // TODO: We want to eventually replace deprecateSerializeCommitment with `hashCommitment`
+  // TODO: This is a breaking change, so requires more coordination between different implementations
+  // TODO: once that is done, we can remove the .reverse and the deprecateSerializeCommitment method.
+  //
   const commitment = context.commitTo16ByteScalars(chunks)
   const serializedCommitment = context.deprecateSerializeCommitment(commitment).reverse()
   return serializedCommitment
@@ -79,19 +96,4 @@ function concatenateUint8Arrays(array1: Uint8Array, array2: Uint8Array): Uint8Ar
   concatenatedArray.set(array2, array1.length)
 
   return concatenatedArray
-}
-
-function bigintToUint8ArrayLE(value: bigint, byteLength: number): Uint8Array {
-  // Allocate a buffer of the desired size
-  const buffer = new ArrayBuffer(byteLength)
-  const view = new DataView(buffer)
-
-  // Fill the buffer from the end, as BigInt is little-endian
-  for (let i = 0; i < byteLength; i++) {
-    // Extract byte by shifting right (i * 8) bits and mask off a byte
-    const byte = Number((value >> BigInt(i * 8)) & BigInt(0xff))
-    view.setUint8(i, byte)
-  }
-
-  return new Uint8Array(buffer)
 }
