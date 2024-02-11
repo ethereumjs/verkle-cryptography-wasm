@@ -35,18 +35,19 @@ function getTreeKeyHashJs(
     throw new Error('Tree index must be 32 bytes')
   }
 
-  /*
-                                        Here is the function we wish to implement:
-                                        It is called pedersen_hash, but it is not a pedersen hash.
-                                        Throughout the codebase it is named get_tree_key_hash to avoid confusion.
-                                        def pedersen_hash(inp: bytes) -> bytes32:
-                                            assert len(inp) <= 255 * 16
-                                            # Interpret input as list of 128 bit (16 byte) integers
-                                            ext_input = inp + b"\0" * (255 * 16 - len(inp))
-                                            ints = [2 + 256 * len(inp)] + \
-                                                [int.from_bytes(ext_input[16 * i:16 * (i + 1)]) for i in range(255)]
-                                            return compute_commitment_root(ints).serialize()
-                                        */
+  // Below is the function we want to implement in JS from the spec.
+  //
+  // It is called pedersen_hash, but it is not a pedersen hash.
+  //
+  // Throughout the codebase it is named get_tree_key_hash to avoid this confusion.
+  //
+  // def pedersen_hash(inp: bytes) -> bytes32:
+  //  assert len(inp) <= 255 * 16
+  //  # Interpret input as list of 128 bit (16 byte) integers
+  //  ext_input = inp + b"\0" * (255 * 16 - len(inp))
+  //  ints = [2 + 256 * len(inp)] + \
+  //  int.from_bytes(ext_input[16 * i:16 * (i + 1)]) for i in range(255)]
+  //  return compute_commitment_root(ints).serialize()
 
   const input = concatenateUint8Arrays(address, treeIndexLE)
 
