@@ -36,17 +36,17 @@ function getTreeKeyHashJs(
   }
 
   /*
-                                    Here is the function we wish to implement:
-                                    It is called pedersen_hash, but it is not a pedersen hash.
-                                    Throughout the codebase it is named get_tree_key_hash to avoid confusion.
-                                    def pedersen_hash(inp: bytes) -> bytes32:
-                                        assert len(inp) <= 255 * 16
-                                        # Interpret input as list of 128 bit (16 byte) integers
-                                        ext_input = inp + b"\0" * (255 * 16 - len(inp))
-                                        ints = [2 + 256 * len(inp)] + \
-                                            [int.from_bytes(ext_input[16 * i:16 * (i + 1)]) for i in range(255)]
-                                        return compute_commitment_root(ints).serialize()
-                                    */
+                                        Here is the function we wish to implement:
+                                        It is called pedersen_hash, but it is not a pedersen hash.
+                                        Throughout the codebase it is named get_tree_key_hash to avoid confusion.
+                                        def pedersen_hash(inp: bytes) -> bytes32:
+                                            assert len(inp) <= 255 * 16
+                                            # Interpret input as list of 128 bit (16 byte) integers
+                                            ext_input = inp + b"\0" * (255 * 16 - len(inp))
+                                            ints = [2 + 256 * len(inp)] + \
+                                                [int.from_bytes(ext_input[16 * i:16 * (i + 1)]) for i in range(255)]
+                                            return compute_commitment_root(ints).serialize()
+                                        */
 
   const input = concatenateUint8Arrays(address, treeIndexLE)
 
@@ -71,6 +71,15 @@ function getTreeKeyHashJs(
 
   // As noted the first chunk will always be [2 + 256 * 64] because len(inp) is always 64.
   // This has been precomputed and stored in the `firstChunk` constant.
+  //
+  // TODO: We can actually optimize this further by hardcoding the first point as a constant
+  // TODO: effectively replacing a scalar multiplication for a group addition.
+  // TODO: This can be easily seen due to the fact that the commit method is doing:
+  // TODO: chunk_0 * G_0 + chunk_1 * G_1 + chunk_2 * G_2 + chunk_3 * G_3 + chunk_4 * G_4
+  // TODO: where chunk_0 * G_0 doesn't change.
+  //
+  // TODO: A similar optimization is that if the address doesn't change, but the tree index does,
+  // TODO: we can create an API which passes in the point associated to the address.
   const chunks: Uint8Array[] = [firstChunk]
 
   // Now lets chunk up the input into 16 byte chunks
