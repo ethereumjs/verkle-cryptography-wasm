@@ -1,4 +1,4 @@
-import { ContextWrapper, zeroCommitment } from '../../../dist/cjs/wasm/rust_verkle_wasm'
+import { type ContextWrapper, zeroCommitment } from '../../../dist/cjs/wasm/rust_verkle_wasm'
 
 // This is a 32 byte serialized field element
 type Scalar = Uint8Array
@@ -7,11 +7,12 @@ type Scalar = Uint8Array
 // It is 64 bytes because the point is serialized in uncompressed format.
 type Commitment = Uint8Array
 
-export type Context = ContextWrapper
+type Context = ContextWrapper
 
 export {
   Scalar,
   Commitment,
+  Context,
   // This is a function that returns a zero commitment
   // wasm_bindgen does not seem to allow returning constants
   zeroCommitment,
