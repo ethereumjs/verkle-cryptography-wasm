@@ -15,3 +15,4 @@ export {
     // wasm_bindgen does not seem to allow returning constants
     zeroCommitment,
 }
+
