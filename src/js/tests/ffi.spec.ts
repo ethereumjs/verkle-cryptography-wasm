@@ -41,23 +41,18 @@ describe('bindings', () => {
       27, 28, 29, 30, 31, 32,
     ])
 
-    const tree_index_le = new Uint8Array([
+    const tree_index = new Uint8Array([
       33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
       56, 57, 58, 59, 60, 61, 62, 63, 64,
     ])
 
-    // Reverse the tree_index array so it is in little endian form
-    tree_index_le.reverse()
-
     const sub_index = 0
 
-    const keyRust = context.getTreeKey(address, tree_index_le, sub_index)
+    const keyRust = context.getTreeKey(address, tree_index, sub_index)
     const keyRustHex = bytesToHex(keyRust)
 
-    const keyJs = getTreeKeyJs(context, address, tree_index_le, sub_index)
+    const keyJs = getTreeKeyJs(context, address, tree_index, sub_index)
     const keyJsHex = bytesToHex(keyJs)
-
-    const expected = '0x76a014d14e338c57342cda5187775c6b75e7f0ef292e81b176c7a5a700273700'
 
     expect(keyRustHex).toBe(keyJsHex)
   })
@@ -167,7 +162,7 @@ describe('bindings', () => {
     expect(() => {
       // This method will throw an error because scalars must be 32 bytes
       // but we gave it 1 byte
-      const commitment = context.commitToScalars([scalar])
+      context.commitToScalars([scalar])
     }).toThrow('Expected 32 bytes, got 1')
   })
 })
