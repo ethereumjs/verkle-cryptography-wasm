@@ -1,7 +1,7 @@
 import { bytesToHex } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test } from 'vitest'
 
-import { Context, getTreeKeyHashJs, getTreeKeyJs } from '../verkleFFIBindings/index'
+import { Context, getTreeKeyJs } from '../verkleFFIBindings/index'
 
 describe('bindings', () => {
   let context: Context
