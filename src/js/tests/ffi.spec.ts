@@ -1,3 +1,4 @@
+import { bytesToHex } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test } from 'vitest'
 
 import { Context } from '../verkleFFIBindings/index'
@@ -27,9 +28,9 @@ describe('bindings', () => {
     const sub_index = 0
 
     const key = context.getTreeKey(address, tree_index_le, sub_index)
-    const key_hex = Buffer.from(key).toString('hex')
+    const key_hex = bytesToHex(key)
 
-    const expected = '76a014d14e338c57342cda5187775c6b75e7f0ef292e81b176c7a5a700273700'
+    const expected = '0x76a014d14e338c57342cda5187775c6b75e7f0ef292e81b176c7a5a700273700'
 
     expect(key_hex).toBe(expected)
   })
@@ -44,9 +45,9 @@ describe('bindings', () => {
     const scalars = [scalar, scalar]
     const commitment = context.commitToScalars(scalars)
 
-    const commitment_hex = Buffer.from(commitment).toString('hex')
+    const commitment_hex = bytesToHex(commitment)
     const expected =
-      '6fb3421d850da8e8b8d1b9c1cc30876ef23d9df72c8792e6d569a9861089f02abdf89e2c671fe0bff820e815f6f20453fdbc83ec5415e3ade8c745179e31d25c'
+      '0x6fb3421d850da8e8b8d1b9c1cc30876ef23d9df72c8792e6d569a9861089f02abdf89e2c671fe0bff820e815f6f20453fdbc83ec5415e3ade8c745179e31d25c'
 
     expect(commitment_hex).toBe(expected)
   })
@@ -60,9 +61,9 @@ describe('bindings', () => {
     const commitment = context.commitToScalars([scalar])
 
     const commitmentHash = context.hashCommitment(commitment)
-    const commitmentHashHex = Buffer.from(commitmentHash).toString('hex')
+    const commitmentHashHex = bytesToHex(commitmentHash)
 
-    const expected = '31e94bef2c0160ed1f3dd9caacbed356939c2e440c4ddb336d832dcab6384e19'
+    const expected = '0x31e94bef2c0160ed1f3dd9caacbed356939c2e440c4ddb336d832dcab6384e19'
 
     expect(commitmentHashHex).toBe(expected)
   })
@@ -80,9 +81,9 @@ describe('bindings', () => {
 
     for (let i = 0; i < hashes.length; i++) {
       const expectedHash = context.hashCommitment(commitments[i])
-      const expectedHashHex = Buffer.from(expectedHash).toString('hex')
+      const expectedHashHex = bytesToHex(expectedHash)
 
-      const commitmentHashHex = Buffer.from(hashes[i]).toString('hex')
+      const commitmentHashHex = bytesToHex(hashes[i])
 
       expect(commitmentHashHex).toBe(expectedHashHex)
     }
@@ -97,9 +98,9 @@ describe('bindings', () => {
     const commitment = context.commitToScalars([scalar])
 
     const commitmentHash = context.deprecateSerializeCommitment(commitment)
-    const commitmentHashHex = Buffer.from(commitmentHash).toString('hex')
+    const commitmentHashHex = bytesToHex(commitmentHash)
 
-    const expected = '6d40cf3d3097cb19b0ff686a068d53fb1250cc98bbd33766cf2cce00acb8b0a6'
+    const expected = '0x6d40cf3d3097cb19b0ff686a068d53fb1250cc98bbd33766cf2cce00acb8b0a6'
 
     expect(commitmentHashHex).toBe(expected)
   })
@@ -120,7 +121,7 @@ describe('bindings', () => {
     ])
 
     const expected = context.scalarMulIndex(newScalarValue, commitmentIndex)
-    const expectedHex = Buffer.from(expected).toString('hex')
+    const expectedHex = bytesToHex(expected)
 
     const updatedCommitment = context.updateCommitment(
       commitment,
@@ -128,7 +129,7 @@ describe('bindings', () => {
       oldScalarValue,
       newScalarValue,
     )
-    const updatedCommitmentHex = Buffer.from(updatedCommitment).toString('hex')
+    const updatedCommitmentHex = bytesToHex(updatedCommitment)
 
     expect(updatedCommitmentHex).toBe(expectedHex)
   })

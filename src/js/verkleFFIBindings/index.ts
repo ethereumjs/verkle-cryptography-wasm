@@ -1,4 +1,4 @@
-import { zeroCommitment } from '../../../dist/cjs/wasm/rust_verkle_wasm'
+import { Context, zeroCommitment } from '../../../dist/cjs/wasm/rust_verkle_wasm'
 
 // This is a 32 byte serialized field element
 type Scalar = Uint8Array
@@ -10,9 +10,9 @@ type Commitment = Uint8Array
 export {
     Scalar,
     Commitment,
+    Context,
     // This is a function that returns a zero commitment
     // wasm_bindgen does not seem to allow returning constants
     zeroCommitment,
 }
-export { Context } from '../../../dist/cjs/wasm/rust_verkle_wasm'
 
