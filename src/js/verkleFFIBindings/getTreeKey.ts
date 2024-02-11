@@ -33,21 +33,22 @@ function getTreeKeyHashJs(
   }
 
   /*
-                        Here is the function we wish to implement:
-                        def pedersen_hash(inp: bytes) -> bytes32:
-                            assert len(inp) <= 255 * 16
-                            # Interpret input as list of 128 bit (16 byte) integers
-                            ext_input = inp + b"\0" * (255 * 16 - len(inp))
-                            ints = [2 + 256 * len(inp)] + \
-                                [int.from_bytes(ext_input[16 * i:16 * (i + 1)]) for i in range(255)]
-                            return compute_commitment_root(ints).serialize()
-                        */
+                          Here is the function we wish to implement:
+                          def pedersen_hash(inp: bytes) -> bytes32:
+                              assert len(inp) <= 255 * 16
+                              # Interpret input as list of 128 bit (16 byte) integers
+                              ext_input = inp + b"\0" * (255 * 16 - len(inp))
+                              ints = [2 + 256 * len(inp)] + \
+                                  [int.from_bytes(ext_input[16 * i:16 * (i + 1)]) for i in range(255)]
+                              return compute_commitment_root(ints).serialize()
+                          */
 
   const input = concatenateUint8Arrays(address, treeIndex)
 
   // The input is chopped up into 16 byte chunks (u128 integers).
-  // The spec specifies a generic method, however since the input has constant size for
-  // our use case, we can optimize this function by hard coding some constants.
+  // The spec specifies a generic method which can handle upto 255 16 byte chunks.
+  // However since the input has constant size for our use case,
+  // we can optimize this function by hard coding some constants.
   //
   const chunkSize = 16
   //
