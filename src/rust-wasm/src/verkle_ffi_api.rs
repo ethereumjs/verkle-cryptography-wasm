@@ -58,6 +58,8 @@ impl ContextWrapper {
         bytes_to_js_value(commitment).into()
     }
     /// Computes the hash of a commitment, returning a scalar value
+    ///
+    // Note: This method does need context. It is here for API convenience.
     #[wasm_bindgen(js_name = "hashCommitment")]
     pub fn hash_commitment(&self, commitment: Uint8Array) -> Uint8Array {
         let commitment = js_value_to_bytes::<64>(commitment.into());
@@ -73,6 +75,8 @@ impl ContextWrapper {
     /// use `hashCommitment` is if the caller cannot take benefit of the optimization yet.
     ///
     /// This method will be more efficient than calling `hashCommitment` multiple times
+    ///
+    // Note: This method does need context. It is here for API convenience.
     #[wasm_bindgen(js_name = "hashCommitments")]
     pub fn hash_commitments(&self, commitments: Vec<Uint8Array>) -> Vec<Uint8Array> {
         let commitments: Vec<CommitmentBytes> = commitments
@@ -110,11 +114,10 @@ impl ContextWrapper {
     /// Short explanation: If a single value in a commitment changes, the naive way to recompute the commitment
     /// would be to recommit to all the values with the new value.
     ///
-    /// This is quite inefficient as it can require O(n) scalar multiplications naively or O(n log n) using pippenger.
+    /// This is quite inefficient as it can require O(n) scalar multiplications naively or O(n log n) using Pippenger.
     ///
     /// This method allows you to update a single value in the commitment with a new value using O(1) scalar multiplications.
     /// This simply means that an update does not scale with the number of values committed to.
-    ///
     #[wasm_bindgen(js_name = "updateCommitment")]
     pub fn update_commitment(
         &self,
@@ -161,6 +164,12 @@ impl ContextWrapper {
 
         bytes_to_js_value(commitment).into()
     }
+}
+
+/// This is the default commitment to use when nothing has been committed to
+#[wasm_bindgen(js_name = "zeroCommitment")]
+pub fn zero_commitment() -> Uint8Array {
+    bytes_to_js_value(ffi_interface::ZERO_POINT).into()
 }
 
 // TODO: This will silently truncate values which are not N bytes
