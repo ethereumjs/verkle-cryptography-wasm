@@ -1,4 +1,4 @@
-import { ContextWrapper as Context, zeroCommitment } from '../../../dist/cjs/wasm/rust_verkle_wasm'
+import { Context, zeroCommitment } from '../../../dist/cjs/wasm/rust_verkle_wasm'
 
 // This is a 32 byte serialized field element
 type Scalar = Uint8Array

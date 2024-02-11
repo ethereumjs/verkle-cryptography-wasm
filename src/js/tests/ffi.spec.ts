@@ -6,7 +6,7 @@ import { Context } from '../verkleFFIBindings/index'
 describe('bindings', () => {
   let context: Context
   beforeAll(() => {
-    context = Context._default()
+    context = new Context()
   })
 
   test('getTreeKey', () => {
@@ -132,5 +132,15 @@ describe('bindings', () => {
     const updatedCommitmentHex = bytesToHex(updatedCommitment)
 
     expect(updatedCommitmentHex).toBe(expectedHex)
+  })
+
+  test('smoke test errors are thrown', () => {
+    const scalar = new Uint8Array([0])
+
+    expect(() => {
+      // This method will throw an error because scalars must be 32 bytes
+      // but we gave it 1 byte
+      const commitment = context.commitToScalars([scalar])
+    }).toThrow('Expected 32 bytes, got 1')
   })
 })
