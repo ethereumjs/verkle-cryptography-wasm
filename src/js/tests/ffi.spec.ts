@@ -1,11 +1,11 @@
 import { beforeAll, describe, expect, test } from 'vitest'
 
-import { ContextWrapper } from '../verkleFFIBindings/index'
+import { Context } from '../verkleFFIBindings/index'
 
 describe('bindings', () => {
-  let context: ContextWrapper
+  let context: Context
   beforeAll(() => {
-    context = ContextWrapper._default()
+    context = new Context()
   })
 
   test('getTreeKey', () => {
