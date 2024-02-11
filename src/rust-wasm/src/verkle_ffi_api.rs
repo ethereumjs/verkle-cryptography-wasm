@@ -50,7 +50,7 @@ impl Context {
         }
 
         let commitment = ffi_interface::commit_to_scalars(&self.inner.committer, &scalars)
-            .expect("could not commit to scalars");
+            .map_err(|err| JsError::new(&format!("could not commit to scalars: {:?}", err)))?;
 
         Ok(bytes_to_js_value(commitment).into())
     }
@@ -138,7 +138,7 @@ impl Context {
             old_scalar_value,
             new_scalar_value,
         )
-        .unwrap();
+        .map_err(|err| JsError::new(&format!("could not update commitment: {:?}", err)))?;
 
         Ok(bytes_to_js_value(updated_commitment).into())
     }
