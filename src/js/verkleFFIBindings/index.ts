@@ -8,10 +8,10 @@ type Scalar = Uint8Array
 type Commitment = Uint8Array
 
 export {
-  Scalar,
-  Commitment,
-  Context,
-  // This is a function that returns a zero commitment
-  // wasm_bindgen does not seem to allow returning constants
-  zeroCommitment,
+    Scalar,
+    Commitment,
+    Context,
+    // This is a function that returns a zero commitment
+    // wasm_bindgen does not seem to allow returning constants
+    zeroCommitment,
 }
