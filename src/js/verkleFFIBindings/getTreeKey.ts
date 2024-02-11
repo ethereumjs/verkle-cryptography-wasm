@@ -3,6 +3,7 @@ import { Context } from '../../../dist/cjs/wasm/rust_verkle_wasm'
 // This is equal to 2n + 256n * 64n.
 //
 // It is a constant that is used in the `getTreeKeyHashJs` function.
+// See the `getTreeKeyHashJs` function for more details.
 const firstChunk = new Uint8Array([2, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 
 // Implements `get_tree_key` as specified here: https://notes.ethereum.org/@vbuterin/verkle_tree_eip#Header-values
@@ -12,38 +13,42 @@ export function getTreeKeyJs(
   treeIndex: Uint8Array,
   subIndex: number,
 ): Uint8Array {
-  const serializedCommitment = getTreeKeyHashJs(context, address, treeIndex)
+  const keyHash = getTreeKeyHashJs(context, address, treeIndex)
 
   // Replace the last byte with the subIndex
-  serializedCommitment[serializedCommitment.length - 1] = subIndex
-  return serializedCommitment
+  keyHash[keyHash.length - 1] = subIndex
+  return keyHash
 }
 
 // Computes the hash of the address and treeIndex for use in the `getTreeKey` function
+//
+// Note: Tree Index is interpreted as a little endian number.
 function getTreeKeyHashJs(
   context: Context,
   address: Uint8Array,
-  treeIndex: Uint8Array,
+  treeIndexLE: Uint8Array,
 ): Uint8Array {
   if (address.length !== 32) {
     throw new Error('Address must be 32 bytes')
   }
-  if (treeIndex.length !== 32) {
+  if (treeIndexLE.length !== 32) {
     throw new Error('Tree index must be 32 bytes')
   }
 
   /*
-                          Here is the function we wish to implement:
-                          def pedersen_hash(inp: bytes) -> bytes32:
-                              assert len(inp) <= 255 * 16
-                              # Interpret input as list of 128 bit (16 byte) integers
-                              ext_input = inp + b"\0" * (255 * 16 - len(inp))
-                              ints = [2 + 256 * len(inp)] + \
-                                  [int.from_bytes(ext_input[16 * i:16 * (i + 1)]) for i in range(255)]
-                              return compute_commitment_root(ints).serialize()
-                          */
+                                    Here is the function we wish to implement:
+                                    It is called pedersen_hash, but it is not a pedersen hash.
+                                    Throughout the codebase it is named get_tree_key_hash to avoid confusion.
+                                    def pedersen_hash(inp: bytes) -> bytes32:
+                                        assert len(inp) <= 255 * 16
+                                        # Interpret input as list of 128 bit (16 byte) integers
+                                        ext_input = inp + b"\0" * (255 * 16 - len(inp))
+                                        ints = [2 + 256 * len(inp)] + \
+                                            [int.from_bytes(ext_input[16 * i:16 * (i + 1)]) for i in range(255)]
+                                        return compute_commitment_root(ints).serialize()
+                                    */
 
-  const input = concatenateUint8Arrays(address, treeIndex)
+  const input = concatenateUint8Arrays(address, treeIndexLE)
 
   // The input is chopped up into 16 byte chunks (u128 integers).
   // The spec specifies a generic method which can handle upto 255 16 byte chunks.
