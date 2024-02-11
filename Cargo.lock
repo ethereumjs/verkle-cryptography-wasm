@@ -393,6 +393,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "25cbce373ec4653f1a01a31e8a5e5ec0c622dc27ff9c4e6606eefef5cbbed4a5"
 
 [[package]]
+name = "ffi_interface"
+version = "0.1.0"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=6036bde9a8f416648213c59ad0c857b2a6f226f3#6036bde9a8f416648213c59ad0c857b2a6f226f3"
+dependencies = [
+ "banderwagon",
+ "hex",
+ "ipa-multipoint",
+ "verkle-spec",
+]
+
+[[package]]
 name = "fixed-hash"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -781,6 +792,7 @@ dependencies = [
  "ark-serialize",
  "banderwagon",
  "console_error_panic_hook",
+ "ffi_interface",
  "getrandom",
  "hex",
  "ipa-multipoint",
