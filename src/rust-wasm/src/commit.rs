@@ -40,7 +40,7 @@ impl From<SerializableFrWrapper> for FrWrapper {
 // and then chunk each four u64s into a FrWrapper
 #[wasm_bindgen]
 pub fn commit_scalar_values(arr: &Array) -> Result<ElementWrapper, JsValue> {
-    let committer = DefaultCommitter(new_crs());
+    let committer = DefaultCommitter::new(&new_crs().G);
 
     let mut fr_values = [Fr::zero(); 256];
 
