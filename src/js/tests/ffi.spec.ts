@@ -17,22 +17,22 @@ describe('bindings', () => {
       27, 28, 29, 30, 31, 32,
     ])
 
-    const tree_index_le = new Uint8Array([
+    const treeIndexLE = new Uint8Array([
       33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
       56, 57, 58, 59, 60, 61, 62, 63, 64,
     ])
 
-    // Reverse the tree_index array so it is in little endian form
-    tree_index_le.reverse()
+    // Reverse the tree index array so it is in little endian form
+    treeIndexLE.reverse()
 
-    const sub_index = 0
+    const subIndex = 0
 
-    const key = context.getTreeKey(address, tree_index_le, sub_index)
-    const key_hex = bytesToHex(key)
+    const key = context.getTreeKey(address, treeIndexLE, subIndex)
+    const keyHex = bytesToHex(key)
 
     const expected = '0x76a014d14e338c57342cda5187775c6b75e7f0ef292e81b176c7a5a700273700'
 
-    expect(key_hex).toBe(expected)
+    expect(keyHex).toBe(expected)
   })
 
   test('getTreeKeyJsMatchesRust', () => {
@@ -41,17 +41,17 @@ describe('bindings', () => {
       27, 28, 29, 30, 31, 32,
     ])
 
-    const tree_index = new Uint8Array([
+    const treeIndex = new Uint8Array([
       33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
       56, 57, 58, 59, 60, 61, 62, 63, 64,
     ])
 
-    const sub_index = 0
+    const subIndex = 0
 
-    const keyRust = context.getTreeKey(address, tree_index, sub_index)
+    const keyRust = context.getTreeKey(address, treeIndex, subIndex)
     const keyRustHex = bytesToHex(keyRust)
 
-    const keyJs = getTreeKeyJs(context, address, tree_index, sub_index)
+    const keyJs = getTreeKeyJs(context, address, treeIndex, subIndex)
     const keyJsHex = bytesToHex(keyJs)
 
     expect(keyRustHex).toBe(keyJsHex)
@@ -67,11 +67,11 @@ describe('bindings', () => {
     const scalars = [scalar, scalar]
     const commitment = context.commitToScalars(scalars)
 
-    const commitment_hex = bytesToHex(commitment)
+    const commitmentHex = bytesToHex(commitment)
     const expected =
       '0x6fb3421d850da8e8b8d1b9c1cc30876ef23d9df72c8792e6d569a9861089f02abdf89e2c671fe0bff820e815f6f20453fdbc83ec5415e3ade8c745179e31d25c'
 
-    expect(commitment_hex).toBe(expected)
+    expect(commitmentHex).toBe(expected)
   })
 
   test('hashCommitment', () => {
