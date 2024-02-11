@@ -133,4 +133,15 @@ describe('bindings', () => {
 
     expect(updatedCommitmentHex).toBe(expectedHex)
   })
+
+  test('smoke test errors are thrown', () => {
+    // Create a commitment that we can hash
+    const scalar = new Uint8Array([1])
+
+    expect(() => {
+      // This method will throw an error because scalars must be 32 bytes
+      // but we gave it 1 byte
+      const commitment = context.commitToScalars([scalar])
+    }).toThrow('Expected 32 bytes, got 1')
+  })
 })
