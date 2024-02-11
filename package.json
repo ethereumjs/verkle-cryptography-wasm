@@ -20,6 +20,9 @@
     "postinstall": "npm run build",
     "test": "npx vitest run"
   },
+  "dependencies": {
+    "@ethereumjs/util": "^9.0.2"
+  },
   "devDependencies": {
     "@ethereumjs/util": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
