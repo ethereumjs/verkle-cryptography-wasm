@@ -3,7 +3,7 @@ import { beforeAll, describe, expect, test } from 'vitest'
 
 import { Context, getTreeKeyHashJs, getTreeKeyJs } from '../verkleFFIBindings/index'
 
-describe.only('bindings', () => {
+describe('bindings', () => {
   let context: Context
   beforeAll(() => {
     context = new Context()
