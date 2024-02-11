@@ -168,12 +168,13 @@ checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
 [[package]]
 name = "banderwagon"
 version = "0.1.0"
-source = "git+https://github.com/crate-crypto/rust-verkle?rev=1991ff779e077f944746319e1f8ef5c8dd51c692#1991ff779e077f944746319e1f8ef5c8dd51c692"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=6036bde9a8f416648213c59ad0c857b2a6f226f3#6036bde9a8f416648213c59ad0c857b2a6f226f3"
 dependencies = [
  "ark-ec",
  "ark-ed-on-bls12-381-bandersnatch",
  "ark-ff",
  "ark-serialize",
+ "rayon",
 ]
 
 [[package]]
@@ -510,9 +511,10 @@ dependencies = [
 [[package]]
 name = "ipa-multipoint"
 version = "0.1.0"
-source = "git+https://github.com/crate-crypto/rust-verkle?rev=1991ff779e077f944746319e1f8ef5c8dd51c692#1991ff779e077f944746319e1f8ef5c8dd51c692"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=6036bde9a8f416648213c59ad0c857b2a6f226f3#6036bde9a8f416648213c59ad0c857b2a6f226f3"
 dependencies = [
  "banderwagon",
+ "hex",
  "itertools",
  "rayon",
  "sha2",
@@ -1025,12 +1027,12 @@ checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
 [[package]]
 name = "verkle-db"
 version = "0.1.0"
-source = "git+https://github.com/crate-crypto/rust-verkle?rev=1991ff779e077f944746319e1f8ef5c8dd51c692#1991ff779e077f944746319e1f8ef5c8dd51c692"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=6036bde9a8f416648213c59ad0c857b2a6f226f3#6036bde9a8f416648213c59ad0c857b2a6f226f3"
 
 [[package]]
 name = "verkle-spec"
 version = "0.1.0"
-source = "git+https://github.com/crate-crypto/rust-verkle?rev=1991ff779e077f944746319e1f8ef5c8dd51c692#1991ff779e077f944746319e1f8ef5c8dd51c692"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=6036bde9a8f416648213c59ad0c857b2a6f226f3#6036bde9a8f416648213c59ad0c857b2a6f226f3"
 dependencies = [
  "ethereum-types",
  "hex",
@@ -1041,7 +1043,7 @@ dependencies = [
 [[package]]
 name = "verkle-trie"
 version = "0.1.0"
-source = "git+https://github.com/crate-crypto/rust-verkle?rev=1991ff779e077f944746319e1f8ef5c8dd51c692#1991ff779e077f944746319e1f8ef5c8dd51c692"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=6036bde9a8f416648213c59ad0c857b2a6f226f3#6036bde9a8f416648213c59ad0c857b2a6f226f3"
 dependencies = [
  "anyhow",
  "banderwagon",
