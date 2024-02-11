@@ -135,8 +135,7 @@ describe('bindings', () => {
   })
 
   test('smoke test errors are thrown', () => {
-    // Create a commitment that we can hash
-    const scalar = new Uint8Array([1])
+    const scalar = new Uint8Array([0])
 
     expect(() => {
       // This method will throw an error because scalars must be 32 bytes
