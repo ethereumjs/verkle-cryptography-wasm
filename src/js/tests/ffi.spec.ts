@@ -1,7 +1,7 @@
 import { bytesToHex } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test } from 'vitest'
 
-import { Context, getTreeKeyJs } from '../verkleFFIBindings/index'
+import { Context, getTreeKey } from '../verkleFFIBindings/index'
 
 describe('bindings', () => {
   let context: Context
@@ -51,7 +51,7 @@ describe('bindings', () => {
     const keyRust = context.getTreeKey(address, treeIndex, subIndex)
     const keyRustHex = bytesToHex(keyRust)
 
-    const keyJs = getTreeKeyJs(context, address, treeIndex, subIndex)
+    const keyJs = getTreeKey(context, address, treeIndex, subIndex)
     const keyJsHex = bytesToHex(keyJs)
 
     expect(keyRustHex).toBe(keyJsHex)

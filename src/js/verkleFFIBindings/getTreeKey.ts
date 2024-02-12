@@ -7,13 +7,13 @@ import { Context } from '../../../dist/cjs/wasm/rust_verkle_wasm'
 const firstChunk = new Uint8Array([2, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 
 // Implements `get_tree_key` as specified here: https://notes.ethereum.org/@vbuterin/verkle_tree_eip#Header-values
-export function getTreeKeyJs(
+export function getTreeKey(
   context: Context,
   address: Uint8Array,
   treeIndex: Uint8Array,
   subIndex: number,
 ): Uint8Array {
-  const keyHash = getTreeKeyHashJs(context, address, treeIndex)
+  const keyHash = getTreeKeyHash(context, address, treeIndex)
 
   // Replace the last byte with the subIndex
   keyHash[keyHash.length - 1] = subIndex
@@ -23,7 +23,7 @@ export function getTreeKeyJs(
 // Computes the hash of the address and treeIndex for use in the `getTreeKey` function
 //
 // Note: Tree Index is interpreted as a little endian number.
-function getTreeKeyHashJs(
+function getTreeKeyHash(
   context: Context,
   address: Uint8Array,
   treeIndexLE: Uint8Array,
