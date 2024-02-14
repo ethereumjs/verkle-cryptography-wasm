@@ -54,6 +54,32 @@ impl Context {
 
         Ok(bytes_to_js_value(commitment).into())
     }
+
+    /// Similar to commit_to_scalars, but the scalars are 16 bytes instead of 32 bytes.
+    ///
+    /// This method is used in the specific context of get_tree_key.
+    ///
+    /// Note: We could get rid of this method, if we decide that the Js side should always
+    /// pass 32 byte scalars to the commit_to_scalars method, so it would do the padding.
+    #[wasm_bindgen(js_name = "commitTo16ByteScalars")]
+    pub fn commit_to_16_byte_scalars(
+        &self,
+        scalars_js: Vec<Uint8Array>,
+    ) -> Result<Uint8Array, JsError> {
+        let mut scalars = Vec::with_capacity(scalars_js.len());
+        for scalar in scalars_js {
+            scalars.extend(js_value_to_bytes::<16>(scalar.into())?);
+            // We are assuming that the scalars are 16 bytes long
+            // So we pad the scalars array with 16 zeroes, so
+            // that each scalar is 32 bytes long
+            scalars.extend([0u8; 16]);
+        }
+
+        let commitment = ffi_interface::commit_to_scalars(&self.inner.committer, &scalars)
+            .map_err(|err| JsError::new(&format!("could not commit to scalars: {:?}", err)))?;
+
+        Ok(bytes_to_js_value(commitment).into())
+    }
     /// Computes the hash of a commitment, returning a scalar value
     ///
     // Note: This method does need context. It is here for API convenience.
