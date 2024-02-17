@@ -15,11 +15,11 @@ default = ["console_error_panic_hook"]
 serde = { version = "1.0", features = ["derive"] }
 serde-wasm-bindgen = "0.3.0"
 wasm-bindgen = { version = "0.2.90", features = ["serde-serialize"] }
-verkle-trie = { git = "https://github.com/crate-crypto/rust-verkle", rev = "eac18c4a9eb24c0313d642a9b59be11d295e1b94" }
-verkle-spec = { git = "https://github.com/crate-crypto/rust-verkle", rev = "eac18c4a9eb24c0313d642a9b59be11d295e1b94" }
-ipa-multipoint = { git = "https://github.com/crate-crypto/rust-verkle", rev = "eac18c4a9eb24c0313d642a9b59be11d295e1b94" }
-banderwagon = { git = "https://github.com/crate-crypto/rust-verkle", rev = "eac18c4a9eb24c0313d642a9b59be11d295e1b94" }
-ffi_interface = { git = "https://github.com/crate-crypto/rust-verkle", rev = "eac18c4a9eb24c0313d642a9b59be11d295e1b94" }
+verkle-trie = { git = "https://github.com/crate-crypto/rust-verkle", rev = "737020069832c126bcae163a4e788f6879dfd6a6" }
+verkle-spec = { git = "https://github.com/crate-crypto/rust-verkle", rev = "737020069832c126bcae163a4e788f6879dfd6a6" }
+ipa-multipoint = { git = "https://github.com/crate-crypto/rust-verkle", rev = "737020069832c126bcae163a4e788f6879dfd6a6" }
+banderwagon = { git = "https://github.com/crate-crypto/rust-verkle", rev = "737020069832c126bcae163a4e788f6879dfd6a6" }
+ffi_interface = { git = "https://github.com/crate-crypto/rust-verkle", rev = "737020069832c126bcae163a4e788f6879dfd6a6" }
 ark-ff = "0.4.0"
 ark-serialize = { version = "^0.4.0", default-features = false }
 
