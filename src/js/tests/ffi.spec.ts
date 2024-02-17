@@ -111,7 +111,6 @@ describe('bindings', () => {
     }
   })
 
-
   test('updateCommitment', () => {
     // Create a commitment that we can use to update
     const oldScalarValue = new Uint8Array([
