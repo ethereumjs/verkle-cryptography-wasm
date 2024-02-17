@@ -96,12 +96,9 @@ function getTreeKeyHash(
   // Note: that the .reverse() below is an implementation detail of the underlying
   // Note: serialization code returning big endian.
   //
-  // TODO: We want to eventually replace deprecateSerializeCommitment with `hashCommitment`
-  // TODO: This is a breaking change, so requires more coordination between different implementations
-  // TODO: once that is done, we can remove the .reverse and the deprecateSerializeCommitment method.
-  //
+
   const commitment = context.commitTo16ByteScalars(chunks)
-  const serializedCommitment = context.deprecateSerializeCommitment(commitment).reverse()
+  const serializedCommitment = context.hashCommitment(commitment)
   return serializedCommitment
 }
 
