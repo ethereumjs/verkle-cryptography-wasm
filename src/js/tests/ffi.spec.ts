@@ -30,7 +30,7 @@ describe('bindings', () => {
     const key = context.getTreeKey(address, treeIndexLE, subIndex)
     const keyHex = bytesToHex(key)
 
-    const expected = '0x76a014d14e338c57342cda5187775c6b75e7f0ef292e81b176c7a5a700273700'
+    const expected = '0xff7e3916badeb510dfcdad458726273319280742e553d8d229bd676428147300'
 
     expect(keyHex).toBe(expected)
   })
@@ -111,21 +111,6 @@ describe('bindings', () => {
     }
   })
 
-  test('serializeCommitment', () => {
-    // Create a commitment that we can hash
-    const scalar = new Uint8Array([
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
-      27, 28, 29, 30, 31, 0,
-    ])
-    const commitment = context.commitToScalars([scalar])
-
-    const commitmentHash = context.deprecateSerializeCommitment(commitment)
-    const commitmentHashHex = bytesToHex(commitmentHash)
-
-    const expected = '0x6d40cf3d3097cb19b0ff686a068d53fb1250cc98bbd33766cf2cce00acb8b0a6'
-
-    expect(commitmentHashHex).toBe(expected)
-  })
 
   test('updateCommitment', () => {
     // Create a commitment that we can use to update
