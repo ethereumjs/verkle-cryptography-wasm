@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["src.ts/tests"],
+  "exclude": ["src.ts/tests", "src.ts/wasm"],
   "compilerOptions": {
     "outDir": "dist/cjs"
   }
