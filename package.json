@@ -32,7 +32,7 @@
   },
   "files": [
     "dist",
-    "src.ts"
+    "src.ts/**/*.ts"
   ],
   "scripts": {
     "build": "./scripts/rust-build.sh && ./scripts/ts-build.sh",
