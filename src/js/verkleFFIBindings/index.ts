@@ -1,4 +1,4 @@
-import { Context, zeroCommitment } from '../../../dist/cjs/wasm/rust_verkle_wasm'
+import { Context, zeroCommitment } from '../wasm/rust_verkle_wasm'
 
 import { getTreeKey } from './getTreeKey'
 
