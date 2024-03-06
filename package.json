@@ -1,5 +1,27 @@
 {
   "name": "verkle-cryptography-wasm",
+  "version": "0.1.0",
+  "description": "Verkle Trie Crytography WASM/TypeScript Bindings",
+  "keywords": [
+    "ethereum",
+    "verkle",
+    "WASM",
+    "JavaScript",
+    "TypeScript"
+  ],
+  "homepage": "https://github.com/ethereumjs/verkle-cryptography-wasm",
+  "bugs": {
+    "url": "https://github.com/ethereumjs/verkle-cryptography-wasm/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ethereumjs/verkle-cryptography-wasm.git"
+  },
+  "license": "MIT/Apache",
+  "author": "Kevaundray Wedderburn",
+  "contributors": [
+    "EthereumJS Team"
+  ],
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "exports": {
@@ -14,9 +36,9 @@
   ],
   "scripts": {
     "build": "./scripts/rust-build.sh && ./scripts/ts-build.sh",
+    "clean": "rm -rf node_modules dist",
     "lint": "eslint .",
     "lint:fix": "eslint --fix --config ./.eslintrc.js . --ext .js,.jsx,.ts,.tsx",
-    "clean": "rm -rf node_modules dist",
     "postinstall": "npm run build",
     "test": "npx vitest run"
   },
