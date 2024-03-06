@@ -41,15 +41,3 @@ To build a Node.js compatible module run:
 wasm-pack build --target nodejs
 ```
 
-## To call Rust from Javascript as WASM
-
-[ Outdated ]
-
-For an ESM example, use below
-
-- cd into `js_code`
-- run `npm install`. You should see a `node_modules` folder appear.
-- run `node -r esm stateless_update.js` you should see a Uint8Array in the console.
-
-For NodeJS + Typescript, import in any `.ts` file as below:
-`import wasm from 'path/to/rust-verkle-wasm/pkg/rust_verkle_wasm'`

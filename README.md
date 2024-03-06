@@ -20,11 +20,11 @@ A higher level Verkle Tree TypeScript library using this package is in the works
 
 ### Rust/WASM
 
-The Rust code and the necessary tooling for the WASM build and a low level TypeScript API exposure can be found in [./src/rust-wasm](./src/rust-wasm/). The associated README contains the main documentation describing the WASM build process.
+The Rust code and the necessary tooling for the WASM build and a low level TypeScript API exposure can be found in [./src.rs](./src.rs/). The associated README contains the main documentation describing the WASM build process.
 
 ### High Level TypeScript API
 
-The main high level API exposed in a final published package can be found in [./src/js](./src/js).
+The main high level API exposed in a final published package can be found in [./src.ts](./src.ts).
 
 ### Node.js
 
