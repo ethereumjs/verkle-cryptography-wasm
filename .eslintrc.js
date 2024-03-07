@@ -13,7 +13,7 @@ module.exports = {
     '.eslintrc.js',
     'dist',
     'node_modules',
-    'rust-wasm',
+    'src.rs',
     'scripts',
     'prettier.config.js',
   ],

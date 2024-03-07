@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["src/js/tests"],
+  "exclude": ["src.ts/tests", "src.ts/wasm"],
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "Node",
