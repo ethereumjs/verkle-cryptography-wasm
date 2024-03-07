@@ -23,7 +23,7 @@ export function getTreeKey(
 // Computes the hash of the address and treeIndex for use in the `getTreeKey` function
 //
 // Note: Tree Index is interpreted as a little endian number.
-function getTreeKeyHash(
+export function getTreeKeyHash(
   context: Context,
   address: Uint8Array,
   treeIndexLE: Uint8Array,
