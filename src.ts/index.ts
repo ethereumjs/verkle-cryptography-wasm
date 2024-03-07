@@ -9,3 +9,5 @@ export { ScalarField } from './ellipticCurveCryptographyBindings/index'
 // Export batchMapToScalarField, which is used to convert a list of commitments
 // to scalars so that one can commit to them using commitToPoly.
 export { Point, commitToPoly, batchMapToScalarField } from './banderwagon_bindings/index'
+
+export { Context, getTreeKey, getTreeKeyHash } from './verkleFFIBindings/index'
