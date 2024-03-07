@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { Field, naiveMultiInv } from '../ellipticCurveCryptography/field'
+import { Field, naiveMultiInv } from '../ellipticCurveCryptography/field.js'
 
 describe('modular arithmetic', () => {
   test('modular addition', () => {

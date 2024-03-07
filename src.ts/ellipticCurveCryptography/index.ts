@@ -1,2 +1,2 @@
-export { BaseField } from './baseField'
-export { ScalarField } from './scalarField'
+export { BaseField } from './baseField.js'
+export { ScalarField } from './scalarField.js'

@@ -1,12 +1,12 @@
 import { bytesToHex } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test } from 'vitest'
 
-import { Context, getTreeKey } from '../verkleFFIBindings/index'
+import { VerkleFFI, getTreeKey, getTreeKeyHash } from '../index.js'
 
 describe('bindings', () => {
-  let context: Context
+  let ffi: VerkleFFI
   beforeAll(() => {
-    context = new Context()
+    ffi = new VerkleFFI()
   })
 
   test('getTreeKey', () => {
@@ -27,12 +27,34 @@ describe('bindings', () => {
 
     const subIndex = 0
 
-    const key = context.getTreeKey(address, treeIndexLE, subIndex)
+    const key = ffi.getTreeKey(address, treeIndexLE, subIndex)
     const keyHex = bytesToHex(key)
 
     const expected = '0x76a014d14e338c57342cda5187775c6b75e7f0ef292e81b176c7a5a700273700'
 
     expect(keyHex).toBe(expected)
+  })
+
+  test('getTreeKeyHash', () => {
+    const address = new Uint8Array([
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+      27, 28, 29, 30, 31, 32,
+    ])
+
+    const treeIndexLE = new Uint8Array([
+      33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
+      56, 57, 58, 59, 60, 61, 62, 63, 64,
+    ])
+
+    // Reverse the tree index array so it is in little endian form
+    treeIndexLE.reverse()
+
+    const hash = getTreeKeyHash(ffi, address, treeIndexLE)
+    const hashHex = bytesToHex(hash)
+
+    const expected = '0x76a014d14e338c57342cda5187775c6b75e7f0ef292e81b176c7a5a70027373a'
+
+    expect(hashHex).toBe(expected)
   })
 
   test('getTreeKeyJsMatchesRust', () => {
@@ -48,10 +70,10 @@ describe('bindings', () => {
 
     const subIndex = 0
 
-    const keyRust = context.getTreeKey(address, treeIndex, subIndex)
+    const keyRust = ffi.getTreeKey(address, treeIndex, subIndex)
     const keyRustHex = bytesToHex(keyRust)
 
-    const keyJs = getTreeKey(context, address, treeIndex, subIndex)
+    const keyJs = getTreeKey(ffi, address, treeIndex, subIndex)
     const keyJsHex = bytesToHex(keyJs)
 
     expect(keyRustHex).toBe(keyJsHex)
@@ -65,7 +87,7 @@ describe('bindings', () => {
 
     // Put scalar into a vector of uint8arrays
     const scalars = [scalar, scalar]
-    const commitment = context.commitToScalars(scalars)
+    const commitment = ffi.commitToScalars(scalars)
 
     const commitmentHex = bytesToHex(commitment)
     const expected =
@@ -80,9 +102,9 @@ describe('bindings', () => {
       1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
       27, 28, 29, 30, 31, 0,
     ])
-    const commitment = context.commitToScalars([scalar])
+    const commitment = ffi.commitToScalars([scalar])
 
-    const commitmentHash = context.hashCommitment(commitment)
+    const commitmentHash = ffi.hashCommitment(commitment)
     const commitmentHashHex = bytesToHex(commitmentHash)
 
     const expected = '0x31e94bef2c0160ed1f3dd9caacbed356939c2e440c4ddb336d832dcab6384e19'
@@ -96,13 +118,13 @@ describe('bindings', () => {
       1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
       27, 28, 29, 30, 31, 0,
     ])
-    const commitment = context.commitToScalars([scalar])
+    const commitment = ffi.commitToScalars([scalar])
 
     const commitments = [commitment, commitment]
-    const hashes = context.hashCommitments([commitment, commitment])
+    const hashes = ffi.hashCommitments([commitment, commitment])
 
     for (let i = 0; i < hashes.length; i++) {
-      const expectedHash = context.hashCommitment(commitments[i])
+      const expectedHash = ffi.hashCommitment(commitments[i])
       const expectedHashHex = bytesToHex(expectedHash)
 
       const commitmentHashHex = bytesToHex(hashes[i])
@@ -117,9 +139,9 @@ describe('bindings', () => {
       1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
       27, 28, 29, 30, 31, 0,
     ])
-    const commitment = context.commitToScalars([scalar])
+    const commitment = ffi.commitToScalars([scalar])
 
-    const commitmentHash = context.deprecateSerializeCommitment(commitment)
+    const commitmentHash = ffi.deprecateSerializeCommitment(commitment)
     const commitmentHashHex = bytesToHex(commitmentHash)
 
     const expected = '0x6d40cf3d3097cb19b0ff686a068d53fb1250cc98bbd33766cf2cce00acb8b0a6'
@@ -134,7 +156,7 @@ describe('bindings', () => {
       27, 28, 29, 30, 31, 0,
     ])
     const commitmentIndex = 1
-    const commitment = context.scalarMulIndex(oldScalarValue, commitmentIndex)
+    const commitment = ffi.scalarMulIndex(oldScalarValue, commitmentIndex)
 
     // Create a new scalar value to update the commitment with
     const newScalarValue = new Uint8Array([
@@ -142,10 +164,10 @@ describe('bindings', () => {
       27, 28, 29, 30, 31, 0,
     ])
 
-    const expected = context.scalarMulIndex(newScalarValue, commitmentIndex)
+    const expected = ffi.scalarMulIndex(newScalarValue, commitmentIndex)
     const expectedHex = bytesToHex(expected)
 
-    const updatedCommitment = context.updateCommitment(
+    const updatedCommitment = ffi.updateCommitment(
       commitment,
       commitmentIndex,
       oldScalarValue,
@@ -162,7 +184,7 @@ describe('bindings', () => {
     expect(() => {
       // This method will throw an error because scalars must be 32 bytes
       // but we gave it 1 byte
-      context.commitToScalars([scalar])
+      ffi.commitToScalars([scalar])
     }).toThrow('Expected 32 bytes, got 1')
   })
 })

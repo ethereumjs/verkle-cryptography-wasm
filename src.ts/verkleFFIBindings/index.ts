@@ -1,6 +1,6 @@
-import { Context, zeroCommitment } from '../wasm/rust_verkle_wasm'
+import { Context, zeroCommitment } from '../wasm/rust_verkle_wasm.js'
 
-import { getTreeKey } from './getTreeKey'
+import { getTreeKey, getTreeKeyHash } from './getTreeKey.js'
 
 // This is a 32 byte serialized field element
 type Scalar = Uint8Array
@@ -17,4 +17,5 @@ export {
   // wasm_bindgen does not seem to allow returning constants
   zeroCommitment,
   getTreeKey,
+  getTreeKeyHash,
 }
