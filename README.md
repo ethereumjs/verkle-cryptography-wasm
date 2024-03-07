@@ -8,7 +8,7 @@ The library has been initially developed by [kevaundray](https://github.com/keva
 
 A higher level Verkle Tree TypeScript library using this package is in the works at [https://github.com/ethereumjs/ethereumjs-monorepo/tree/master/packages/verkle](https://github.com/ethereumjs/ethereumjs-monorepo/tree/master/packages/verkle).
 
-## Installation
+## Installation 
 
 [ Not yet available ]
 
