@@ -1,4 +1,4 @@
-import { Context } from '../wasm/rust_verkle_wasm.js'
+import { Context } from '../wasm2/rust_verkle_wasm.js'
 
 // This is equal to 2n + 256n * 64n.
 //

@@ -1,4 +1,4 @@
-import { Context, zeroCommitment } from '../wasm/rust_verkle_wasm.js'
+import { Context, zeroCommitment } from '../wasm2/rust_verkle_wasm.js'
 
 import { getTreeKey, getTreeKeyHash } from './getTreeKey.js'
 

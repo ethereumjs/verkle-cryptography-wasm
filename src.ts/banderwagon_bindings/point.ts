@@ -3,7 +3,7 @@ import {
   element_add,
   element_sub,
   commit_scalar_values,
-} from '../wasm/rust_verkle_wasm.js'
+} from '../wasm2/rust_verkle_wasm.js'
 import { ScalarField } from '../ellipticCurveCryptographyBindings/index.js'
 
 export class Point {

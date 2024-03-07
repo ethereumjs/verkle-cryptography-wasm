@@ -65,8 +65,8 @@ fi
 TARGET=wasm32-unknown-unknown
 WASM_BINARY=$SELF_DIR/target/$TARGET/release/${PNAME}.wasm
 
-CJS_DIR=$SELF_DIR/dist/cjs/wasm/
-ESM_DIR=$SELF_DIR/dist/esm/wasm/
+CJS_DIR=$SELF_DIR/dist/cjs/wasm2/
+ESM_DIR=$SELF_DIR/dist/esm/wasm2/
 JS_SRC_DIR=$SELF_DIR/src.ts/
 CJS_WASM=${CJS_DIR}/${PNAME}_bg.wasm
 ESM_WASM=${ESM_DIR}/${PNAME}_bg.wasm
