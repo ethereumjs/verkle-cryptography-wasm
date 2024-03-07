@@ -1,4 +1,4 @@
-import { Field } from './field'
+import { Field } from './field.js'
 
 // The modulus that defines the scalar of the bandersnatch curve
 const MODULUS: bigint =

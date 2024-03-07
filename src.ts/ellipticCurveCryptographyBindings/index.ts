@@ -1,1 +1,1 @@
-export { ScalarField } from './scalarField'
+export { ScalarField } from './scalarField.js'

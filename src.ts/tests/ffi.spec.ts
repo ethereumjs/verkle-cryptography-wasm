@@ -1,7 +1,7 @@
 import { bytesToHex } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test } from 'vitest'
 
-import { Context, getTreeKey, getTreeKeyHash } from '../index'
+import { Context, getTreeKey, getTreeKeyHash } from '../index.js'
 
 describe('bindings', () => {
   let context: Context

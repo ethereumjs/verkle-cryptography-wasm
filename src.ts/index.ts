@@ -1,5 +1,5 @@
 // Export ScalarField
-export { ScalarField } from './ellipticCurveCryptographyBindings/index'
+export { ScalarField } from './ellipticCurveCryptographyBindings/index.js'
 
 // Exports the banderwagon Point class. This is used predominantly for
 // representing commitments.
@@ -8,6 +8,6 @@ export { ScalarField } from './ellipticCurveCryptographyBindings/index'
 //
 // Export batchMapToScalarField, which is used to convert a list of commitments
 // to scalars so that one can commit to them using commitToPoly.
-export { Point, commitToPoly, batchMapToScalarField } from './banderwagon_bindings/index'
+export { Point, commitToPoly, batchMapToScalarField } from './banderwagon_bindings/index.js'
 
-export { Context, getTreeKey, getTreeKeyHash } from './verkleFFIBindings/index'
+export { Context, getTreeKey, getTreeKeyHash } from './verkleFFIBindings/index.js'
