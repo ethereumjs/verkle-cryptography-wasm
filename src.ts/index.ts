@@ -10,4 +10,4 @@ export { ScalarField } from './ellipticCurveCryptographyBindings/index.js'
 // to scalars so that one can commit to them using commitToPoly.
 export { Point, commitToPoly, batchMapToScalarField } from './banderwagon_bindings/index.js'
 
-export { Context, getTreeKey, getTreeKeyHash } from './verkleFFIBindings/index.js'
+export { Context as VerkleFFI, getTreeKey, getTreeKeyHash } from './verkleFFIBindings/index.js'
