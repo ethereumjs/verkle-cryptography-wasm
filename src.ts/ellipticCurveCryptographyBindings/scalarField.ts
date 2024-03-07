@@ -1,8 +1,4 @@
-import {
-  fr_add,
-  fr_sub,
-  FrWrapper as ScalarFieldWrapper,
-} from '../wasm/rust_verkle_wasm.js'
+import { fr_add, fr_sub, FrWrapper as ScalarFieldWrapper } from '../rust_verkle_wasm.js'
 
 export class ScalarField {
   inner: ScalarFieldWrapper

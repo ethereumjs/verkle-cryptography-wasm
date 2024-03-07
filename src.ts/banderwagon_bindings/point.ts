@@ -1,10 +1,10 @@
+import { ScalarField } from '../ellipticCurveCryptographyBindings/index.js'
 import {
   ElementWrapper as PointWrapper,
   element_add,
   element_sub,
   commit_scalar_values,
-} from '../wasm/rust_verkle_wasm.js'
-import { ScalarField } from '../ellipticCurveCryptographyBindings/index.js'
+} from '../rust_verkle_wasm.js'
 
 export class Point {
   inner: PointWrapper
