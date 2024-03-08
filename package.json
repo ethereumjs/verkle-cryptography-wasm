@@ -1,6 +1,6 @@
 {
   "name": "verkle-cryptography-wasm",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Verkle Trie Crytography WASM/TypeScript Bindings",
   "keywords": [
     "ethereum",
