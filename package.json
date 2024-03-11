@@ -1,6 +1,6 @@
 {
   "name": "verkle-cryptography-wasm",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Verkle Trie Crytography WASM/TypeScript Bindings",
   "keywords": [
     "ethereum",
@@ -39,7 +39,6 @@
     "clean": "rm -rf node_modules dist",
     "lint": "eslint .",
     "lint:fix": "eslint --fix --config ./.eslintrc.js . --ext .js,.jsx,.ts,.tsx",
-    "postinstall": "npm run build",
     "test": "npx vitest run"
   },
   "devDependencies": {
