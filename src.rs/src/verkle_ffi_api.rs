@@ -34,8 +34,7 @@ impl Context {
         let address = js_value_to_bytes::<32>(address.into())?;
         let tree_index_le = js_value_to_bytes::<32>(tree_index_le.into())?;
 
-        let key =
-            ffi_interface::get_tree_key(&self.inner.committer, address, tree_index_le, sub_index);
+        let key = ffi_interface::get_tree_key(&self.inner, address, tree_index_le, sub_index);
 
         Ok(bytes_to_js_value(key).into())
     }
@@ -49,7 +48,7 @@ impl Context {
             scalars.extend(js_value_to_bytes::<32>(scalar.into())?);
         }
 
-        let commitment = ffi_interface::commit_to_scalars(&self.inner.committer, &scalars)
+        let commitment = ffi_interface::commit_to_scalars(&self.inner, &scalars)
             .map_err(|err| JsError::new(&format!("could not commit to scalars: {:?}", err)))?;
 
         Ok(bytes_to_js_value(commitment).into())
@@ -75,7 +74,7 @@ impl Context {
             scalars.extend([0u8; 16]);
         }
 
-        let commitment = ffi_interface::commit_to_scalars(&self.inner.committer, &scalars)
+        let commitment = ffi_interface::commit_to_scalars(&self.inner, &scalars)
             .map_err(|err| JsError::new(&format!("could not commit to scalars: {:?}", err)))?;
 
         Ok(bytes_to_js_value(commitment).into())
@@ -122,13 +121,17 @@ impl Context {
     ///
     /// This method does not return a scalar value, it returns 32 bytes.
     ///
-    /// Note: We plan to deprecate this method from the public API in favour of using hash commitment
-    /// This method will only be used internally once that is done.
-    #[wasm_bindgen(js_name = "deprecateSerializeCommitment")]
+    /// Note: This method is used to serialize the root node before placing it inside
+    /// of the block header.
+    /// The reason we use this method instead of `hashCommitment` is because
+    /// we want to be able to deserialize a commitment from the block header.
+    ///
+    /// This is not possible with `hashCommitment` as it is a one way function.
+    #[wasm_bindgen(js_name = "serializeCommitment")]
     pub fn serialize_commitment(&self, commitment: Uint8Array) -> Result<Uint8Array, JsError> {
         let commitment = js_value_to_bytes::<64>(commitment.into())?;
 
-        let hash = ffi_interface::deprecated_serialize_commitment(commitment);
+        let hash = ffi_interface::serialize_commitment(commitment);
 
         Ok(bytes_to_js_value(hash).into())
     }
@@ -158,7 +161,7 @@ impl Context {
         let new_scalar_value = js_value_to_bytes::<32>(new_scalar_value.into())?;
 
         let updated_commitment = ffi_interface::update_commitment(
-            &self.inner.committer,
+            &self.inner,
             commitment,
             commitment_index,
             old_scalar_value,

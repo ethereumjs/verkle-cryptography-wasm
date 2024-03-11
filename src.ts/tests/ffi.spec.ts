@@ -30,7 +30,7 @@ describe('bindings', () => {
     const key = ffi.getTreeKey(address, treeIndexLE, subIndex)
     const keyHex = bytesToHex(key)
 
-    const expected = '0x76a014d14e338c57342cda5187775c6b75e7f0ef292e81b176c7a5a700273700'
+    const expected = '0xff7e3916badeb510dfcdad458726273319280742e553d8d229bd676428147300'
 
     expect(keyHex).toBe(expected)
   })
@@ -52,7 +52,7 @@ describe('bindings', () => {
     const hash = getTreeKeyHash(ffi, address, treeIndexLE)
     const hashHex = bytesToHex(hash)
 
-    const expected = '0x76a014d14e338c57342cda5187775c6b75e7f0ef292e81b176c7a5a70027373a'
+    const expected = '0xff7e3916badeb510dfcdad458726273319280742e553d8d229bd676428147303'
 
     expect(hashHex).toBe(expected)
   })
@@ -141,7 +141,7 @@ describe('bindings', () => {
     ])
     const commitment = ffi.commitToScalars([scalar])
 
-    const commitmentHash = ffi.deprecateSerializeCommitment(commitment)
+    const commitmentHash = ffi.serializeCommitment(commitment)
     const commitmentHashHex = bytesToHex(commitmentHash)
 
     const expected = '0x6d40cf3d3097cb19b0ff686a068d53fb1250cc98bbd33766cf2cce00acb8b0a6'

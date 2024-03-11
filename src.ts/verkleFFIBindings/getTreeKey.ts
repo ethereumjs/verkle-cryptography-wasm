@@ -90,18 +90,8 @@ export function getTreeKeyHash(
   }
 
   // Commit to the chunks and compute a 32 byte value that we will denote as the hash
-  //
-  // Note: This 32 byte value is not a Scalar. It is just a 32 byte value.
-  //
-  // Note: that the .reverse() below is an implementation detail of the underlying
-  // Note: serialization code returning big endian.
-  //
-  // TODO: We want to eventually replace deprecateSerializeCommitment with `hashCommitment`
-  // TODO: This is a breaking change, so requires more coordination between different implementations
-  // TODO: once that is done, we can remove the .reverse and the deprecateSerializeCommitment method.
-  //
   const commitment = context.commitTo16ByteScalars(chunks)
-  const serializedCommitment = context.deprecateSerializeCommitment(commitment).reverse()
+  const serializedCommitment = context.hashCommitment(commitment)
   return serializedCommitment
 }
 
