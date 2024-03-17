@@ -1,4 +1,4 @@
-import { Context } from '../wasm/rust_verkle_wasm.js'
+import { Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
 
 // This is equal to 2n + 256n * 64n.
 //
@@ -6,14 +6,15 @@ import { Context } from '../wasm/rust_verkle_wasm.js'
 // See the `getTreeKeyHashJs` function for more details.
 const firstChunk = new Uint8Array([2, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 
+const ffi = new VerkleFFI()
+
 // Implements `get_tree_key` as specified here: https://notes.ethereum.org/@vbuterin/verkle_tree_eip#Header-values
 export function getTreeKey(
-  context: Context,
   address: Uint8Array,
   treeIndex: Uint8Array,
   subIndex: number,
 ): Uint8Array {
-  const keyHash = getTreeKeyHash(context, address, treeIndex)
+  const keyHash = getTreeKeyHash(address, treeIndex)
 
   // Replace the last byte with the subIndex
   keyHash[keyHash.length - 1] = subIndex
@@ -23,11 +24,7 @@ export function getTreeKey(
 // Computes the hash of the address and treeIndex for use in the `getTreeKey` function
 //
 // Note: Tree Index is interpreted as a little endian number.
-export function getTreeKeyHash(
-  context: Context,
-  address: Uint8Array,
-  treeIndexLE: Uint8Array,
-): Uint8Array {
+export function getTreeKeyHash(address: Uint8Array, treeIndexLE: Uint8Array): Uint8Array {
   if (address.length !== 32) {
     throw new Error('Address must be 32 bytes')
   }
@@ -100,8 +97,8 @@ export function getTreeKeyHash(
   // TODO: This is a breaking change, so requires more coordination between different implementations
   // TODO: once that is done, we can remove the .reverse and the deprecateSerializeCommitment method.
   //
-  const commitment = context.commitTo16ByteScalars(chunks)
-  const serializedCommitment = context.deprecateSerializeCommitment(commitment).reverse()
+  const commitment = ffi.commitTo16ByteScalars(chunks)
+  const serializedCommitment = ffi.deprecateSerializeCommitment(commitment).reverse()
   return serializedCommitment
 }
 

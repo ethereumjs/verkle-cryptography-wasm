@@ -1,14 +1,11 @@
 import { bytesToHex } from '@ethereumjs/util'
-import { beforeAll, describe, expect, test } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { VerkleFFI, getTreeKey, getTreeKeyHash } from '../index.js'
 
-describe('bindings', () => {
-  let ffi: VerkleFFI
-  beforeAll(() => {
-    ffi = new VerkleFFI()
-  })
+const ffi = new VerkleFFI()
 
+describe('bindings', () => {
   test('getTreeKey', () => {
     // This is a copy of the test vector in rust-verkle
     // See: https://github.com/crate-crypto/rust-verkle/blob/6036bde9a8f416648213c59ad0c857b2a6f226f3/ffi_interface/src/lib.rs#L600
@@ -49,7 +46,7 @@ describe('bindings', () => {
     // Reverse the tree index array so it is in little endian form
     treeIndexLE.reverse()
 
-    const hash = getTreeKeyHash(ffi, address, treeIndexLE)
+    const hash = getTreeKeyHash(address, treeIndexLE)
     const hashHex = bytesToHex(hash)
 
     const expected = '0x76a014d14e338c57342cda5187775c6b75e7f0ef292e81b176c7a5a70027373a'
@@ -73,7 +70,7 @@ describe('bindings', () => {
     const keyRust = ffi.getTreeKey(address, treeIndex, subIndex)
     const keyRustHex = bytesToHex(keyRust)
 
-    const keyJs = getTreeKey(ffi, address, treeIndex, subIndex)
+    const keyJs = getTreeKey(address, treeIndex, subIndex)
     const keyJsHex = bytesToHex(keyJs)
 
     expect(keyRustHex).toBe(keyJsHex)
