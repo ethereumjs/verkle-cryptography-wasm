@@ -1,4 +1,3 @@
-// @ts-expect-error
 import { initVerkleWasm, Context, zeroCommitment } from '../wasm/rust_verkle_wasm.js'
 
 import { getTreeKey, getTreeKeyHash } from './getTreeKey.js'

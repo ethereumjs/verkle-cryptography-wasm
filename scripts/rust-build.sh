@@ -98,5 +98,8 @@ export const initVerkleWasm = async () => {
   }
 EOT
 
+cat <<EOT >> ../src.ts/wasm/rust_verkle_wasm.d.ts
+export function initVerkleWasm (): Promise<{ Context: Context, zeroCommitment: typeof zeroCommitment }>
+EOT
 
 node ../scripts/wasmToB64.js
