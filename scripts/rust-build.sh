@@ -79,3 +79,21 @@ cp -Rf $ESM_DIR $JS_SRC_DIR/
 run_if_available wasm-opt $CJS_WASM -o $CJS_WASM -O
 run_if_available wasm-opt $ESM_WASM -o $ESM_WASM -O
 
+cat <<EOT >> ../src.ts/wasm/rust_verkle_wasm.js
+export const initVerkleWasm = async () => {
+    const imports = __wbg_get_imports();
+    __wbg_init_memory(imports);
+    const instance = await WebAssembly.instantiate(
+      await WebAssembly.compile(base64.decode(wasmB64.wasm)),
+      imports
+    )
+    __wbg_finalize_init(instance, module);
+    return {
+        Context,
+        zeroCommitment,
+    }
+  }
+EOT
+
+
+node ../scripts/wasmToB64.js
