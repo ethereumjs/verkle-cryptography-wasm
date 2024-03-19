@@ -80,6 +80,9 @@ run_if_available wasm-opt $CJS_WASM -o $CJS_WASM -O
 run_if_available wasm-opt $ESM_WASM -o $ESM_WASM -O
 
 cat <<EOT >> ../src.ts/wasm/rust_verkle_wasm.js
+import { base64 } from '@scure/base'
+import wasmB64 from './rust_verkle_wasm_bg.js'
+
 export const initVerkleWasm = async () => {
     const imports = __wbg_get_imports();
     __wbg_init_memory(imports);
