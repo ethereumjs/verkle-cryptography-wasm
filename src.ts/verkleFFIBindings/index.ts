@@ -1,4 +1,5 @@
-import { Context, zeroCommitment } from '../wasm/rust_verkle_wasm.js'
+// @ts-expect-error
+import { initVerkleWasm, Context, zeroCommitment } from '../wasm/rust_verkle_wasm.js'
 
 import { getTreeKey, getTreeKeyHash } from './getTreeKey.js'
 
@@ -12,10 +13,9 @@ type Commitment = Uint8Array
 export {
   Scalar,
   Commitment,
-  Context,
-  // This is a function that returns a zero commitment
-  // wasm_bindgen does not seem to allow returning constants
-  zeroCommitment,
+  initVerkleWasm,
   getTreeKey,
   getTreeKeyHash,
+  Context,
+  zeroCommitment
 }

@@ -1,12 +1,14 @@
 import { bytesToHex } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test } from 'vitest'
 
-import { VerkleFFI, getTreeKey, getTreeKeyHash } from '../index.js'
+import { initVerkleWasm, getTreeKey, getTreeKeyHash, Context } from '../index.js'
 
 describe('bindings', () => {
-  let ffi: VerkleFFI
-  beforeAll(() => {
-    ffi = new VerkleFFI()
+  let ffi: Context;
+  let verkle;
+  beforeAll(async () => {
+    verkle = await initVerkleWasm()
+    ffi = new verkle.Context() as Context
   })
 
   test('getTreeKey', () => {

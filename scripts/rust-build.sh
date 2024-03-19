@@ -74,8 +74,8 @@ ESM_WASM=${ESM_DIR}/${PNAME}_bg.wasm
 # Build the new wasm package
 run_or_fail cargo build --lib --release --target $TARGET
 run_or_fail wasm-bindgen $WASM_BINARY --out-dir $CJS_DIR --typescript --target nodejs
-cp -Rf $CJS_DIR $JS_SRC_DIR/
 run_or_fail wasm-bindgen $WASM_BINARY --out-dir $ESM_DIR --typescript --target web
+cp -Rf $ESM_DIR $JS_SRC_DIR/
 run_if_available wasm-opt $CJS_WASM -o $CJS_WASM -O
 run_if_available wasm-opt $ESM_WASM -o $ESM_WASM -O
 
