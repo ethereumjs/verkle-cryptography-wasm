@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 (modification: no type change headlines) and this project adheres to 
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 0.3.0 - 2024-03-20
+
+- Update API to use async initialization function `initVerkleWasm` to instantiate WASM module before use
+  and redesign build process, PR [#37](https://github.com/ethereumjs/verkle-cryptography-wasm/pull/37)
+
 ## 0.2.1 - 2024-03-11
 
 - Remove `postinstall` build hook, PR [#35](https://github.com/ethereumjs/verkle-cryptography-wasm/pull/35)
