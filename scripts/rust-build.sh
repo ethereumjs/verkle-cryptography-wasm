@@ -89,15 +89,13 @@ export const initVerkleWasm = async () => {
       imports
     )
     __wbg_finalize_init(instance, module);
-    return {
-        Context,
-        zeroCommitment,
-    }
   }
 EOT
 
 cat <<EOT >> ../src.ts/wasm/rust_verkle_wasm.d.ts
-export function initVerkleWasm (): Promise<{ Context: Context, zeroCommitment: typeof zeroCommitment }>
+export function initVerkleWasm (): Promise<void>
 EOT
 
 node ../scripts/wasmToB64.js
+rm ../src.ts/wasm/*.wasm
+rm ../src.ts/wasm/*.wasm.d.ts

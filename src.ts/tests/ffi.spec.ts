@@ -8,7 +8,7 @@ describe('bindings', () => {
   let verkle;
   beforeAll(async () => {
     verkle = await initVerkleWasm()
-    ffi = new verkle.Context() as Context
+    ffi = new Context()
   })
 
   test('getTreeKey', () => {
