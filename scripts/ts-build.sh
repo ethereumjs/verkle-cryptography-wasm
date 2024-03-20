@@ -32,12 +32,22 @@ dim() {
 
 build_node() {
     blue "[Node build] "
-    echo "Using tsconfig.prod.cjs.json"
+    echo "Adding ./dist/cjs/package.json"
+    if ! [ -d ./dist/cjs ];
+    then
+        mkdir ./dist/cjs
+    fi
+    rm -f ./dist/cjs/package.json
+    cat <<EOT >> ./dist/cjs/package.json
+{
+    "type": "commonjs"
+}
+EOT
+    echo "> npm run build:node"
+    printf "${BLUE}[Node build] Working...\n"
 
-    echo "> tsc --build ./tsconfig.prod.cjs.json"
-    printf "${BLUE}[Node build] Working... "
+    npx babel --config-file ./.babelrc dist/esm --out-dir dist/cjs --copy-files
 
-    npx tsc --build ./tsconfig.prod.cjs.json
     green "DONE"
 
     echo "\n";
@@ -53,6 +63,8 @@ build_esm() {
         printf "${BLUE}[ESM build] Working... "
 
         npx tsc --build ./tsconfig.prod.esm.json
+        cp -rf ./src.ts/wasm ./dist/esm
+
         green "DONE"
     else
         echo "Skipping ESM build (no config available)."
@@ -83,7 +95,6 @@ EOT
     fi
     echo "\n";
 }
-
-build_node
 build_esm
+build_node
 post_build_fixes
