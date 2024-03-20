@@ -38,6 +38,8 @@ Build scripts can be found in the [scripts](./scripts/) folder and the build pro
 npm run build
 ```
 
+See the comments in the build scripts for a more detailed explanation of what actually occurs in each step.
+
 Note that this requires all Rust/WASM tooling to be installed, so a first look into the dedicated RUST/WASM documentation is recommended.
 
 ## Testing

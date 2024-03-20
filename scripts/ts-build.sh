@@ -46,6 +46,7 @@ EOT
     echo "> npm run build:node"
     printf "${BLUE}[Node build] Working...\n"
 
+    # Transpile ESM code to CJS using Babel and place in dist/cjs
     npx babel --config-file ./.babelrc dist/esm --out-dir dist/cjs --copy-files
 
     green "DONE"
@@ -62,7 +63,10 @@ build_esm() {
         echo "> tsc --build ./tsconfig.prod.esm.json"
         printf "${BLUE}[ESM build] Working... "
 
+        # Compile ESM code using Typescript compiler
         npx tsc --build ./tsconfig.prod.esm.json
+
+        # Copy WASM wrapper code to ESM build
         cp -rf ./src.ts/wasm ./dist/esm
 
         green "DONE"
