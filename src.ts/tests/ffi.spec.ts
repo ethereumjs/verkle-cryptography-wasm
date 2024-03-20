@@ -5,9 +5,8 @@ import { initVerkleWasm, getTreeKey, getTreeKeyHash, Context } from '../index.js
 
 describe('bindings', () => {
   let ffi: Context;
-  let verkle;
   beforeAll(async () => {
-    verkle = await initVerkleWasm()
+    await initVerkleWasm()
     ffi = new Context()
   })
 
