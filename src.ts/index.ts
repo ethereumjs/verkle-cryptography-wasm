@@ -1,7 +1,9 @@
 export {
-  Context as VerkleFFI,
+  initVerkleWasm,
   getTreeKey,
   getTreeKeyHash,
   Scalar,
   Commitment,
+  Context,
+  zeroCommitment
 } from './verkleFFIBindings/index.js'

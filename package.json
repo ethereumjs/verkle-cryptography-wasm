@@ -1,6 +1,6 @@
 {
   "name": "verkle-cryptography-wasm",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Verkle Trie Crytography WASM/TypeScript Bindings",
   "keywords": [
     "ethereum",
@@ -39,7 +39,8 @@
     "clean": "rm -rf node_modules dist",
     "lint": "eslint .",
     "lint:fix": "eslint --fix --config ./.eslintrc.js . --ext .js,.jsx,.ts,.tsx",
-    "test": "npx vitest run"
+    "test": "npx vitest run",
+    "wasmToB64": "node ./scripts/wasmToB64.js"
   },
   "devDependencies": {
     "@ethereumjs/util": "^9.0.2",
@@ -53,10 +54,17 @@
     "prettier": "3.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
-    "vitest": "^1.2.2"
+    "vitest": "^1.2.2",
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
+    "babel-plugin-transform-import-meta": "^2.2.1"
   },
   "engines": {
     "node": ">=18",
     "npm": ">=7"
+  },
+  "dependencies": {
+    "@scure/base": "^1.1.5"
   }
 }
