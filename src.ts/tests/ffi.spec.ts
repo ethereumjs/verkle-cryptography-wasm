@@ -1,16 +1,16 @@
 import { bytesToHex } from '@ethereumjs/util'
-import { beforeAll,describe, expect, test } from 'vitest'
+import { beforeAll, describe, expect, test } from 'vitest'
 
-import { initVerkleWasm, getTreeKey, getTreeKeyHash, Context } from '../index.js'
+import { Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
+import { initVerkleWasm, getTreeKey, getTreeKeyHash } from '../index.js'
 
 describe('bindings', () => {
-  let ffi: Context;
+  let ffi: VerkleFFI
   beforeAll(async () => {
     await initVerkleWasm()
-    ffi = new Context()
+    ffi = new VerkleFFI()
   })
 
-describe('bindings', () => {
   test('getTreeKey', () => {
     // This is a copy of the test vector in rust-verkle
     // See: https://github.com/crate-crypto/rust-verkle/blob/6036bde9a8f416648213c59ad0c857b2a6f226f3/ffi_interface/src/lib.rs#L600
