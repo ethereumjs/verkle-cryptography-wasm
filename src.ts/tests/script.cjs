@@ -1,9 +1,8 @@
-const { initVerkleWasm, Context, zeroCommitment } = require("../../dist/cjs/index");
+const { initVerkleWasm, zeroCommitment } = require('../../dist/cjs/index')
 
 const main = async () => {
-    await initVerkleWasm()
-    const ffi = new Context()
-    console.log(zeroCommitment())
+  await initVerkleWasm()
+  console.log(zeroCommitment())
 }
 
 main()
