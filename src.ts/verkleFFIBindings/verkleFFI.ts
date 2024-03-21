@@ -110,3 +110,12 @@ function concatenateUint8Arrays(array1: Uint8Array, array2: Uint8Array): Uint8Ar
 
   return concatenatedArray
 }
+
+export function updateCommitment(
+  commitment: Uint8Array,
+  commitmentIndex: number,
+  oldScalarValue: Uint8Array,
+  newScalarValue: Uint8Array,
+): Uint8Array {
+  return ffi.updateCommitment(commitment, commitmentIndex, oldScalarValue, newScalarValue)
+}

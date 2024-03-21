@@ -4,6 +4,6 @@ export {
   getTreeKeyHash,
   Scalar,
   Commitment,
-  Context,
-  zeroCommitment
+  updateCommitment,
+  zeroCommitment,
 } from './verkleFFIBindings/index.js'
