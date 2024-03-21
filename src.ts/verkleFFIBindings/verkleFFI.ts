@@ -6,8 +6,6 @@ import { Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
 // See the `getTreeKeyHashJs` function for more details.
 const firstChunk = new Uint8Array([2, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 
-const ffi = new VerkleFFI()
-
 // Implements `get_tree_key` as specified here: https://notes.ethereum.org/@vbuterin/verkle_tree_eip#Header-values
 export function getTreeKey(
   address: Uint8Array,
@@ -31,6 +29,8 @@ export function getTreeKeyHash(address: Uint8Array, treeIndexLE: Uint8Array): Ui
   if (treeIndexLE.length !== 32) {
     throw new Error('Tree index must be 32 bytes')
   }
+
+  const ffi = new VerkleFFI()
 
   // Below is the function we want to implement in JS from the spec.
   //
@@ -117,5 +117,6 @@ export function updateCommitment(
   oldScalarValue: Uint8Array,
   newScalarValue: Uint8Array,
 ): Uint8Array {
+  const ffi = new VerkleFFI()
   return ffi.updateCommitment(commitment, commitmentIndex, oldScalarValue, newScalarValue)
 }
