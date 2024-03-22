@@ -1,8 +1,8 @@
-const { initVerkleWasm, zeroCommitment } = require('../../dist/cjs/index')
+const { loadVerkleCrypto, zeroCommitment } = require('../../dist/cjs/index')
 
 const main = async () => {
-  await initVerkleWasm()
-  console.log(zeroCommitment())
+  await loadVerkleCrypto()
+  console.log(zeroCommitment)
 }
 
 main()
