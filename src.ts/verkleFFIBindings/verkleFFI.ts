@@ -8,11 +8,12 @@ const firstChunk = new Uint8Array([2, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 
 // Implements `get_tree_key` as specified here: https://notes.ethereum.org/@vbuterin/verkle_tree_eip#Header-values
 export function getTreeKey(
+  verkleFFI: VerkleFFI,
   address: Uint8Array,
   treeIndex: Uint8Array,
   subIndex: number,
 ): Uint8Array {
-  const keyHash = getTreeKeyHash(address, treeIndex)
+  const keyHash = getTreeKeyHash(verkleFFI, address, treeIndex)
 
   // Replace the last byte with the subIndex
   keyHash[keyHash.length - 1] = subIndex
@@ -22,15 +23,17 @@ export function getTreeKey(
 // Computes the hash of the address and treeIndex for use in the `getTreeKey` function
 //
 // Note: Tree Index is interpreted as a little endian number.
-export function getTreeKeyHash(address: Uint8Array, treeIndexLE: Uint8Array): Uint8Array {
+export function getTreeKeyHash(
+  verkleFFI: VerkleFFI,
+  address: Uint8Array,
+  treeIndexLE: Uint8Array,
+): Uint8Array {
   if (address.length !== 32) {
     throw new Error('Address must be 32 bytes')
   }
   if (treeIndexLE.length !== 32) {
     throw new Error('Tree index must be 32 bytes')
   }
-
-  const ffi = new VerkleFFI()
 
   // Below is the function we want to implement in JS from the spec.
   //
@@ -97,8 +100,8 @@ export function getTreeKeyHash(address: Uint8Array, treeIndexLE: Uint8Array): Ui
   // TODO: This is a breaking change, so requires more coordination between different implementations
   // TODO: once that is done, we can remove the .reverse and the deprecateSerializeCommitment method.
   //
-  const commitment = ffi.commitTo16ByteScalars(chunks)
-  const serializedCommitment = ffi.deprecateSerializeCommitment(commitment).reverse()
+  const commitment = verkleFFI.commitTo16ByteScalars(chunks)
+  const serializedCommitment = verkleFFI.deprecateSerializeCommitment(commitment).reverse()
   return serializedCommitment
 }
 
@@ -112,11 +115,11 @@ function concatenateUint8Arrays(array1: Uint8Array, array2: Uint8Array): Uint8Ar
 }
 
 export function updateCommitment(
+  verkleFFI: VerkleFFI,
   commitment: Uint8Array,
   commitmentIndex: number,
   oldScalarValue: Uint8Array,
   newScalarValue: Uint8Array,
 ): Uint8Array {
-  const ffi = new VerkleFFI()
-  return ffi.updateCommitment(commitment, commitmentIndex, oldScalarValue, newScalarValue)
+  return verkleFFI.updateCommitment(commitment, commitmentIndex, oldScalarValue, newScalarValue)
 }
