@@ -1,8 +1,8 @@
 import { bytesToHex } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test } from 'vitest'
 
-import { Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
 import { loadVerkleCrypto } from '../index.js'
+import { Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
 
 describe('bindings', () => {
   let ffi: VerkleFFI

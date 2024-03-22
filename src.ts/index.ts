@@ -1,11 +1,13 @@
-import { Context as VerkleFFI } from './wasm/rust_verkle_wasm.js'
-import { Commitment, Scalar, initVerkleWasm } from './verkleFFIBindings'
 import {
+  Commitment,
+  Scalar,
+  initVerkleWasm,
   getTreeKey as getTreeKeyBase,
   getTreeKeyHash as getTreeKeyHashBase,
   updateCommitment as updateCommitmentBase,
   zeroCommitment as zeroCommitmentBase,
 } from './verkleFFIBindings'
+import { Context as VerkleFFI } from './wasm/rust_verkle_wasm.js'
 
 export const loadVerkleCrypto = async () => {
   await initVerkleWasm()
