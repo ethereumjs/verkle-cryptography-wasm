@@ -24,7 +24,7 @@ The Rust code and the necessary tooling for the WASM build and a low level TypeS
 
 ### High Level TypeScript API
 
-The main high level API exposed in a final published package can be found in [./src.ts](./src.ts).
+The main high level API exposed in a final published package can be found in [./src.ts](./src.ts).  Usage instructions can be found [here](./src.ts/README.md)
 
 ### Node.js
 
