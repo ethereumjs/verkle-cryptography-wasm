@@ -1,6 +1,6 @@
-import { initVerkleWasm, Context, zeroCommitment } from '../wasm/rust_verkle_wasm.js'
+import { initVerkleWasm, zeroCommitment } from '../wasm/rust_verkle_wasm.js'
 
-import { getTreeKey, getTreeKeyHash } from './getTreeKey.js'
+import { getTreeKey, getTreeKeyHash, updateCommitment } from './verkleFFI.js'
 
 // This is a 32 byte serialized field element
 type Scalar = Uint8Array
@@ -15,6 +15,6 @@ export {
   initVerkleWasm,
   getTreeKey,
   getTreeKeyHash,
-  Context,
-  zeroCommitment
+  updateCommitment,
+  zeroCommitment,
 }

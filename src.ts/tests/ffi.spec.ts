@@ -1,13 +1,15 @@
 import { bytesToHex } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test } from 'vitest'
 
-import { initVerkleWasm, getTreeKey, getTreeKeyHash, Context } from '../index.js'
+import { loadVerkleCrypto } from '../index.js'
+import { Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
 
 describe('bindings', () => {
-  let ffi: Context;
+  let ffi: VerkleFFI
+  let verkleCrypto: Awaited<ReturnType<typeof loadVerkleCrypto>>
   beforeAll(async () => {
-    await initVerkleWasm()
-    ffi = new Context()
+    verkleCrypto = await loadVerkleCrypto()
+    ffi = new VerkleFFI()
   })
 
   test('getTreeKey', () => {
@@ -50,7 +52,7 @@ describe('bindings', () => {
     // Reverse the tree index array so it is in little endian form
     treeIndexLE.reverse()
 
-    const hash = getTreeKeyHash(ffi, address, treeIndexLE)
+    const hash = verkleCrypto.getTreeKeyHash(address, treeIndexLE)
     const hashHex = bytesToHex(hash)
 
     const expected = '0x76a014d14e338c57342cda5187775c6b75e7f0ef292e81b176c7a5a70027373a'
@@ -74,7 +76,7 @@ describe('bindings', () => {
     const keyRust = ffi.getTreeKey(address, treeIndex, subIndex)
     const keyRustHex = bytesToHex(keyRust)
 
-    const keyJs = getTreeKey(ffi, address, treeIndex, subIndex)
+    const keyJs = verkleCrypto.getTreeKey(address, treeIndex, subIndex)
     const keyJsHex = bytesToHex(keyJs)
 
     expect(keyRustHex).toBe(keyJsHex)
