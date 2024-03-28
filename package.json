@@ -39,6 +39,7 @@
     "clean": "rm -rf node_modules dist",
     "lint": "eslint .",
     "lint:fix": "eslint --fix --config ./.eslintrc.js . --ext .js,.jsx,.ts,.tsx",
+    "prepare": "npm run build",
     "test": "npx vitest run",
     "test:browser": "npx vitest run --config=vitest.config.browser.ts --browser.name=webkit --browser.provider=playwright --browser.headless",
     "wasmToB64": "node ./scripts/wasmToB64.js"
