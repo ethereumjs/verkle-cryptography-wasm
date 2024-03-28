@@ -89,7 +89,7 @@ export const initVerkleWasm = async () => {
       await WebAssembly.compile(base64.decode(wasmB64.wasm)),
       imports
     )
-    __wbg_finalize_init(instance, module);
+    __wbg_finalize_init(instance);
   }
 EOT
 

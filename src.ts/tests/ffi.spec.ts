@@ -1,12 +1,12 @@
 import { bytesToHex } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test } from 'vitest'
 
-import { loadVerkleCrypto } from '../index.js'
+import { VerkleCrypto, loadVerkleCrypto } from '../index.js'
 import { Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
 
 describe('bindings', () => {
   let ffi: VerkleFFI
-  let verkleCrypto: Awaited<ReturnType<typeof loadVerkleCrypto>>
+  let verkleCrypto: VerkleCrypto
   beforeAll(async () => {
     verkleCrypto = await loadVerkleCrypto()
     ffi = new VerkleFFI()
