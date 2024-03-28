@@ -10,8 +10,6 @@ A higher level Verkle Tree TypeScript library using this package is in the works
 
 ## Installation
 
-[ Not yet available ]
-
 ```
     npm i verkle-cryptography-wasm
 ```
