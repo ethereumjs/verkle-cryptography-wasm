@@ -1,5 +1,15 @@
-# JavaScript API
+# Library Usage
 
-This folder contains the high level JavaScript API definition and additional unit tests.
+In order to use the verkle cryptography functions exposed by this module, you must first initialize the WASM binary as below:
 
-See [index.ts](index.ts) for the main exported modules and functions.
+```ts
+import { loadVerkleCrypto } from 'verkle-cryptography-wasm'
+
+const main = async () => {
+    const verkle = await loadVerkleCrypto();
+
+    // Do verkle stuff here
+}
+```
+
+`loadVerkleCrypto` returns all methods available for Verkle Trie operations.  The API is still unstable so please reference [index.ts](index.ts) for the main exported modules and functions.

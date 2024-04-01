@@ -65,17 +65,42 @@ fi
 TARGET=wasm32-unknown-unknown
 WASM_BINARY=$SELF_DIR/target/$TARGET/release/${PNAME}.wasm
 
-CJS_DIR=$SELF_DIR/dist/cjs/wasm
-ESM_DIR=$SELF_DIR/dist/esm/wasm
 JS_SRC_DIR=$SELF_DIR/src.ts
-CJS_WASM=${CJS_DIR}/${PNAME}_bg.wasm
-ESM_WASM=${ESM_DIR}/${PNAME}_bg.wasm
+
 
 # Build the new wasm package
 run_or_fail cargo build --lib --release --target $TARGET
-run_or_fail wasm-bindgen $WASM_BINARY --out-dir $CJS_DIR --typescript --target nodejs
-cp -Rf $CJS_DIR $JS_SRC_DIR/
-run_or_fail wasm-bindgen $WASM_BINARY --out-dir $ESM_DIR --typescript --target web
-run_if_available wasm-opt $CJS_WASM -o $CJS_WASM -O
-run_if_available wasm-opt $ESM_WASM -o $ESM_WASM -O
+# Build a browser compatible ESM WASM binary with Javascript glue code
+run_or_fail wasm-bindgen $WASM_BINARY --out-dir $JS_SRC_DIR/wasm --typescript --target web
 
+run_if_available wasm-opt $JS_SRC_DIR/wasm -o $JS_SRC_DIR/wasm -O
+
+# Append a new `initVerkleWasm` function to the compiled JS glue code
+cat <<EOT >> ../src.ts/wasm/rust_verkle_wasm.js
+import { base64 } from '@scure/base'
+import wasmB64 from './rust_verkle_wasm_bg.js'
+
+export const initVerkleWasm = async () => {
+    // Async initialization function that must be called before verkle cryptography can be used
+
+    const imports = __wbg_get_imports();
+    __wbg_init_memory(imports);
+    const instance = await WebAssembly.instantiate(
+      await WebAssembly.compile(base64.decode(wasmB64.wasm)),
+      imports
+    )
+    __wbg_finalize_init(instance);
+  }
+EOT
+
+# Add typing for `initVerkleWasm`
+cat <<EOT >> ../src.ts/wasm/rust_verkle_wasm.d.ts
+export function initVerkleWasm (): Promise<void>
+EOT
+
+# Convert the WASM bytecode to a base64 string
+node ../scripts/wasmToB64.js
+
+# Remove wasm bytecode as not needed after base64 compilation
+rm ../src.ts/wasm/*.wasm
+rm ../src.ts/wasm/*.wasm.d.ts

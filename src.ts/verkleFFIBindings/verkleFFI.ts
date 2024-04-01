@@ -1,4 +1,4 @@
-import { Context } from '../wasm/rust_verkle_wasm.js'
+import { Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
 
 // This is equal to 2n + 256n * 64n.
 //
@@ -8,12 +8,12 @@ const firstChunk = new Uint8Array([2, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 
 // Implements `get_tree_key` as specified here: https://notes.ethereum.org/@vbuterin/verkle_tree_eip#Header-values
 export function getTreeKey(
-  context: Context,
+  verkleFFI: VerkleFFI,
   address: Uint8Array,
   treeIndex: Uint8Array,
   subIndex: number,
 ): Uint8Array {
-  const keyHash = getTreeKeyHash(context, address, treeIndex)
+  const keyHash = getTreeKeyHash(verkleFFI, address, treeIndex)
 
   // Replace the last byte with the subIndex
   keyHash[keyHash.length - 1] = subIndex
@@ -24,7 +24,7 @@ export function getTreeKey(
 //
 // Note: Tree Index is interpreted as a little endian number.
 export function getTreeKeyHash(
-  context: Context,
+  verkleFFI: VerkleFFI,
   address: Uint8Array,
   treeIndexLE: Uint8Array,
 ): Uint8Array {
@@ -90,9 +90,9 @@ export function getTreeKeyHash(
   }
 
   // Commit to the chunks and compute a 32 byte value that we will denote as the hash
-  const commitment = context.commitTo16ByteScalars(chunks)
-  const serializedCommitment = context.hashCommitment(commitment)
-  return serializedCommitment
+  const commitment = verkleFFI.commitTo16ByteScalars(chunks)
+  const hash = verkleFFI.hashCommitment(commitment)
+  return hash
 }
 
 function concatenateUint8Arrays(array1: Uint8Array, array2: Uint8Array): Uint8Array {
@@ -102,4 +102,14 @@ function concatenateUint8Arrays(array1: Uint8Array, array2: Uint8Array): Uint8Ar
   concatenatedArray.set(array2, array1.length)
 
   return concatenatedArray
+}
+
+export function updateCommitment(
+  verkleFFI: VerkleFFI,
+  commitment: Uint8Array,
+  commitmentIndex: number,
+  oldScalarValue: Uint8Array,
+  newScalarValue: Uint8Array,
+): Uint8Array {
+  return verkleFFI.updateCommitment(commitment, commitmentIndex, oldScalarValue, newScalarValue)
 }

@@ -10,8 +10,6 @@ A higher level Verkle Tree TypeScript library using this package is in the works
 
 ## Installation
 
-[ Not yet available ]
-
 ```
     npm i verkle-cryptography-wasm
 ```
@@ -24,7 +22,7 @@ The Rust code and the necessary tooling for the WASM build and a low level TypeS
 
 ### High Level TypeScript API
 
-The main high level API exposed in a final published package can be found in [./src.ts](./src.ts).
+The main high level API exposed in a final published package can be found in [./src.ts](./src.ts).  Usage instructions can be found [here](./src.ts/README.md)
 
 ### Node.js
 
@@ -37,6 +35,8 @@ Build scripts can be found in the [scripts](./scripts/) folder and the build pro
 ```shell
 npm run build
 ```
+
+See the comments in the build scripts for a more detailed explanation of what occurs in each step.
 
 Note that this requires all Rust/WASM tooling to be installed, so a first look into the dedicated RUST/WASM documentation is recommended.
 
