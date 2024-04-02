@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 (modification: no type change headlines) and this project adheres to 
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 0.4.0 - 2024-04-02
+
+- Update `getTreeKey` to use `hashCommitment` following latest spec, 
+  PR [#31](https://github.com/ethereumjs/verkle-cryptography-wasm/pull/31)
+  
 ## 0.3.1 - 2024-03-29
 
 - Fix several minor bugs impacting ESM and browser usage; add new `VerkleCrypto` type that defines output
