@@ -205,6 +205,12 @@ pub fn zero_commitment() -> Uint8Array {
     bytes_to_js_value(ffi_interface::ZERO_POINT).into()
 }
 
+#[allow(deprecated)]
+#[wasm_bindgen(js_name = "verifyExecutionWitnessPreState")]
+pub fn verify_execution_witness_prestate(prestate_root: &str, execution_witness: &str) -> bool {
+    ffi_interface::verify_execution_witness(prestate_root, execution_witness)
+}
+
 /// Converts a JsValue to an array of size `N` or return an JsValue object representing an
 /// error
 fn js_value_to_bytes<const N: usize>(value: JsValue) -> Result<[u8; N], JsError> {

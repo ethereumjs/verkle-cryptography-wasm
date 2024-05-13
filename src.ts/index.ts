@@ -4,6 +4,7 @@ import {
   getTreeKeyHash as getTreeKeyHashBase,
   updateCommitment as updateCommitmentBase,
   zeroCommitment as zeroCommitmentBase,
+  verifyExecutionWitnessPreState as verifyExecutionWitnessPreStateBase,
 } from './verkleFFIBindings/index.js'
 import { Context as VerkleFFI } from './wasm/rust_verkle_wasm.js'
 
@@ -26,6 +27,9 @@ export const loadVerkleCrypto = async (): Promise<VerkleCrypto> => {
   ): Commitment =>
     updateCommitmentBase(verkleFFI, commitment, commitmentIndex, oldScalarValue, newScalarValue)
 
+  const verifyExecutionWitnessPreState = (prestateRoot: string, execution_witness_json: string): boolean =>
+    verifyExecutionWitnessPreStateBase(prestateRoot, execution_witness_json)
+
   const zeroCommitment = zeroCommitmentBase()
 
   return {
@@ -33,6 +37,7 @@ export const loadVerkleCrypto = async (): Promise<VerkleCrypto> => {
     getTreeKeyHash,
     updateCommitment,
     zeroCommitment,
+    verifyExecutionWitnessPreState
   }
 }
 
@@ -46,6 +51,7 @@ export interface VerkleCrypto {
     newScalarValue: Uint8Array
   ) => Commitment
   zeroCommitment: Uint8Array
+  verifyExecutionWitnessPreState: (prestateRoot: string, execution_witness_json: string) => boolean
 }
 
 // This is a 32 byte serialized field element
