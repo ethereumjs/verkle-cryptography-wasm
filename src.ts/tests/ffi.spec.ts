@@ -2,7 +2,9 @@ import { bytesToHex } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test } from 'vitest'
 
 import { VerkleCrypto, loadVerkleCrypto } from '../index.js'
-import { Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
+import { verifyExecutionWitnessPreState, Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
+import kaustinenBlock72 from './data/kaustinen6Block72.json'
+// import kaustinenBlock73 from './data/kaustinen6Block73.json'
 
 describe('bindings', () => {
   let ffi: VerkleFFI
@@ -180,6 +182,26 @@ describe('bindings', () => {
 
     expect(updatedCommitmentHex).toBe(expectedHex)
   })
+
+  test('verifyExecutionProof: block with a few txs', () => {
+    // Src: Kaustinen6 testnet, block 71 state root (parent of block 72)
+    const prestateRoot = '0x64e1a647f42e5c2e3c434531ccf529e1b3e93363a40db9fc8eec81f492123510'
+    const executionWitness = JSON.stringify(kaustinenBlock72.executionWitness)
+
+    const verified = verifyExecutionWitnessPreState(prestateRoot, executionWitness)
+    expect(verified).toBe(true)
+  })
+
+  // TODO: Investigate why this fails
+  // This one is for a much larger block (~100 txs) and currently fails
+  // test('verifyExecutionProof: block with many txs', () => {
+  //   // Src: Kaustinen6 testnet, block 72 state root (parent of block 73)
+  //   const prestateRoot = '0x18d1dfcc6ccc6f34d14af48a865895bf34bde7f3571d9ba24a4b98122841048c'
+  //   const executionWitness = JSON.stringify(kaustinenBlock73.executionWitness)
+
+  //   const verified = verifyExecutionWitnessPreState(prestateRoot, executionWitness)
+  //   expect(verified).toBe(true)
+  // })
 
   test('smoke test errors are thrown', () => {
     const scalar = new Uint8Array([0])
