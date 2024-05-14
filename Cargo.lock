@@ -789,8 +789,6 @@ dependencies = [
 name = "rust_verkle_wasm"
 version = "0.1.0"
 dependencies = [
- "ark-ff",
- "ark-serialize",
  "banderwagon",
  "console_error_panic_hook",
  "ffi_interface",
@@ -800,8 +798,6 @@ dependencies = [
  "js-sys",
  "serde",
  "serde-wasm-bindgen",
- "verkle-spec",
- "verkle-trie",
  "wasm-bindgen",
  "wasm-bindgen-test",
 ]

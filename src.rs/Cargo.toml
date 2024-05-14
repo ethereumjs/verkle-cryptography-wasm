@@ -15,15 +15,11 @@ default = ["console_error_panic_hook"]
 serde = { version = "1.0", features = ["derive"] }
 serde-wasm-bindgen = "0.3.0"
 wasm-bindgen = { version = "0.2.90", features = ["serde-serialize"] }
-verkle-trie = { git = "https://github.com/crate-crypto/rust-verkle", rev = "594a70e3df16db9d870b7d3c82479d041cfd1b2d" }
-verkle-spec = { git = "https://github.com/crate-crypto/rust-verkle", rev = "594a70e3df16db9d870b7d3c82479d041cfd1b2d" }
 ipa-multipoint = { git = "https://github.com/crate-crypto/rust-verkle", rev = "594a70e3df16db9d870b7d3c82479d041cfd1b2d" }
 banderwagon = { git = "https://github.com/crate-crypto/rust-verkle", rev = "594a70e3df16db9d870b7d3c82479d041cfd1b2d" }
 ffi_interface = { git = "https://github.com/crate-crypto/rust-verkle", rev = "594a70e3df16db9d870b7d3c82479d041cfd1b2d" }
-ark-ff = "0.4.0"
-ark-serialize = { version = "^0.4.0", default-features = false }
 
-hex = "*"
+hex = "0.4.3"
 # This is needed so that we can enable the js feature, which is being used in ark-serialize
 # Without it, the wasm will not compile, since we cannot conditionally compile ark-serialize
 getrandom = { version = "0.2.3", features = ["js"] }
