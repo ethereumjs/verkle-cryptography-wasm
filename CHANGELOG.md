@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 (modification: no type change headlines) and this project adheres to 
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 0.4.1 - 2024-05-14
+
+- Update `rust-verkle` dependency, PR [#45](https://github.com/ethereumjs/verkle-cryptography-wasm/pull/45)
+- Add method to public API to verify prestate in execution witness, PR [#44](https://github.com/ethereumjs/verkle-cryptography-wasm/pull/44)
+
 ## 0.4.0 - 2024-04-02
 
 - Update `getTreeKey` to use `hashCommitment` following latest spec, 
