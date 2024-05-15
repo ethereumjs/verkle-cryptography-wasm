@@ -15,9 +15,9 @@ default = ["console_error_panic_hook"]
 serde = { version = "1.0", features = ["derive"] }
 serde-wasm-bindgen = "0.3.0"
 wasm-bindgen = { version = "0.2.90", features = ["serde-serialize"] }
-ipa-multipoint = { git = "https://github.com/crate-crypto/rust-verkle", rev = "1c2cd88661e0bf54df29239333baba4bd115c3d3" }
-banderwagon = { git = "https://github.com/crate-crypto/rust-verkle", rev = "1c2cd88661e0bf54df29239333baba4bd115c3d3" }
-ffi_interface = { git = "https://github.com/crate-crypto/rust-verkle", rev = "1c2cd88661e0bf54df29239333baba4bd115c3d3" }
+ipa-multipoint = { git = "https://github.com/crate-crypto/rust-verkle", rev = "309cdcba4088e698689dc33b8ee071c2d064b2ae" }
+banderwagon = { git = "https://github.com/crate-crypto/rust-verkle", rev = "309cdcba4088e698689dc33b8ee071c2d064b2ae" }
+ffi_interface = { git = "https://github.com/crate-crypto/rust-verkle", rev = "309cdcba4088e698689dc33b8ee071c2d064b2ae" }
 
 hex = "0.4.3"
 # This is needed so that we can enable the js feature, which is being used in ark-serialize
