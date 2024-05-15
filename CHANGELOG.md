@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 (modification: no type change headlines) and this project adheres to 
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 0.4.2 - 2024-05-15
+
+- Updates rust-verkle dependency so that `verifyExecutionProof` returns 0 for node not present,
+  PR [#47](https://github.com/ethereumjs/verkle-cryptography-wasm/pull/47)
+- Updates rust-verkle dependency so that `verifyExecutionProof` returns false for malformed
+  proof elements, PR [#48](https://github.com/ethereumjs/verkle-cryptography-wasm/pull/48)
+
 ## 0.4.1 - 2024-05-14
 
 - Update `rust-verkle` dependency, PR [#45](https://github.com/ethereumjs/verkle-cryptography-wasm/pull/45)
