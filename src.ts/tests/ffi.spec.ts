@@ -1,4 +1,4 @@
-import { bytesToHex } from '@ethereumjs/util'
+import { bytesToHex, randomBytes } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test } from 'vitest'
 
 import { VerkleCrypto, loadVerkleCrypto } from '../index.js'
@@ -202,8 +202,7 @@ describe('bindings', () => {
   })
 
   test('verifyExecutionProof: invalid state root', () => {
-    // Src: Kaustinen6 testnet, block 72 state root (parent of block 73)
-    const prestateRoot = '0x000000006ccc6f34d14af48a865895bf34bde7f3571d9ba24a4b98122841048c'
+    const prestateRoot = bytesToHex(randomBytes(32))
     const executionWitness = JSON.stringify(kaustinenBlock73.executionWitness)
 
     const verified = verifyExecutionWitnessPreState(prestateRoot, executionWitness)
