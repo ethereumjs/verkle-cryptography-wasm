@@ -1,4 +1,4 @@
-import { bytesToHex } from '@ethereumjs/util'
+import { bytesToHex, randomBytes } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test } from 'vitest'
 
 import { VerkleCrypto, loadVerkleCrypto } from '../index.js'
@@ -192,7 +192,6 @@ describe('bindings', () => {
     expect(verified).toBe(true)
   })
 
-  // This one is for a much larger block (~100 txs) and currently fails
   test('verifyExecutionProof: block with many txs', () => {
     // Src: Kaustinen6 testnet, block 72 state root (parent of block 73)
     const prestateRoot = '0x18d1dfcc6ccc6f34d14af48a865895bf34bde7f3571d9ba24a4b98122841048c'
@@ -200,6 +199,14 @@ describe('bindings', () => {
 
     const verified = verifyExecutionWitnessPreState(prestateRoot, executionWitness)
     expect(verified).toBe(true)
+  })
+
+  test('verifyExecutionProof: invalid state root', () => {
+    const prestateRoot = bytesToHex(randomBytes(32))
+    const executionWitness = JSON.stringify(kaustinenBlock73.executionWitness)
+
+    const verified = verifyExecutionWitnessPreState(prestateRoot, executionWitness)
+    expect(verified).toBe(false)
   })
 
   test('smoke test errors are thrown', () => {

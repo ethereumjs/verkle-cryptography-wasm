@@ -168,7 +168,7 @@ checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
 [[package]]
 name = "banderwagon"
 version = "0.1.0"
-source = "git+https://github.com/crate-crypto/rust-verkle?rev=1c2cd88661e0bf54df29239333baba4bd115c3d3#1c2cd88661e0bf54df29239333baba4bd115c3d3"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=309cdcba4088e698689dc33b8ee071c2d064b2ae#309cdcba4088e698689dc33b8ee071c2d064b2ae"
 dependencies = [
  "ark-ec",
  "ark-ed-on-bls12-381-bandersnatch",
@@ -395,7 +395,7 @@ checksum = "25cbce373ec4653f1a01a31e8a5e5ec0c622dc27ff9c4e6606eefef5cbbed4a5"
 [[package]]
 name = "ffi_interface"
 version = "0.1.0"
-source = "git+https://github.com/crate-crypto/rust-verkle?rev=1c2cd88661e0bf54df29239333baba4bd115c3d3#1c2cd88661e0bf54df29239333baba4bd115c3d3"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=309cdcba4088e698689dc33b8ee071c2d064b2ae#309cdcba4088e698689dc33b8ee071c2d064b2ae"
 dependencies = [
  "banderwagon",
  "hex",
@@ -523,7 +523,7 @@ dependencies = [
 [[package]]
 name = "ipa-multipoint"
 version = "0.1.0"
-source = "git+https://github.com/crate-crypto/rust-verkle?rev=1c2cd88661e0bf54df29239333baba4bd115c3d3#1c2cd88661e0bf54df29239333baba4bd115c3d3"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=309cdcba4088e698689dc33b8ee071c2d064b2ae#309cdcba4088e698689dc33b8ee071c2d064b2ae"
 dependencies = [
  "banderwagon",
  "hex",
@@ -1036,12 +1036,12 @@ checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
 [[package]]
 name = "verkle-db"
 version = "0.1.0"
-source = "git+https://github.com/crate-crypto/rust-verkle?rev=1c2cd88661e0bf54df29239333baba4bd115c3d3#1c2cd88661e0bf54df29239333baba4bd115c3d3"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=309cdcba4088e698689dc33b8ee071c2d064b2ae#309cdcba4088e698689dc33b8ee071c2d064b2ae"
 
 [[package]]
 name = "verkle-spec"
 version = "0.1.0"
-source = "git+https://github.com/crate-crypto/rust-verkle?rev=1c2cd88661e0bf54df29239333baba4bd115c3d3#1c2cd88661e0bf54df29239333baba4bd115c3d3"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=309cdcba4088e698689dc33b8ee071c2d064b2ae#309cdcba4088e698689dc33b8ee071c2d064b2ae"
 dependencies = [
  "banderwagon",
  "ethereum-types",
@@ -1053,7 +1053,7 @@ dependencies = [
 [[package]]
 name = "verkle-trie"
 version = "0.1.0"
-source = "git+https://github.com/crate-crypto/rust-verkle?rev=1c2cd88661e0bf54df29239333baba4bd115c3d3#1c2cd88661e0bf54df29239333baba4bd115c3d3"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=309cdcba4088e698689dc33b8ee071c2d064b2ae#309cdcba4088e698689dc33b8ee071c2d064b2ae"
 dependencies = [
  "anyhow",
  "banderwagon",
