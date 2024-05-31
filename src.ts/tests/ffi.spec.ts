@@ -1,5 +1,5 @@
 import { bytesToHex, randomBytes } from '@ethereumjs/util'
-import { beforeAll, describe, expect, test } from 'vitest'
+import { beforeAll, describe, expect, test, assert } from 'vitest'
 
 import { VerkleCrypto, loadVerkleCrypto } from '../index.js'
 import { verifyExecutionWitnessPreState, Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
@@ -217,5 +217,18 @@ describe('bindings', () => {
       // but we gave it 1 byte
       ffi.commitToScalars([scalar])
     }).toThrow('Expected 32 bytes, got 1')
+  })
+
+  test('hashCommitment', () => {
+    const val = new Uint8Array(32)
+    val[0] = 1
+    const oneCommit = verkleCrypto.updateCommitment(verkleCrypto.zeroCommitment, 0, new Uint8Array(32), val)
+    const oneHash = Uint8Array.from([
+      79, 26, 219, 175, 186, 122,   6, 119,
+     155, 65, 250, 228,  16, 187, 246,  40,
+     112, 99, 158, 244,  92,  49, 204, 106,
+      74, 47,  87, 231, 210,  64, 123,  10
+   ])
+   assert.deepEqual(verkleCrypto.hashCommitment(oneCommit), oneHash)
   })
 })
