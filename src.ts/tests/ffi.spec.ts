@@ -181,6 +181,16 @@ describe('bindings', () => {
     const updatedCommitmentHex = bytesToHex(updatedCommitment)
 
     expect(updatedCommitmentHex).toBe(expectedHex)
+
+    // Create a brand new commitment (i.e. an empty array) and update it
+    const zeros = new Uint8Array(32)
+    const zc = verkleCrypto.zeroCommitment
+    const index = 0
+    const value = Uint8Array.from(zeros)
+    value[0] = 1
+    const newCommitment = verkleCrypto.updateCommitment(zc, index, zeros, value)
+    const expectedCommitment = ffi.scalarMulIndex(value, 0)
+    assert.deepEqual(newCommitment, expectedCommitment)
   })
 
   test('verifyExecutionProof: block with a few txs', () => {
@@ -217,18 +227,5 @@ describe('bindings', () => {
       // but we gave it 1 byte
       ffi.commitToScalars([scalar])
     }).toThrow('Expected 32 bytes, got 1')
-  })
-
-  test('hashCommitment', () => {
-    const val = new Uint8Array(32)
-    val[0] = 1
-    const oneCommit = verkleCrypto.updateCommitment(verkleCrypto.zeroCommitment, 0, new Uint8Array(32), val)
-    const oneHash = Uint8Array.from([
-      79, 26, 219, 175, 186, 122,   6, 119,
-     155, 65, 250, 228,  16, 187, 246,  40,
-     112, 99, 158, 244,  92,  49, 204, 106,
-      74, 47,  87, 231, 210,  64, 123,  10
-   ])
-   assert.deepEqual(verkleCrypto.hashCommitment(oneCommit), oneHash)
   })
 })
