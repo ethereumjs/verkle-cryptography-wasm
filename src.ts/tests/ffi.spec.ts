@@ -1,5 +1,5 @@
 import { bytesToHex, randomBytes } from '@ethereumjs/util'
-import { beforeAll, describe, expect, test } from 'vitest'
+import { beforeAll, describe, expect, test, assert } from 'vitest'
 
 import { VerkleCrypto, loadVerkleCrypto } from '../index.js'
 import { verifyExecutionWitnessPreState, Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
@@ -181,6 +181,16 @@ describe('bindings', () => {
     const updatedCommitmentHex = bytesToHex(updatedCommitment)
 
     expect(updatedCommitmentHex).toBe(expectedHex)
+
+    // Create a brand new commitment (i.e. an empty array) and update it
+    const zeros = new Uint8Array(32)
+    const zc = verkleCrypto.zeroCommitment
+    const index = 0
+    const value = Uint8Array.from(zeros)
+    value[0] = 1
+    const newCommitment = verkleCrypto.updateCommitment(zc, index, zeros, value)
+    const expectedCommitment = ffi.scalarMulIndex(value, 0)
+    assert.deepEqual(newCommitment, expectedCommitment)
   })
 
   test('verifyExecutionProof: block with a few txs', () => {
