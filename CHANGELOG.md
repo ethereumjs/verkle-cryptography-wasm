@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 (modification: no type change headlines) and this project adheres to 
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 0.4.4 - 2024-06-11
+
+- Add `serializeCommitment` to to the public API, PR [#52](https://github.com/ethereumjs/verkle-cryptography-wasm/pull/52)
+
 ## 0.4.3 - 2024-06-03
 
 - Add `hashCommitment` to the public API and add new test to demonstrate how to derive a
