@@ -33,13 +33,15 @@ export const loadVerkleCrypto = async (): Promise<VerkleCrypto> => {
   const zeroCommitment = zeroCommitmentBase()
 
   const hashCommitment = (commitment: Uint8Array) => verkleFFI.hashCommitment(commitment)
+  const serializeCommitment = (commitment: Uint8Array) => verkleFFI.serializeCommitment(commitment)
   return {
     getTreeKey,
     getTreeKeyHash,
     updateCommitment,
     zeroCommitment,
     verifyExecutionWitnessPreState,
-    hashCommitment
+    hashCommitment,
+    serializeCommitment
   }
 }
 
@@ -55,6 +57,7 @@ export interface VerkleCrypto {
   zeroCommitment: Uint8Array
   verifyExecutionWitnessPreState: (prestateRoot: string, execution_witness_json: string) => boolean
   hashCommitment: (commitment: Uint8Array) => Uint8Array
+  serializeCommitment: (commitment: Uint8Array) => Uint8Array
 }
 
 // This is a 32 byte serialized field element
