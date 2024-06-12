@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## 0.4.4 - 2024-06-11
 
-- Add `serializeCommitment` to to the public API, PR [#52](https://github.com/ethereumjs/verkle-cryptography-wasm/pull/52)
+- Add `serializeCommitment` to to the public API, PR [#53](https://github.com/ethereumjs/verkle-cryptography-wasm/pull/53)
 
 ## 0.4.3 - 2024-06-03
 
