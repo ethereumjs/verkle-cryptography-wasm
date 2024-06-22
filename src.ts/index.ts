@@ -8,7 +8,7 @@ import {
 } from './verkleFFIBindings/index.js'
 import { Context as VerkleFFI } from './wasm/rust_verkle_wasm.js'
 
-export const loadVerkleCrypto = async (): Promise<VerkleCrypto> => {
+export const loadVerkleCrypto = async () => {
   await initVerkleWasm()
 
   const verkleFFI = new VerkleFFI()
@@ -43,21 +43,6 @@ export const loadVerkleCrypto = async (): Promise<VerkleCrypto> => {
     hashCommitment,
     serializeCommitment
   }
-}
-
-export interface VerkleCrypto {
-  getTreeKey: (address: Uint8Array, treeIndex: Uint8Array, subIndex: number) => Uint8Array
-  getTreeKeyHash: (address: Uint8Array, treeIndexLE: Uint8Array) => Uint8Array
-  updateCommitment: (
-    commitment: Uint8Array,
-    commitmentIndex: number,
-    oldScalarValue: Uint8Array,
-    newScalarValue: Uint8Array
-  ) => Commitment
-  zeroCommitment: Uint8Array
-  verifyExecutionWitnessPreState: (prestateRoot: string, execution_witness_json: string) => boolean
-  hashCommitment: (commitment: Uint8Array) => Uint8Array
-  serializeCommitment: (commitment: Uint8Array) => Uint8Array
 }
 
 // This is a 32 byte serialized field element
