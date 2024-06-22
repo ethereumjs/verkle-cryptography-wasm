@@ -33,13 +33,15 @@ export const loadVerkleCrypto = async () => {
   const zeroCommitment = zeroCommitmentBase()
 
   const hashCommitment = (commitment: Uint8Array) => verkleFFI.hashCommitment(commitment)
+  const serializeCommitment = (commitment: Uint8Array) => verkleFFI.serializeCommitment(commitment)
   return {
     getTreeKey,
     getTreeKeyHash,
     updateCommitment,
     zeroCommitment,
     verifyExecutionWitnessPreState,
-    hashCommitment
+    hashCommitment,
+    serializeCommitment
   }
 }
 
