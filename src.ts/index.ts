@@ -5,6 +5,8 @@ import {
   updateCommitment as updateCommitmentBase,
   zeroCommitment as zeroCommitmentBase,
   verifyExecutionWitnessPreState as verifyExecutionWitnessPreStateBase,
+  createProof as createProofBase,
+  verifyProof as verifyProofBase,
 } from './verkleFFIBindings/index.js'
 import { Context as VerkleFFI } from './wasm/rust_verkle_wasm.js'
 
@@ -34,6 +36,8 @@ export const loadVerkleCrypto = async () => {
 
   const hashCommitment = (commitment: Uint8Array) => verkleFFI.hashCommitment(commitment)
   const serializeCommitment = (commitment: Uint8Array) => verkleFFI.serializeCommitment(commitment)
+  const createProof = (input: Uint8Array) => verkleFFI.createProof(input)
+  const verifyProof = (proofInput: Uint8Array) => verkleFFI.verifyProof(proofInput)
   return {
     getTreeKey,
     getTreeKeyHash,
@@ -41,7 +45,9 @@ export const loadVerkleCrypto = async () => {
     zeroCommitment,
     verifyExecutionWitnessPreState,
     hashCommitment,
-    serializeCommitment
+    serializeCommitment,
+    createProof,
+    verifyProof
   }
 }
 
