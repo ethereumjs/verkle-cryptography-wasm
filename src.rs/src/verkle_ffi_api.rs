@@ -215,11 +215,11 @@ impl Context {
     pub fn verify_proof(
         &self,
         input: Uint8Array,
-    ) -> Result<Boolean, Boolean>
+    ) -> Result<Boolean, JsError>
     {
         let input_bytes = serde_wasm_bindgen::from_value(input.into()).unwrap();
         let result = ffi_interface::verify_proof(&self.inner, input_bytes).map(|_op |Boolean::from(true))
-        .map_err(|_err| Boolean::from(false));
+        .map_err(|err| JsError::new(&format!("proof verification failed]: {:?}", err)));
         return result
     }
 }
