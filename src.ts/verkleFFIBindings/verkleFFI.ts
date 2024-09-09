@@ -113,3 +113,11 @@ export function updateCommitment(
 ): Uint8Array {
   return verkleFFI.updateCommitment(commitment, commitmentIndex, oldScalarValue, newScalarValue)
 }
+
+export function createProof(verkleFFI: VerkleFFI, bytes: Uint8Array): Uint8Array {
+  return verkleFFI.createProof(bytes)
+}
+
+export function verifyProof(verkleFFI: VerkleFFI, proof: Uint8Array): boolean {
+  return verkleFFI.verifyProof(proof)
+}

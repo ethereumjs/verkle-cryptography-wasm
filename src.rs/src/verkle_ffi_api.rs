@@ -1,7 +1,7 @@
 use ffi_interface::Context as InnerContext;
 pub use ffi_interface::{CommitmentBytes, ScalarBytes, ZERO_POINT};
 use ipa_multipoint::committer::Committer;
-use js_sys::Uint8Array;
+use js_sys::{Boolean, Uint8Array};
 use wasm_bindgen::{prelude::wasm_bindgen, JsError, JsValue};
 
 #[wasm_bindgen]
@@ -196,6 +196,31 @@ impl Context {
             .to_bytes_uncompressed();
 
         Ok(bytes_to_js_value(commitment).into())
+    }
+
+    /// Create a proof from a serialized array of tuples
+    #[wasm_bindgen(js_name = "createProof")]
+    pub fn create_proof(
+        &self,
+        input: Uint8Array,
+    ) -> Result<Uint8Array, JsError>
+    {
+        let input_bytes = serde_wasm_bindgen::from_value(input.into()).unwrap();
+        let proof = ffi_interface::create_proof(&self.inner, input_bytes).map_err(|err| JsError::new(&format!("could not create proof: {:?}", err)))?;
+        return Ok(Uint8Array::from(&proof[..]));
+    }
+
+    /// Verify a proof created by `createProof`
+    #[wasm_bindgen(js_name = "verifyProof")]
+    pub fn verify_proof(
+        &self,
+        input: Uint8Array,
+    ) -> Result<Boolean, JsError>
+    {
+        let input_bytes = serde_wasm_bindgen::from_value(input.into()).unwrap();
+        let result = ffi_interface::verify_proof(&self.inner, input_bytes).map(|_op |Boolean::from(true))
+        .map_err(|err| JsError::new(&format!("proof verification failed]: {:?}", err)));
+        return result
     }
 }
 
