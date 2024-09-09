@@ -1,8 +1,9 @@
 import { bytesToHex, randomBytes } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test, assert } from 'vitest'
 
-import { VerkleCrypto, loadVerkleCrypto } from '../index.js'
+import { ProverInput, VerifierInput, VerkleCrypto, loadVerkleCrypto } from '../index.js'
 import { verifyExecutionWitnessPreState, Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
+
 import kaustinenBlock72 from './data/kaustinen6Block72.json'
 import kaustinenBlock73 from './data/kaustinen6Block73.json'
 
@@ -138,6 +139,99 @@ describe('bindings', () => {
     }
   })
 
+  test('createVerifyProof', () => {
+    // Preparation stage
+    //
+    // First we will emulate having a node with children.
+    //
+    // In verkle, the maximum number of children an internal node can have is 256.
+    const NUMBER_OF_CHILDREN = 256
+
+    // Populate the vector with 256 values.
+    const children = []
+    for (let i = 0; i < NUMBER_OF_CHILDREN; i++) {
+      children.push(createScalarFromIndex(i))
+    }
+
+    // Commit to that vector/children
+    const commitment = ffi.commitToScalars(children)
+
+    // Serialize the commitment
+    //
+    // This is the format that they should arrive in, over the wire
+    const serializedCommitment = ffi.serializeCommitment(commitment)
+
+    // Create proof
+    //
+    const proofInputs: ProverInput[] = [
+      { serializedCommitment: serializedCommitment, vector: children, indices: [1, 2] },
+    ]
+
+    const proof = verkleCrypto.createProof(proofInputs)
+
+    // Verify proof
+    //
+    const verifierInputs: VerifierInput[] = [
+      {
+        serializedCommitment: serializedCommitment,
+        indexValuePairs: [
+          { index: 1, value: children[1] },
+          { index: 2, value: children[2] },
+        ],
+      },
+    ]
+
+    const valid = verkleCrypto.verifyProof(proof, verifierInputs)
+
+    expect(valid).toBe(true)
+  })
+
+  test('createVerifyProofMultipleCommitments', () => {
+    const NUMBER_OF_CHILDREN = 256
+
+    // Create two sets of vectors
+    const children1 = Array.from({ length: NUMBER_OF_CHILDREN }, (_, i) => createScalarFromIndex(i))
+    const children2 = Array.from({ length: NUMBER_OF_CHILDREN }, (_, i) =>
+      createScalarFromIndex(i + NUMBER_OF_CHILDREN),
+    )
+
+    // Create commitments for both sets
+    const commitment1 = ffi.commitToScalars(children1)
+    const commitment2 = ffi.commitToScalars(children2)
+
+    // Serialize the commitments
+    const serializedCommitment1 = verkleCrypto.serializeCommitment(commitment1)
+    const serializedCommitment2 = verkleCrypto.serializeCommitment(commitment2)
+
+    // Create proof
+    const proofInputs: ProverInput[] = [
+      { serializedCommitment: serializedCommitment1, vector: children1, indices: [1, 2] },
+      { serializedCommitment: serializedCommitment2, vector: children2, indices: [3, 4] },
+    ]
+    const proof = verkleCrypto.createProof(proofInputs)
+
+    // Verify proof
+    const verifierInputs: VerifierInput[] = [
+      {
+        serializedCommitment: serializedCommitment1,
+        indexValuePairs: [
+          { index: 1, value: children1[1] },
+          { index: 2, value: children1[2] },
+        ],
+      },
+      {
+        serializedCommitment: serializedCommitment2,
+        indexValuePairs: [
+          { index: 3, value: children2[3] },
+          { index: 4, value: children2[4] },
+        ],
+      },
+    ]
+    const valid = verkleCrypto.verifyProof(proof, verifierInputs)
+
+    expect(valid).toBe(true)
+  })
+
   test('serializeCommitment', () => {
     // Create a commitment that we can hash
     const scalar = new Uint8Array([
@@ -229,3 +323,11 @@ describe('bindings', () => {
     }).toThrow('Expected 32 bytes, got 1')
   })
 })
+
+function createScalarFromIndex(index: number): Uint8Array {
+  const BYTES_PER_SCALAR = 32
+
+  const scalar = new Uint8Array(BYTES_PER_SCALAR)
+  scalar[0] = index // Set first byte to index (little-endian)
+  return scalar
+}
