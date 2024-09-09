@@ -7,6 +7,8 @@ import {
   verifyExecutionWitnessPreState as verifyExecutionWitnessPreStateBase,
   createProof as createProofBase,
   verifyProof as verifyProofBase,
+  ProverInput as ProverInputBase,
+  VerifierInput as VerifierInputBase,
 } from './verkleFFIBindings/index.js'
 import { Context as VerkleFFI } from './wasm/rust_verkle_wasm.js'
 
@@ -29,15 +31,18 @@ export const loadVerkleCrypto = async () => {
   ): Commitment =>
     updateCommitmentBase(verkleFFI, commitment, commitmentIndex, oldScalarValue, newScalarValue)
 
-  const verifyExecutionWitnessPreState = (prestateRoot: string, execution_witness_json: string): boolean =>
-    verifyExecutionWitnessPreStateBase(prestateRoot, execution_witness_json)
+  const verifyExecutionWitnessPreState = (
+    prestateRoot: string,
+    execution_witness_json: string,
+  ): boolean => verifyExecutionWitnessPreStateBase(prestateRoot, execution_witness_json)
 
   const zeroCommitment = zeroCommitmentBase()
 
   const hashCommitment = (commitment: Uint8Array) => verkleFFI.hashCommitment(commitment)
   const serializeCommitment = (commitment: Uint8Array) => verkleFFI.serializeCommitment(commitment)
-  const createProof = (input: Uint8Array) => verkleFFI.createProof(input)
-  const verifyProof = (proofInput: Uint8Array) => verkleFFI.verifyProof(proofInput)
+  const createProof = (proverInputs: ProverInput[]) => createProofBase(verkleFFI, proverInputs)
+  const verifyProof = (proof: Uint8Array, verifierInputs: VerifierInput[]) =>
+    verifyProofBase(verkleFFI, proof, verifierInputs)
   return {
     getTreeKey,
     getTreeKeyHash,
@@ -47,9 +52,15 @@ export const loadVerkleCrypto = async () => {
     hashCommitment,
     serializeCommitment,
     createProof,
-    verifyProof
+    verifyProof,
   }
 }
+
+// Input used to create proofs over vectors
+export type ProverInput = ProverInputBase
+// Input needed to verify proofs over vectors
+// alongside the proof.
+export type VerifierInput = VerifierInputBase
 
 // This is a 32 byte serialized field element
 export type Scalar = Uint8Array

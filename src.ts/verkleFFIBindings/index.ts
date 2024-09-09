@@ -1,6 +1,18 @@
-import { initVerkleWasm, zeroCommitment, verifyExecutionWitnessPreState } from '../wasm/rust_verkle_wasm.js'
+import {
+  initVerkleWasm,
+  zeroCommitment,
+  verifyExecutionWitnessPreState,
+} from '../wasm/rust_verkle_wasm.js'
 
-import { getTreeKey, getTreeKeyHash, updateCommitment, createProof, verifyProof } from './verkleFFI.js'
+import {
+  getTreeKey,
+  getTreeKeyHash,
+  updateCommitment,
+  createProof,
+  verifyProof,
+  ProverInput,
+  VerifierInput,
+} from './verkleFFI.js'
 
 export {
   initVerkleWasm,
@@ -10,5 +22,7 @@ export {
   zeroCommitment,
   verifyExecutionWitnessPreState,
   createProof,
-  verifyProof
+  verifyProof,
+  ProverInput,
+  VerifierInput,
 }

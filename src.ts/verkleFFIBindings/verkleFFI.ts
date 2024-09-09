@@ -1,3 +1,5 @@
+import { concatBytes } from '@ethereumjs/util'
+
 import { Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
 
 // This is equal to 2n + 256n * 64n.
@@ -114,10 +116,65 @@ export function updateCommitment(
   return verkleFFI.updateCommitment(commitment, commitmentIndex, oldScalarValue, newScalarValue)
 }
 
-export function createProof(verkleFFI: VerkleFFI, bytes: Uint8Array): Uint8Array {
-  return verkleFFI.createProof(bytes)
+export function createProof(verkleFFI: VerkleFFI, proverInputs: ProverInput[]): Uint8Array {
+  const serializedProofInputs = serializedProverInputs(proverInputs)
+  return verkleFFI.createProof(serializedProofInputs)
 }
 
-export function verifyProof(verkleFFI: VerkleFFI, proof: Uint8Array): boolean {
-  return verkleFFI.verifyProof(proof)
+export function verifyProof(
+  verkleFFI: VerkleFFI,
+  proof: Uint8Array,
+  verifierInputs: VerifierInput[],
+): boolean {
+  const serializedVerifierInput = serializeVerifierInputs(proof, verifierInputs)
+  return verkleFFI.verifyProof(serializedVerifierInput)
+}
+
+export interface ProverInput {
+  // Commitment to the vector we want to create a proof for
+  serializedCommitment: Uint8Array
+  // The vector that we want to make proofs over
+  vector: Uint8Array[]
+  // The indices that we want to prove exist in the vector
+  indices: number[]
+}
+
+function serializedProverInputs(proofInputs: ProverInput[]): Uint8Array {
+  const serializedProverInputs = proofInputs.flatMap(({ serializedCommitment, vector, indices }) =>
+    indices.flatMap((index) => [
+      serializedCommitment,
+      ...vector,
+      new Uint8Array([index]),
+      vector[index],
+    ]),
+  )
+
+  return concatBytes(...serializedProverInputs)
+}
+
+export interface VerifierInput {
+  // A commitment to the vector that we want to verify
+  // proofs over.
+  serializedCommitment: Uint8Array
+  // A tuple of index and values that we want to verify about the
+  // committed vector.
+  //
+  // ie (index_i, value_i) will verify that the value of the committed
+  // vector at index `index_i` was `value_i`
+  indexValuePairs: Array<{ index: number; value: Uint8Array }>
+}
+
+function serializeVerifierInputs(proof: Uint8Array, verifierInputs: VerifierInput[]): Uint8Array {
+  const serializedVerifierInputs = [
+    proof,
+    ...verifierInputs.flatMap(({ serializedCommitment, indexValuePairs }) =>
+      indexValuePairs.flatMap(({ index, value }) => [
+        serializedCommitment,
+        new Uint8Array([index]),
+        value,
+      ]),
+    ),
+  ]
+
+  return concatBytes(...serializedVerifierInputs)
 }
