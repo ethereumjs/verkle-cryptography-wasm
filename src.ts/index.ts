@@ -7,8 +7,8 @@ import {
   verifyExecutionWitnessPreState as verifyExecutionWitnessPreStateBase,
   createProof as createProofBase,
   verifyProof as verifyProofBase,
-  ProverInput as ProverInputBase,
-  VerifierInput as VerifierInputBase,
+  type ProverInput as ProverInputBase,
+  type VerifierInput as VerifierInputBase,
 } from './verkleFFIBindings/index.js'
 import { Context as VerkleFFI } from './wasm/rust_verkle_wasm.js'
 

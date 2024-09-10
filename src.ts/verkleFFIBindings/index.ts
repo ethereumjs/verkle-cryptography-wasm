@@ -10,8 +10,8 @@ import {
   updateCommitment,
   createProof,
   verifyProof,
-  ProverInput,
-  VerifierInput,
+  type ProverInput,
+  type VerifierInput,
 } from './verkleFFI.js'
 
 export {
@@ -23,6 +23,6 @@ export {
   verifyExecutionWitnessPreState,
   createProof,
   verifyProof,
-  ProverInput,
-  VerifierInput,
+  type ProverInput,
+  type VerifierInput,
 }

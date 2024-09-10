@@ -1,7 +1,7 @@
 import { bytesToHex, randomBytes } from '@ethereumjs/util'
 import { beforeAll, describe, expect, test, assert } from 'vitest'
 
-import { ProverInput, VerifierInput, VerkleCrypto, loadVerkleCrypto } from '../index.js'
+import { ProverInput, VerifierInput, loadVerkleCrypto } from '../index.js'
 import { verifyExecutionWitnessPreState, Context as VerkleFFI } from '../wasm/rust_verkle_wasm.js'
 
 import kaustinenBlock72 from './data/kaustinen6Block72.json'
@@ -9,7 +9,7 @@ import kaustinenBlock73 from './data/kaustinen6Block73.json'
 
 describe('bindings', () => {
   let ffi: VerkleFFI
-  let verkleCrypto: VerkleCrypto
+  let verkleCrypto: Awaited<ReturnType<typeof loadVerkleCrypto>>
   beforeAll(async () => {
     verkleCrypto = await loadVerkleCrypto()
     ffi = new VerkleFFI()
