@@ -136,15 +136,7 @@ export interface ProverInput {
   // The vector that we want to make proofs over
   vector: Uint8Array[]
   // The indices that we want to prove exist in the vector
-  inindices.flatMap((index) => [
-      serializedCommitment,
-      ...vector,
-      new Uint8Array([index]),
-      vector[index],
-    ]),
-  )
-
-  return concatBytes(...serializedProverInputs)
+  indices: number[]
 }
 
 export interface VerifierInput {
