@@ -7,6 +7,7 @@ import {
   verifyExecutionWitnessPreState as verifyExecutionWitnessPreStateBase,
   createProof as createProofBase,
   verifyProof as verifyProofBase,
+  commitToScalars as commitToScalarsBase,
   type ProverInput as ProverInputBase,
   type VerifierInput as VerifierInputBase,
 } from './verkleFFIBindings/index.js'
@@ -43,7 +44,9 @@ export const loadVerkleCrypto = async () => {
   const createProof = (proverInputs: ProverInput[]) => createProofBase(verkleFFI, proverInputs)
   const verifyProof = (proof: Uint8Array, verifierInputs: VerifierInput[]) =>
     verifyProofBase(verkleFFI, proof, verifierInputs)
+  const commitToScalars = (vector: Uint8Array[]) => commitToScalarsBase(verkleFFI, vector)
   return {
+    commitToScalars, 
     getTreeKey,
     getTreeKeyHash,
     updateCommitment,

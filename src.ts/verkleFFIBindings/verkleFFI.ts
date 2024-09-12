@@ -136,12 +136,7 @@ export interface ProverInput {
   // The vector that we want to make proofs over
   vector: Uint8Array[]
   // The indices that we want to prove exist in the vector
-  indices: number[]
-}
-
-function serializedProverInputs(proofInputs: ProverInput[]): Uint8Array {
-  const serializedProverInputs = proofInputs.flatMap(({ serializedCommitment, vector, indices }) =>
-    indices.flatMap((index) => [
+  inindices.flatMap((index) => [
       serializedCommitment,
       ...vector,
       new Uint8Array([index]),
@@ -177,4 +172,14 @@ function serializeVerifierInputs(proof: Uint8Array, verifierInputs: VerifierInpu
   ]
 
   return concatBytes(...serializedVerifierInputs)
+}
+
+/**
+ * 
+ * @param verkleFFI The interface to the WASM verkle crypto object
+ * @param vector an array of Uint8Arrays to be committed to (must be 32 bytes each)
+ * @returns a 64 byte {@link Uint8Array}  uncompressed commitment to the {@link vector} of values
+ */
+export const commitToScalars = (verkleFFI: VerkleFFI, vector: Uint8Array[]) => {
+  return verkleFFI.commitToScalars(vector)
 }
