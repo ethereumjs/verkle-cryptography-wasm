@@ -139,6 +139,19 @@ export interface ProverInput {
   indices: number[]
 }
 
+function serializedProverInputs(proofInputs: ProverInput[]): Uint8Array {
+  const serializedProverInputs = proofInputs.flatMap(({ serializedCommitment, vector, indices }) =>
+    indices.flatMap((index) => [
+      serializedCommitment,
+      ...vector,
+      new Uint8Array([index]),
+      vector[index],
+    ]),
+  )
+
+  return concatBytes(...serializedProverInputs)
+}
+
 export interface VerifierInput {
   // A commitment to the vector that we want to verify
   // proofs over.
