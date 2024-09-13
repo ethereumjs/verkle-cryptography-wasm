@@ -5,6 +5,7 @@ import {
 } from '../wasm/rust_verkle_wasm.js'
 
 import {
+  commitToScalars,
   getTreeKey,
   getTreeKeyHash,
   updateCommitment,
@@ -15,6 +16,7 @@ import {
 } from './verkleFFI.js'
 
 export {
+  commitToScalars, 
   initVerkleWasm,
   getTreeKey,
   getTreeKeyHash,

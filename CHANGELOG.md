@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 (modification: no type change headlines) and this project adheres to 
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 0.4.8 - 2024-09-12
+
+- Expose `commitToScalars` in public API. #[60](https://github.com/ethereumjs/verkle-cryptography-wasm/pull/60)
+
 ## 0.4.7 - 2024-09-10
 - Add better API for `createProof`/`verifyProof` and expanded tests #[57](https://github.com/ethereumjs/verkle-cryptography-wasm/pull/57)
 

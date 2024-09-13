@@ -3,6 +3,7 @@
       "source.fixAll.eslint": "explicit"
     },
     "eslint.format.enable": true,
-    "eslint.workingDirectories": [{ "pattern": "./*" }]
+    "eslint.workingDirectories": [{ "pattern": "./*" }],
+    "rust-analyzer.procMacro.enable": true
   }
   
